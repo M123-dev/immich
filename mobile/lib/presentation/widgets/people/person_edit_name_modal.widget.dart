@@ -59,12 +59,29 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
     }
   }
 
+  // TODO: Add diacritic filtering? We would need to add a package
   void _filterPeople(List<DriftPerson> people, String query) {
+    final queryParts = query.toLowerCase().split(' ').where((e) => e.isNotEmpty).toList();
+
+    List<DriftPerson> startsWithMatches = [];
+    List<DriftPerson> containsMatches = [];
+
+    for (final p in people) {
+      final nameParts = p.name.toLowerCase().split(' ').where((e) => e.isNotEmpty).toList();
+      final allStart = queryParts.every((q) => nameParts.any((n) => n.startsWith(q)));
+      final allContain = queryParts.every((q) => nameParts.any((n) => n.contains(q)));
+
+      if (allStart) {
+        // Prioritize names that start with the query
+        startsWithMatches.add(p);
+      } else if (allContain) {
+        containsMatches.add(p);
+      }
+    }
+
     if (!mounted) return;
     setState(() {
-      _filteredPeople = query.isEmpty
-          ? []
-          : people.where((p) => p.name.toLowerCase().contains(query.toLowerCase())).take(3).toList();
+      _filteredPeople = query.isEmpty ? [] : (startsWithMatches + containsMatches).take(3).toList();
     });
   }
 

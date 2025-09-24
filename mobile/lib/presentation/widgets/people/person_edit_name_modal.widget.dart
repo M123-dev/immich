@@ -9,6 +9,10 @@ import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/utils/debug_print.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
 
+import '../../../pages/common/large_leading_tile.dart';
+import '../../../services/api.service.dart';
+import '../../../utils/image_url_builder.dart';
+
 class DriftPersonNameEditForm extends ConsumerStatefulWidget {
   final DriftPerson person;
 
@@ -21,6 +25,9 @@ class DriftPersonNameEditForm extends ConsumerStatefulWidget {
 class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditForm> {
   late TextEditingController _formController;
   List<DriftPerson> _filteredPeople = [];
+
+  final imageSize = 60.0;
+  final headers = ApiService.getRequestHeaders();
 
   @override
   void initState() {
@@ -109,26 +116,45 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
                 if (_filteredPeople.isNotEmpty)
                   Container(
                     margin: const EdgeInsets.only(top: 8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.grey.shade300),
-                    ),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: _filteredPeople.map((person) {
-                        return ListTile(
-                          title: Text(person.name),
-                          onTap: () {
-                            if (!mounted) return;
-                            setState(() {
-                              _formController.text = person.name;
-                              _filteredPeople = [];
-                            });
-                            _formController.selection = TextSelection.fromPosition(
-                              TextPosition(offset: _formController.text.length),
-                            );
-                          },
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 2.0),
+                          child: LargeLeadingTile(
+                            title: Text(
+                              person.name,
+                              style: context.textTheme.bodyLarge?.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: context.colorScheme.onSurface,
+                              ),
+                            ),
+                            leading: SizedBox(
+                              height: imageSize,
+                              child: Material(
+                                shape: const CircleBorder(side: BorderSide.none),
+                                elevation: 3,
+                                child: CircleAvatar(
+                                  maxRadius: imageSize / 2,
+                                  backgroundImage: NetworkImage(getFaceThumbnailUrl(person.id), headers: headers),
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              if (!mounted) return;
+                              setState(() {
+                                _formController.text = person.name;
+                                _filteredPeople = [];
+                              });
+                              _formController.selection = TextSelection.fromPosition(
+                                TextPosition(offset: _formController.text.length),
+                              );
+                            },
+
+                            tileColor: context.primaryColor.withAlpha(25),
+                          ),
                         );
                       }).toList(),
                     ),

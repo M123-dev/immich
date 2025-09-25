@@ -42,11 +42,11 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
   }
 
   void onMerge({required BuildContext context, required DriftPerson person, required DriftPerson mergeTarget}) async {
-    bool? isMerged = await showMergeModal(context, person, mergeTarget);
+    DriftPerson? response = await showMergeModal(context, person, mergeTarget);
 
-    if (isMerged == true) {
+    if (response != null) {
       if (mounted) {
-        context.pop<DriftPerson>(mergeTarget);
+        context.pop<DriftPerson?>(response);
       }
     }
     return;

@@ -30,7 +30,7 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
       await api.mergePerson(widget.person.id, MergePersonDto(ids: <String>[widget.mergeTarget.id]));
       ref.invalidate(driftGetAllPeopleProvider);
       if (mounted) {
-        Navigator.of(context).pop(true);
+        Navigator.of(context).pop(widget.mergeTarget);
         ImmichToast.show(
           context: context,
           msg: "merge_people_successfully".tr(),
@@ -98,7 +98,7 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
                     foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
                     elevation: 0,
                   ),
-                  onPressed: _isMerging ? null : () => Navigator.of(context).pop(false),
+                  onPressed: _isMerging ? null : () => Navigator.of(context).pop(),
                   child: const Text("no", style: TextStyle(fontWeight: FontWeight.bold)).tr(),
                 ),
               ),

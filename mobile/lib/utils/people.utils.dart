@@ -54,8 +54,8 @@ Future<DateTime?> showBirthdayEditModal(BuildContext context, DriftPerson person
   );
 }
 
-Future<bool?> showMergeModal(BuildContext context, DriftPerson person, DriftPerson mergeTarget) {
-  return showDialog<bool?>(
+Future<DriftPerson?> showMergeModal(BuildContext context, DriftPerson person, DriftPerson mergeTarget) {
+  return showDialog<DriftPerson?>(
     context: context,
     useRootNavigator: false,
     builder: (BuildContext context) {

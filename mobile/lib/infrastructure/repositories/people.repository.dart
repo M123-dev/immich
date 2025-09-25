@@ -38,6 +38,12 @@ class DriftPeopleRepository extends DriftDatabaseRepository {
     }).get();
   }
 
+  Stream<DriftPerson?> watchPersonById(String personId) {
+    return (_db.select(
+      _db.personEntity,
+    )..where((tbl) => tbl.id.equals(personId))).watchSingleOrNull().map((entity) => entity?.toDto());
+  }
+
   Future<int> updateName(String personId, String name) {
     final query = _db.update(_db.personEntity)..where((row) => row.id.equals(personId));
 

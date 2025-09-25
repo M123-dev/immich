@@ -14,6 +14,10 @@ class DriftPeopleService {
     return _repository.getAssetPeople(assetId);
   }
 
+  Stream<DriftPerson?> watchPersonById(String personId) {
+    return _repository.watchPersonById(personId);
+  }
+
   Future<List<DriftPerson>> getAllPeople() {
     return _repository.getAllPeople();
   }

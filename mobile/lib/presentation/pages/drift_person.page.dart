@@ -10,6 +10,7 @@ import 'package:immich_mobile/providers/user.provider.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/person_sliver_app_bar.dart';
 
+import '../../providers/infrastructure/people.provider.dart';
 import '../../routing/router.dart';
 
 @RoutePage()
@@ -88,27 +89,36 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      overrides: [
-        timelineServiceProvider.overrideWith((ref) {
-          final user = ref.watch(currentUserProvider);
-          if (user == null) {
-            throw Exception('User must be logged in to view person timeline');
-          }
+    final personAsync = ref.watch(driftGetPersonByIdProvider(_person.id));
 
-          final timelineService = ref.watch(timelineFactoryProvider).person(user.id, _person.id);
-          ref.onDispose(timelineService.dispose);
-          return timelineService;
-        }),
-      ],
-      child: Timeline(
-        appBar: PersonSliverAppBar(
-          person: _person,
-          onNameTap: () => handleEditName(context),
-          onBirthdayTap: () => handleEditBirthday(context),
-          onShowOptions: () => showOptionSheet(context),
-        ),
-      ),
+    return personAsync.when(
+      data: (person) {
+        if (person == null) return const SizedBox.shrink();
+        return ProviderScope(
+          overrides: [
+            timelineServiceProvider.overrideWith((ref) {
+              final user = ref.watch(currentUserProvider);
+              if (user == null) {
+                throw Exception('User must be logged in to view person timeline');
+              }
+
+              final timelineService = ref.watch(timelineFactoryProvider).person(user.id, person.id);
+              ref.onDispose(timelineService.dispose);
+              return timelineService;
+            }),
+          ],
+          child: Timeline(
+            appBar: PersonSliverAppBar(
+              person: person,
+              onNameTap: () => handleEditName(context),
+              onBirthdayTap: () => handleEditBirthday(context),
+              onShowOptions: () => showOptionSheet(context),
+            ),
+          ),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Text('Error: $e'),
     );
   }
 }

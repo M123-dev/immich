@@ -5,13 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
 import 'package:immich_mobile/extensions/translate_extensions.dart';
+import 'package:immich_mobile/pages/common/large_leading_tile.dart';
+import 'package:immich_mobile/presentation/widgets/people/person_tile.widget.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
+import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/utils/debug_print.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
-
-import '../../../pages/common/large_leading_tile.dart';
-import '../../../services/api.service.dart';
-import '../../../utils/image_url_builder.dart';
 
 class DriftPersonNameEditForm extends ConsumerStatefulWidget {
   final DriftPerson person;
@@ -41,6 +40,8 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
     super.dispose();
   }
 
+  void onMerge(BuildContext context, List<DriftPerson> people, String personId, String newName) async {}
+
   void onEdit(String personId, String newName) async {
     try {
       final result = await ref.read(driftPeopleServiceProvider).updateName(personId, newName);
@@ -66,7 +67,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
     }
   }
 
-  // TODO: Add diacritic filtering? We would need to add a package
+  // TODO: Add diacritic filtering? We would need to add a package.
   void _filterPeople(List<DriftPerson> people, String query) {
     final queryParts = query.toLowerCase().split(' ').where((e) => e.isNotEmpty).toList();
 
@@ -106,59 +107,52 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
               children: [
                 TextFormField(
                   controller: _formController,
-                  decoration: const InputDecoration(
-                    hintText: 'Name eingeben',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                  decoration: InputDecoration(
+                    hintText: 'add_a_name'.tr(),
+                    border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                   ),
                   onChanged: (value) => _filterPeople(people, value),
                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 ),
-                if (_filteredPeople.isNotEmpty)
-                  Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: _filteredPeople.map((person) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 2.0),
-                          child: LargeLeadingTile(
-                            title: Text(
-                              person.name,
-                              style: context.textTheme.bodyLarge?.copyWith(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: context.colorScheme.onSurface,
-                              ),
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 200),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: _filteredPeople.isEmpty
+                        // Tile instead of a blank space to avoid horizontal layout shift
+                        ? LargeLeadingTile(
+                            leading: const SizedBox.shrink(),
+                            onTap: () {},
+                            title: const SizedBox.shrink(),
+                            disabled: true,
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 8),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: _filteredPeople.map((person) {
+                                return PersonTile(
+                                  isSelected: false,
+                                  onTap: () {
+                                    if (!mounted) return;
+                                    setState(() {
+                                      _formController.text = person.name;
+                                      _filteredPeople = [];
+                                    });
+                                    _formController.selection = TextSelection.fromPosition(
+                                      TextPosition(offset: _formController.text.length),
+                                    );
+                                    onMerge(context, people, widget.person.id, _formController.text);
+                                  },
+                                  personName: person.name,
+                                  personId: person.id,
+                                );
+                              }).toList(),
                             ),
-                            leading: SizedBox(
-                              height: imageSize,
-                              child: Material(
-                                shape: const CircleBorder(side: BorderSide.none),
-                                elevation: 3,
-                                child: CircleAvatar(
-                                  maxRadius: imageSize / 2,
-                                  backgroundImage: NetworkImage(getFaceThumbnailUrl(person.id), headers: headers),
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              if (!mounted) return;
-                              setState(() {
-                                _formController.text = person.name;
-                                _filteredPeople = [];
-                              });
-                              _formController.selection = TextSelection.fromPosition(
-                                TextPosition(offset: _formController.text.length),
-                              );
-                            },
-
-                            tileColor: context.primaryColor.withAlpha(25),
                           ),
-                        );
-                      }).toList(),
-                    ),
                   ),
+                ),
               ],
             ),
           );

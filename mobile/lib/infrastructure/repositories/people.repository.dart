@@ -3,6 +3,8 @@ import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/infrastructure/entities/person.entity.drift.dart';
 import 'package:immich_mobile/infrastructure/repositories/db.repository.dart';
 
+import '../entities/asset_face.entity.drift.dart';
+
 class DriftPeopleRepository extends DriftDatabaseRepository {
   final Drift _db;
   const DriftPeopleRepository(this._db) : super(_db);
@@ -46,6 +48,20 @@ class DriftPeopleRepository extends DriftDatabaseRepository {
     final query = _db.update(_db.personEntity)..where((row) => row.id.equals(personId));
 
     return query.write(PersonEntityCompanion(birthDate: Value(birthday), updatedAt: Value(DateTime.now())));
+  }
+
+  Future<int> mergePeople(String targetPersonId, List<String> mergePersonIds) async {
+    return _db.transaction(() async {
+      // Update AssetFaceEntity to point to the target person
+      final updateQuery = _db.update(_db.assetFaceEntity)..where((row) => row.personId.isIn(mergePersonIds));
+      final updatedCount = await updateQuery.write(AssetFaceEntityCompanion(personId: Value(targetPersonId)));
+
+      // Delete merged persons
+      final deleteQuery = _db.delete(_db.personEntity)..where((row) => row.id.isIn(mergePersonIds));
+      final deletedCount = await deleteQuery.go();
+
+      return updatedCount + deletedCount;
+    });
   }
 }
 

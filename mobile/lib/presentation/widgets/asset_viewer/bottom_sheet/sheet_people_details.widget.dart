@@ -69,8 +69,8 @@ class _SheetPeopleDetailsState extends ConsumerState<SheetPeopleDetails> {
                           context.pop();
                           context.pushRoute(DriftPersonRoute(person: person));
                         },
-                        onNameTap: () {
-                          showNameEditModal(context, person);
+                        onNameTap: () async {
+                          DriftPerson? newPerson = await showNameEditModal(context, person);
                           ref.invalidate(driftPeopleAssetProvider(asset.id));
                         },
                       ),

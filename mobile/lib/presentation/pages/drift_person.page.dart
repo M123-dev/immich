@@ -10,6 +10,8 @@ import 'package:immich_mobile/providers/user.provider.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/person_sliver_app_bar.dart';
 
+import '../../routing/router.dart';
+
 @RoutePage()
 class DriftPersonPage extends ConsumerStatefulWidget {
   final DriftPerson person;
@@ -32,10 +34,24 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   Future<void> handleEditName(BuildContext context) async {
     final newPerson = await showNameEditModal(context, _person);
 
-    if (newPerson != null) {
+    if (newPerson == null) {
+      return;
+    }
+
+    if (newPerson.id != _person.id) {
+      if (mounted) {
+        context.replaceRoute(DriftPersonRoute(key: ValueKey(newPerson.toString()), person: newPerson));
+      }
+
+      return;
+    }
+
+    if (newPerson.name != _person.name) {
+      // TODO: Use provider?
       setState(() {
         _person = _person.copyWith(name: newPerson.name);
       });
+      return;
     }
   }
 

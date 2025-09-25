@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/domain/models/person.model.dart';
-import 'package:immich_mobile/providers/api.provider.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/utils/image_url_builder.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
-import 'package:openapi/api.dart';
 
 class DriftPersonMergeForm extends ConsumerStatefulWidget {
   final DriftPerson person;
@@ -26,9 +24,10 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
   Future<void> _mergePeople(BuildContext context) async {
     setState(() => _isMerging = true);
     try {
-      final api = ref.read(apiServiceProvider).peopleApi;
-      await api.mergePerson(widget.person.id, MergePersonDto(ids: <String>[widget.mergeTarget.id]));
-      ref.invalidate(driftGetAllPeopleProvider);
+      await ref
+          .read(driftPeopleServiceProvider)
+          .mergePeople(targetPersonId: widget.mergeTarget.id, mergePersonIds: [widget.person.id]);
+
       if (mounted) {
         Navigator.of(context).pop(widget.mergeTarget);
         ImmichToast.show(
@@ -38,6 +37,7 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
           toastType: ToastType.success,
         );
       }
+      ref.invalidate(driftGetAllPeopleProvider);
     } catch (e) {
       if (mounted) {
         setState(() => _isMerging = false);

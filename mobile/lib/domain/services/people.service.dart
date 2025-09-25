@@ -23,6 +23,11 @@ class DriftPeopleService {
     return _repository.updateName(personId, name);
   }
 
+  Future<int> mergePeople({required String targetPersonId, required List<String> mergePersonIds}) async {
+    await _personApiRepository.merge(targetPersonId, mergePersonIds);
+    return _repository.mergePeople(targetPersonId, mergePersonIds);
+  }
+
   Future<int> updateBrithday(String personId, DateTime birthday) async {
     await _personApiRepository.update(personId, birthday: birthday);
     return _repository.updateBirthday(personId, birthday);

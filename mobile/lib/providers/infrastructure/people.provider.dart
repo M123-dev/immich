@@ -22,3 +22,8 @@ final driftGetAllPeopleProvider = FutureProvider<List<DriftPerson>>((ref) async 
   final service = ref.watch(driftPeopleServiceProvider);
   return service.getAllPeople();
 });
+
+final driftGetPersonByIdProvider = FutureProvider.family<DriftPerson?, String>((ref, personId) async {
+  final allPeople = ref.watch(driftGetAllPeopleProvider).value;
+  return allPeople?.firstWhere((person) => person.id == personId);
+});

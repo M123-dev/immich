@@ -46,24 +46,10 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
 
       return;
     }
-
-    if (newPerson.name != _person.name) {
-      // TODO: Use provider?
-      setState(() {
-        _person = _person.copyWith(name: newPerson.name);
-      });
-      return;
-    }
   }
 
   Future<void> handleEditBirthday(BuildContext context) async {
-    final birthday = await showBirthdayEditModal(context, _person);
-
-    if (birthday != null) {
-      setState(() {
-        _person = _person.copyWith(birthDate: birthday);
-      });
-    }
+    await showBirthdayEditModal(context, _person);
   }
 
   void showOptionSheet(BuildContext context) {
@@ -94,6 +80,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
     return personAsync.when(
       data: (person) {
         if (person == null) return const SizedBox.shrink();
+        _person = person;
         return ProviderScope(
           overrides: [
             timelineServiceProvider.overrideWith((ref) {

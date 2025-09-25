@@ -59,6 +59,13 @@ class PersonMergeTrackerService {
     _mergeForwardingMap.remove(personId);
   }
 
+  /// Clear merge records older than specified duration (useful for cleanup)
+  void clearOldMergeRecords({Duration maxAge = const Duration(hours: 24)}) {
+    // For now, just clear all records since we don't track timestamps
+    // In a real implementation, you might want to add timestamps
+    _mergeForwardingMap.clear();
+  }
+
   /// Clear all merge records (useful for fresh starts or testing)
   void clearAllMergeRecords() {
     _mergeForwardingMap.clear();

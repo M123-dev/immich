@@ -90,14 +90,21 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
                 // Use the service directly to get the target person
                 ref.read(driftPeopleServiceProvider).watchPersonById(targetPersonId).first.then((targetPerson) {
                   if (targetPerson != null && mounted) {
+                    // Clear the merge record since we're handling the redirect
+                    mergeTracker.clearMergeRecord(_person.id);
                     context.replaceRoute(DriftPersonRoute(
                       key: ValueKey(targetPerson.toString()),
                       person: targetPerson,
                     ));
+                  } else if (mounted) {
+                    // Target person not found, clear the stale merge record and go back
+                    mergeTracker.clearMergeRecord(_person.id);
+                    context.maybePop();
                   }
                 }).catchError((error) {
-                  // If we can't load the target person, go back
+                  // If we can't load the target person, clear the merge record and go back
                   if (mounted) {
+                    mergeTracker.clearMergeRecord(_person.id);
                     context.maybePop();
                   }
                 });

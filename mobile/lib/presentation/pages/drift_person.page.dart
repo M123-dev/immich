@@ -76,10 +76,39 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   @override
   Widget build(BuildContext context) {
     final personAsync = ref.watch(driftGetPersonByIdProvider(_person.id));
+    final mergeTracker = ref.watch(personMergeTrackerProvider);
 
     return personAsync.when(
       data: (person) {
-        if (person == null) return const SizedBox.shrink();
+        // Check if the person was merged and redirect if necessary
+        if (person == null) {
+          final targetPersonId = mergeTracker.getTargetPersonId(_person.id);
+          if (targetPersonId != null) {
+            // Person was merged, redirect to the target person
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                // Use the service directly to get the target person
+                ref.read(driftPeopleServiceProvider).watchPersonById(targetPersonId).first.then((targetPerson) {
+                  if (targetPerson != null && mounted) {
+                    context.replaceRoute(DriftPersonRoute(
+                      key: ValueKey(targetPerson.toString()),
+                      person: targetPerson,
+                    ));
+                  }
+                }).catchError((error) {
+                  // If we can't load the target person, go back
+                  if (mounted) {
+                    context.maybePop();
+                  }
+                });
+              }
+            });
+            return const Center(child: CircularProgressIndicator());
+          }
+          // Person not found and no merge record, show empty state
+          return const SizedBox.shrink();
+        }
+        
         _person = person;
         return ProviderScope(
           overrides: [

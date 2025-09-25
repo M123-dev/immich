@@ -34,8 +34,8 @@ int _calculateAgeInMonths(DateTime birthDate, DateTime referenceDate) {
       (referenceDate.day < birthDate.day ? 1 : 0);
 }
 
-Future<String?> showNameEditModal(BuildContext context, DriftPerson person) {
-  return showDialog<String?>(
+Future<DriftPerson?> showNameEditModal(BuildContext context, DriftPerson person) {
+  return showDialog<DriftPerson?>(
     context: context,
     useRootNavigator: false,
     builder: (BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/domain/models/person.model.dart';
+import 'package:immich_mobile/providers/api.provider.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/utils/image_url_builder.dart';
@@ -25,14 +26,14 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
   Future<void> _mergePeople(BuildContext context) async {
     setState(() => _isMerging = true);
     try {
-      final api = ref.read(openapiPeopleApiProvider);
-      await api.mergePerson(widget.person.id, MergePersonDto(mergePersonId: widget.mergeTarget.id));
+      final api = ref.read(apiServiceProvider).peopleApi;
+      await api.mergePerson(widget.person.id, MergePersonDto(ids: <String>[widget.mergeTarget.id]));
       ref.invalidate(driftGetAllPeopleProvider);
       if (mounted) {
         Navigator.of(context).pop(true);
         ImmichToast.show(
           context: context,
-          msg: "people_merged_success".tr(),
+          msg: "merge_people_successfully".tr(),
           gravity: ToastGravity.BOTTOM,
           toastType: ToastType.success,
         );
@@ -42,7 +43,7 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
         setState(() => _isMerging = false);
         ImmichToast.show(
           context: context,
-          msg: "people_merge_failed".tr(),
+          msg: "error_title".tr(),
           gravity: ToastGravity.BOTTOM,
           toastType: ToastType.error,
         );
@@ -96,7 +97,6 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
                     backgroundColor: Theme.of(context).colorScheme.onSurface,
                     foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
                     elevation: 0,
-                    side: BorderSide(color: Theme.of(context).colorScheme.outline.withOpacity(0.2)),
                   ),
                   onPressed: _isMerging ? null : () => Navigator.of(context).pop(false),
                   child: const Text("no", style: TextStyle(fontWeight: FontWeight.bold)).tr(),

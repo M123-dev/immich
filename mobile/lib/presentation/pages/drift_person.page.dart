@@ -30,11 +30,11 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   }
 
   Future<void> handleEditName(BuildContext context) async {
-    final newName = await showNameEditModal(context, _person);
+    final newPerson = await showNameEditModal(context, _person);
 
-    if (newName != null && newName.isNotEmpty) {
+    if (newPerson != null) {
       setState(() {
-        _person = _person.copyWith(name: newName);
+        _person = _person.copyWith(name: newPerson.name);
       });
     }
   }

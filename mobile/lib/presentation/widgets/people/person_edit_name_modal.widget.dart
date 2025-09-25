@@ -45,18 +45,20 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
     bool? isMerged = await showMergeModal(context, person, mergeTarget);
 
     if (isMerged == true) {
-      ImmichToast.show(context: context, msg: ''.tr(), gravity: ToastGravity.BOTTOM, toastType: ToastType.info);
+      if (mounted) {
+        context.pop<DriftPerson>(mergeTarget);
+      }
     }
     return;
   }
 
-  void onEdit(String personId, String newName) async {
+  void onEdit(DriftPerson person, String newName) async {
     try {
-      final result = await ref.read(driftPeopleServiceProvider).updateName(personId, newName);
+      final result = await ref.read(driftPeopleServiceProvider).updateName(person.id, newName);
       if (result != 0) {
         ref.invalidate(driftGetAllPeopleProvider);
         if (mounted) {
-          context.pop<String>(newName);
+          context.pop<DriftPerson>(person);
         }
       }
     } catch (error) {
@@ -178,7 +180,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
           ).tr(),
         ),
         TextButton(
-          onPressed: () => onEdit(widget.person.id, _formController.text),
+          onPressed: () => onEdit(widget.person, _formController.text),
           child: Text(
             "save",
             style: TextStyle(color: context.primaryColor, fontWeight: FontWeight.bold),

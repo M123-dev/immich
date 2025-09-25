@@ -10,6 +10,7 @@ import 'package:immich_mobile/presentation/widgets/people/person_tile.widget.dar
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/utils/debug_print.dart';
+import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
 
 class DriftPersonNameEditForm extends ConsumerStatefulWidget {
@@ -40,7 +41,14 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
     super.dispose();
   }
 
-  void onMerge(BuildContext context, List<DriftPerson> people, String personId, String newName) async {}
+  void onMerge({required BuildContext context, required DriftPerson person, required DriftPerson mergeTarget}) async {
+    bool? isMerged = await showMergeModal(context, person, mergeTarget);
+
+    if (isMerged == true) {
+      ImmichToast.show(context: context, msg: ''.tr(), gravity: ToastGravity.BOTTOM, toastType: ToastType.info);
+    }
+    return;
+  }
 
   void onEdit(String personId, String newName) async {
     try {
@@ -143,7 +151,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
                                     _formController.selection = TextSelection.fromPosition(
                                       TextPosition(offset: _formController.text.length),
                                     );
-                                    onMerge(context, people, widget.person.id, _formController.text);
+                                    onMerge(context: context, person: widget.person, mergeTarget: person);
                                   },
                                   personName: person.name,
                                   personId: person.id,

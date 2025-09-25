@@ -5,14 +5,13 @@ import 'package:immich_mobile/domain/models/asset/base_asset.model.dart';
 import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
 import 'package:immich_mobile/extensions/translate_extensions.dart';
-import 'package:immich_mobile/presentation/widgets/people/person_edit_name_modal.widget.dart';
 import 'package:immich_mobile/providers/infrastructure/asset_viewer/current_asset.provider.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/providers/routes.provider.dart';
 import 'package:immich_mobile/routing/router.dart';
 import 'package:immich_mobile/services/api.service.dart';
-import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/utils/image_url_builder.dart';
+import 'package:immich_mobile/utils/people.utils.dart';
 
 class SheetPeopleDetails extends ConsumerStatefulWidget {
   const SheetPeopleDetails({super.key});
@@ -30,18 +29,6 @@ class _SheetPeopleDetailsState extends ConsumerState<SheetPeopleDetails> {
     }
 
     final peopleFuture = ref.watch(driftPeopleAssetProvider(asset.id));
-
-    Future<void> showNameEditModal(DriftPerson person) async {
-      await showDialog(
-        context: context,
-        useRootNavigator: false,
-        builder: (BuildContext context) {
-          return DriftPersonNameEditForm(person: person);
-        },
-      );
-
-      ref.invalidate(driftPeopleAssetProvider(asset.id));
-    }
 
     return peopleFuture.when(
       data: (people) {
@@ -82,7 +69,10 @@ class _SheetPeopleDetailsState extends ConsumerState<SheetPeopleDetails> {
                           context.pop();
                           context.pushRoute(DriftPersonRoute(person: person));
                         },
-                        onNameTap: () => showNameEditModal(person),
+                        onNameTap: () {
+                          showNameEditModal(context, person);
+                          ref.invalidate(driftPeopleAssetProvider(asset.id));
+                        },
                       ),
                   ],
                 ),

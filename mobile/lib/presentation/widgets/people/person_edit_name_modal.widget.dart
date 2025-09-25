@@ -97,6 +97,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
 
     if (!mounted) return;
     setState(() {
+      // TODO: What happens if there are more than 3 matches with the exact same name?
       _filteredPeople = query.isEmpty ? [] : (startsWithMatches + containsMatches).take(3).toList();
     });
   }
@@ -114,6 +115,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
+                  autofocus: true,
                   controller: _formController,
                   decoration: InputDecoration(
                     hintText: 'add_a_name'.tr(),
@@ -146,7 +148,6 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
                                     if (!mounted) return;
                                     setState(() {
                                       _formController.text = person.name;
-                                      _filteredPeople = [];
                                     });
                                     _formController.selection = TextSelection.fromPosition(
                                       TextPosition(offset: _formController.text.length),

@@ -36,17 +36,17 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   Future<void> handleEditName(BuildContext context) async {
     final newPerson = await showNameEditModal(context, _person);
 
-    if (newPerson == null) {
+    /*if (newPerson == null) {
       return;
-    }
+    }*/
 
-    if (newPerson.id != _person.id) {
+    /*if (newPerson.id != _person.id) {
       if (mounted) {
         context.replaceRoute(DriftPersonRoute(key: ValueKey(newPerson.toString()), person: newPerson));
       }
 
       return;
-    }
+    }*/
   }
 
   Future<void> handleEditBirthday(BuildContext context) async {
@@ -79,55 +79,68 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
     final personAsync = ref.watch(driftGetPersonByIdProvider(_person.id));
     final mergeTracker = ref.watch(personMergeTrackerProvider);
     final currentRouteName = ref.watch(currentRouteNameProvider);
-
+    print('m123: Current route name: $currentRouteName');
     return personAsync.when(
       data: (person) {
         // Check if the person was merged and redirect if necessary
         if (person == null) {
           final shouldRedirect = mergeTracker.shouldRedirectForPerson(_person.id);
           final targetPersonId = mergeTracker.getTargetPersonId(_person.id);
-          
+
           if (shouldRedirect && targetPersonId != null) {
             // Only redirect if we're currently on the person detail page, not in an image viewer
-            final isOnPersonDetailPage = currentRouteName == DriftPersonRoute.name || 
-                                        currentRouteName == null; // null route can happen during navigation
-            
+            bool isOnPersonDetailPage =
+                currentRouteName == DriftPersonRoute.name; // null route can happen during navigation
+
+            isOnPersonDetailPage = ModalRoute.of(context)?.isCurrent ?? false;
+
+            print('m123: We are on route: $currentRouteName, isOnPersonDetailPage: $isOnPersonDetailPage');
+
             if (isOnPersonDetailPage) {
               // Person was merged, redirect to the target person
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (mounted) {
+                  print('m123: Redirecting to target person $targetPersonId');
                   // Use the service directly to get the target person
-                  ref.read(driftPeopleServiceProvider).watchPersonById(targetPersonId).first.then((targetPerson) {
-                    if (targetPerson != null && mounted) {
-                      // Mark the merge record as handled
-                      mergeTracker.markMergeRecordHandled(_person.id);
-                      context.replaceRoute(DriftPersonRoute(
-                        key: ValueKey(targetPerson.toString()),
-                        person: targetPerson,
-                      ));
-                    } else if (mounted) {
-                      // Target person not found, go back
-                      context.maybePop();
-                    }
-                  }).catchError((error) {
-                    // If we can't load the target person, go back
-                    if (mounted) {
-                      context.maybePop();
-                    }
-                  });
+                  ref
+                      .read(driftPeopleServiceProvider)
+                      .watchPersonById(targetPersonId)
+                      .first
+                      .then((targetPerson) {
+                        if (targetPerson != null && mounted) {
+                          // Mark the merge record as handled
+                          print('m123: Found target person, redirecting');
+                          print('m123: Removing merge record for ${_person.id}');
+                          context.replaceRoute(
+                            DriftPersonRoute(key: ValueKey(targetPerson.toString()), person: targetPerson),
+                          );
+                        } else if (!mounted) {
+                          // Target person not found, go back
+                          context.maybePop();
+                        }
+                      })
+                      .catchError((error) {
+                        // If we can't load the target person, go back
+                        if (mounted) {
+                          context.maybePop();
+                        }
+                      });
                 }
               });
+              print('m123: Showing loading spinner while redirecting');
               return const Center(child: CircularProgressIndicator());
             } else {
               // We're in an image viewer or other nested view, don't redirect yet
               // Just show loading spinner to indicate something is happening
+              print('m123: Not on person detail page, not redirecting yet');
               return const Center(child: CircularProgressIndicator());
             }
           }
           // Person not found and no merge record, show empty state
+          print('m123: Person not found and no merge record, showing empty state');
           return const SizedBox.shrink();
         }
-        
+
         _person = person;
         return ProviderScope(
           overrides: [

@@ -44,13 +44,9 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
           toastType: ToastType.success,
         );
       }
-      
-      // Only invalidate if the widget is still mounted
-      if (mounted) {
-        ref.invalidate(driftGetAllPeopleProvider);
-        // Don't invalidate asset people providers from here to avoid asset viewer issues
-        // Let individual components handle their own refresh
-      }
+      ref.invalidate(driftGetAllPeopleProvider);
+      // Don't globally invalidate asset people providers as it can cause image viewer issues
+      // Individual components should refresh themselves as needed
     } catch (e) {
       if (mounted) {
         setState(() => _isMerging = false);

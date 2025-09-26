@@ -10,6 +10,8 @@ class PersonMergeTrackerService {
   // Map of merged person ID -> target person ID
   final Map<String, String> _mergeForwardingMap = {};
 
+  final Set<String> _handledMergeRecords = {};
+
   // Stream controller to notify listeners of merge events
   final StreamController<PersonMergeEvent> _mergeEventController = StreamController<PersonMergeEvent>.broadcast();
 
@@ -44,9 +46,14 @@ class PersonMergeTrackerService {
     return _mergeForwardingMap.containsKey(personId);
   }
 
+  /// Check if a merge record has been handled (redirected)
+  bool isMergeRecordHandled(String personId) {
+    return _handledMergeRecords.contains(personId);
+  }
+
   /// Check if we should redirect for this person (merged but not yet handled)
   bool shouldRedirectForPerson(String personId) {
-    return isPersonMerged(personId);
+    return isPersonMerged(personId) && !isMergeRecordHandled(personId);
   }
 
   /// Stream of merge events
@@ -64,9 +71,15 @@ class PersonMergeTrackerService {
     _mergeForwardingMap.clear();
   }
 
+  /// Mark a merge record as handled (for tracking purposes)
+  void markMergeRecordHandled(String personId) {
+    _handledMergeRecords.add(personId);
+  }
+
   /// Clear all merge records (useful for fresh starts or testing)
   void clearAllMergeRecords() {
     _mergeForwardingMap.clear();
+    _handledMergeRecords.clear();
   }
 
   /// Dispose resources

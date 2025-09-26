@@ -111,6 +111,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
                           // Mark the merge record as handled
                           print('m123: Found target person, redirecting');
                           print('m123: Removing merge record for ${_person.id}');
+                          mergeTracker.markMergeRecordHandled(_person.id);
                           context.replaceRoute(
                             DriftPersonRoute(key: ValueKey(targetPerson.toString()), person: targetPerson),
                           );

@@ -6,6 +6,7 @@ import 'package:immich_mobile/extensions/build_context_extensions.dart';
 import 'package:immich_mobile/presentation/widgets/people/person_option_sheet.widget.dart';
 import 'package:immich_mobile/presentation/widgets/timeline/timeline.widget.dart';
 import 'package:immich_mobile/providers/infrastructure/timeline.provider.dart';
+import 'package:immich_mobile/providers/routes.provider.dart';
 import 'package:immich_mobile/providers/user.provider.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/person_sliver_app_bar.dart';
@@ -77,40 +78,51 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   Widget build(BuildContext context) {
     final personAsync = ref.watch(driftGetPersonByIdProvider(_person.id));
     final mergeTracker = ref.watch(personMergeTrackerProvider);
+    final currentRouteName = ref.watch(currentRouteNameProvider);
 
     return personAsync.when(
       data: (person) {
         // Check if the person was merged and redirect if necessary
         if (person == null) {
+          final shouldRedirect = mergeTracker.shouldRedirectForPerson(_person.id);
           final targetPersonId = mergeTracker.getTargetPersonId(_person.id);
-          if (targetPersonId != null) {
-            // Person was merged, redirect to the target person
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (mounted) {
-                // Use the service directly to get the target person
-                ref.read(driftPeopleServiceProvider).watchPersonById(targetPersonId).first.then((targetPerson) {
-                  if (targetPerson != null && mounted) {
-                    // Clear the merge record since we're handling the redirect
-                    mergeTracker.clearMergeRecord(_person.id);
-                    context.replaceRoute(DriftPersonRoute(
-                      key: ValueKey(targetPerson.toString()),
-                      person: targetPerson,
-                    ));
-                  } else if (mounted) {
-                    // Target person not found, clear the stale merge record and go back
-                    mergeTracker.clearMergeRecord(_person.id);
-                    context.maybePop();
-                  }
-                }).catchError((error) {
-                  // If we can't load the target person, clear the merge record and go back
-                  if (mounted) {
-                    mergeTracker.clearMergeRecord(_person.id);
-                    context.maybePop();
-                  }
-                });
-              }
-            });
-            return const Center(child: CircularProgressIndicator());
+          
+          if (shouldRedirect && targetPersonId != null) {
+            // Only redirect if we're currently on the person detail page, not in an image viewer
+            final isOnPersonDetailPage = currentRouteName == DriftPersonRoute.name || 
+                                        currentRouteName == null; // null route can happen during navigation
+            
+            if (isOnPersonDetailPage) {
+              // Person was merged, redirect to the target person
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  // Use the service directly to get the target person
+                  ref.read(driftPeopleServiceProvider).watchPersonById(targetPersonId).first.then((targetPerson) {
+                    if (targetPerson != null && mounted) {
+                      // Mark the merge record as handled
+                      mergeTracker.markMergeRecordHandled(_person.id);
+                      context.replaceRoute(DriftPersonRoute(
+                        key: ValueKey(targetPerson.toString()),
+                        person: targetPerson,
+                      ));
+                    } else if (mounted) {
+                      // Target person not found, go back
+                      context.maybePop();
+                    }
+                  }).catchError((error) {
+                    // If we can't load the target person, go back
+                    if (mounted) {
+                      context.maybePop();
+                    }
+                  });
+                }
+              });
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              // We're in an image viewer or other nested view, don't redirect yet
+              // Just show loading spinner to indicate something is happening
+              return const Center(child: CircularProgressIndicator());
+            }
           }
           // Person not found and no merge record, show empty state
           return const SizedBox.shrink();

@@ -45,8 +45,8 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
         );
       }
       ref.invalidate(driftGetAllPeopleProvider);
-      // Also invalidate all asset people providers since we don't know which assets are affected
-      ref.invalidate(driftPeopleAssetProvider);
+      // Don't globally invalidate asset people providers as it can cause image viewer issues
+      // Individual components should refresh themselves as needed
     } catch (e) {
       if (mounted) {
         setState(() => _isMerging = false);

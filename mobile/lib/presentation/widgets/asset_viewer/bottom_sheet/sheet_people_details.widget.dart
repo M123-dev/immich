@@ -71,7 +71,13 @@ class _SheetPeopleDetailsState extends ConsumerState<SheetPeopleDetails> {
                         },
                         onNameTap: () async {
                           DriftPerson? newPerson = await showNameEditModal(context, person);
+                          // Always refresh the asset people data when name editing is done
+                          // This handles both name changes and person merges
                           ref.invalidate(driftPeopleAssetProvider(asset.id));
+                          if (newPerson != null && newPerson.id != person.id) {
+                            // A merge occurred, also refresh global people data
+                            ref.invalidate(driftGetAllPeopleProvider);
+                          }
                         },
                       ),
                   ],

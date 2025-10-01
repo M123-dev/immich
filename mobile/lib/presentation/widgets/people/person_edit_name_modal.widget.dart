@@ -8,7 +8,6 @@ import 'package:immich_mobile/extensions/translate_extensions.dart';
 import 'package:immich_mobile/pages/common/large_leading_tile.dart';
 import 'package:immich_mobile/presentation/widgets/people/person_tile.widget.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
-import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/utils/debug_print.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
@@ -25,9 +24,6 @@ class DriftPersonNameEditForm extends ConsumerStatefulWidget {
 class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditForm> {
   late TextEditingController _formController;
   List<DriftPerson> _filteredPeople = [];
-
-  final imageSize = 60.0;
-  final headers = ApiService.getRequestHeaders();
 
   @override
   void initState() {

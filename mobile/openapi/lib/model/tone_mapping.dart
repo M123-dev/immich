@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class ToneMapping {
   /// Instantiate a new enum with the provided [value].
   const ToneMapping._(this.value);
@@ -37,10 +38,7 @@ class ToneMapping {
 
   static ToneMapping? fromJson(dynamic value) => ToneMappingTypeTransformer().decode(value);
 
-  static List<ToneMapping> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<ToneMapping> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ToneMapping>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -74,14 +72,10 @@ class ToneMappingTypeTransformer {
   ToneMapping? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'hable':
-          return ToneMapping.hable;
-        case r'mobius':
-          return ToneMapping.mobius;
-        case r'reinhard':
-          return ToneMapping.reinhard;
-        case r'disabled':
-          return ToneMapping.disabled;
+        case r'hable': return ToneMapping.hable;
+        case r'mobius': return ToneMapping.mobius;
+        case r'reinhard': return ToneMapping.reinhard;
+        case r'disabled': return ToneMapping.disabled;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -94,3 +88,4 @@ class ToneMappingTypeTransformer {
   /// Singleton [ToneMappingTypeTransformer] instance.
   static ToneMappingTypeTransformer? _instance;
 }
+

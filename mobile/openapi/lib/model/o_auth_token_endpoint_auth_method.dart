@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class OAuthTokenEndpointAuthMethod {
   /// Instantiate a new enum with the provided [value].
   const OAuthTokenEndpointAuthMethod._(this.value);
@@ -31,13 +32,9 @@ class OAuthTokenEndpointAuthMethod {
     basic,
   ];
 
-  static OAuthTokenEndpointAuthMethod? fromJson(dynamic value) =>
-      OAuthTokenEndpointAuthMethodTypeTransformer().decode(value);
+  static OAuthTokenEndpointAuthMethod? fromJson(dynamic value) => OAuthTokenEndpointAuthMethodTypeTransformer().decode(value);
 
-  static List<OAuthTokenEndpointAuthMethod> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<OAuthTokenEndpointAuthMethod> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OAuthTokenEndpointAuthMethod>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -54,8 +51,7 @@ class OAuthTokenEndpointAuthMethod {
 /// Transformation class that can [encode] an instance of [OAuthTokenEndpointAuthMethod] to String,
 /// and [decode] dynamic data back to [OAuthTokenEndpointAuthMethod].
 class OAuthTokenEndpointAuthMethodTypeTransformer {
-  factory OAuthTokenEndpointAuthMethodTypeTransformer() =>
-      _instance ??= const OAuthTokenEndpointAuthMethodTypeTransformer._();
+  factory OAuthTokenEndpointAuthMethodTypeTransformer() => _instance ??= const OAuthTokenEndpointAuthMethodTypeTransformer._();
 
   const OAuthTokenEndpointAuthMethodTypeTransformer._();
 
@@ -72,10 +68,8 @@ class OAuthTokenEndpointAuthMethodTypeTransformer {
   OAuthTokenEndpointAuthMethod? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'client_secret_post':
-          return OAuthTokenEndpointAuthMethod.post;
-        case r'client_secret_basic':
-          return OAuthTokenEndpointAuthMethod.basic;
+        case r'client_secret_post': return OAuthTokenEndpointAuthMethod.post;
+        case r'client_secret_basic': return OAuthTokenEndpointAuthMethod.basic;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -88,3 +82,4 @@ class OAuthTokenEndpointAuthMethodTypeTransformer {
   /// Singleton [OAuthTokenEndpointAuthMethodTypeTransformer] instance.
   static OAuthTokenEndpointAuthMethodTypeTransformer? _instance;
 }
+

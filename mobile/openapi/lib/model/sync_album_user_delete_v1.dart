@@ -22,21 +22,23 @@ class SyncAlbumUserDeleteV1 {
   String userId;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is SyncAlbumUserDeleteV1 && other.albumId == albumId && other.userId == userId;
+  bool operator ==(Object other) => identical(this, other) || other is SyncAlbumUserDeleteV1 &&
+    other.albumId == albumId &&
+    other.userId == userId;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (albumId.hashCode) + (userId.hashCode);
+    // ignore: unnecessary_parenthesis
+    (albumId.hashCode) +
+    (userId.hashCode);
 
   @override
   String toString() => 'SyncAlbumUserDeleteV1[albumId=$albumId, userId=$userId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'albumId'] = this.albumId;
-    json[r'userId'] = this.userId;
+      json[r'albumId'] = this.albumId;
+      json[r'userId'] = this.userId;
     return json;
   }
 
@@ -56,10 +58,7 @@ class SyncAlbumUserDeleteV1 {
     return null;
   }
 
-  static List<SyncAlbumUserDeleteV1> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<SyncAlbumUserDeleteV1> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SyncAlbumUserDeleteV1>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -87,19 +86,13 @@ class SyncAlbumUserDeleteV1 {
   }
 
   // maps a json object with a list of SyncAlbumUserDeleteV1-objects as value to a dart map
-  static Map<String, List<SyncAlbumUserDeleteV1>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<SyncAlbumUserDeleteV1>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<SyncAlbumUserDeleteV1>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = SyncAlbumUserDeleteV1.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = SyncAlbumUserDeleteV1.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -111,3 +104,4 @@ class SyncAlbumUserDeleteV1 {
     'userId',
   };
 }
+

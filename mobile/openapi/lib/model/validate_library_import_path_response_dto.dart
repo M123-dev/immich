@@ -31,30 +31,29 @@ class ValidateLibraryImportPathResponseDto {
   String? message;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ValidateLibraryImportPathResponseDto &&
-          other.importPath == importPath &&
-          other.isValid == isValid &&
-          other.message == message;
+  bool operator ==(Object other) => identical(this, other) || other is ValidateLibraryImportPathResponseDto &&
+    other.importPath == importPath &&
+    other.isValid == isValid &&
+    other.message == message;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (importPath.hashCode) + (isValid.hashCode) + (message == null ? 0 : message!.hashCode);
+    // ignore: unnecessary_parenthesis
+    (importPath.hashCode) +
+    (isValid.hashCode) +
+    (message == null ? 0 : message!.hashCode);
 
   @override
-  String toString() =>
-      'ValidateLibraryImportPathResponseDto[importPath=$importPath, isValid=$isValid, message=$message]';
+  String toString() => 'ValidateLibraryImportPathResponseDto[importPath=$importPath, isValid=$isValid, message=$message]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'importPath'] = this.importPath;
-    json[r'isValid'] = this.isValid;
+      json[r'importPath'] = this.importPath;
+      json[r'isValid'] = this.isValid;
     if (this.message != null) {
       json[r'message'] = this.message;
     } else {
-      //  json[r'message'] = null;
+    //  json[r'message'] = null;
     }
     return json;
   }
@@ -76,10 +75,7 @@ class ValidateLibraryImportPathResponseDto {
     return null;
   }
 
-  static List<ValidateLibraryImportPathResponseDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<ValidateLibraryImportPathResponseDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ValidateLibraryImportPathResponseDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -107,19 +103,13 @@ class ValidateLibraryImportPathResponseDto {
   }
 
   // maps a json object with a list of ValidateLibraryImportPathResponseDto-objects as value to a dart map
-  static Map<String, List<ValidateLibraryImportPathResponseDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<ValidateLibraryImportPathResponseDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ValidateLibraryImportPathResponseDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = ValidateLibraryImportPathResponseDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = ValidateLibraryImportPathResponseDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -131,3 +121,4 @@ class ValidateLibraryImportPathResponseDto {
     'isValid',
   };
 }
+

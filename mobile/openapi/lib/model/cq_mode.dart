@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class CQMode {
   /// Instantiate a new enum with the provided [value].
   const CQMode._(this.value);
@@ -35,10 +36,7 @@ class CQMode {
 
   static CQMode? fromJson(dynamic value) => CQModeTypeTransformer().decode(value);
 
-  static List<CQMode> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<CQMode> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <CQMode>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -72,12 +70,9 @@ class CQModeTypeTransformer {
   CQMode? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'auto':
-          return CQMode.auto;
-        case r'cqp':
-          return CQMode.cqp;
-        case r'icq':
-          return CQMode.icq;
+        case r'auto': return CQMode.auto;
+        case r'cqp': return CQMode.cqp;
+        case r'icq': return CQMode.icq;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -90,3 +85,4 @@ class CQModeTypeTransformer {
   /// Singleton [CQModeTypeTransformer] instance.
   static CQModeTypeTransformer? _instance;
 }
+

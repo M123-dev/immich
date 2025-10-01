@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class ViewApi {
   ViewApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -19,9 +20,7 @@ class ViewApi {
   /// Parameters:
   ///
   /// * [String] path (required):
-  Future<Response> getAssetsByOriginalPathWithHttpInfo(
-    String path,
-  ) async {
+  Future<Response> getAssetsByOriginalPathWithHttpInfo(String path,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/view/folder';
 
@@ -32,9 +31,10 @@ class ViewApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    queryParams.addAll(_queryParams('', 'path', path));
+      queryParams.addAll(_queryParams('', 'path', path));
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -50,12 +50,8 @@ class ViewApi {
   /// Parameters:
   ///
   /// * [String] path (required):
-  Future<List<AssetResponseDto>?> getAssetsByOriginalPath(
-    String path,
-  ) async {
-    final response = await getAssetsByOriginalPathWithHttpInfo(
-      path,
-    );
+  Future<List<AssetResponseDto>?> getAssetsByOriginalPath(String path,) async {
+    final response = await getAssetsByOriginalPathWithHttpInfo(path,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -65,8 +61,9 @@ class ViewApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<AssetResponseDto>') as List)
-          .cast<AssetResponseDto>()
-          .toList(growable: false);
+        .cast<AssetResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -84,6 +81,7 @@ class ViewApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -107,8 +105,9 @@ class ViewApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<String>') as List)
-          .cast<String>()
-          .toList(growable: false);
+        .cast<String>()
+        .toList(growable: false);
+
     }
     return null;
   }

@@ -22,21 +22,23 @@ class TemplateResponseDto {
   String name;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is TemplateResponseDto && other.html == html && other.name == name;
+  bool operator ==(Object other) => identical(this, other) || other is TemplateResponseDto &&
+    other.html == html &&
+    other.name == name;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (html.hashCode) + (name.hashCode);
+    // ignore: unnecessary_parenthesis
+    (html.hashCode) +
+    (name.hashCode);
 
   @override
   String toString() => 'TemplateResponseDto[html=$html, name=$name]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'html'] = this.html;
-    json[r'name'] = this.name;
+      json[r'html'] = this.html;
+      json[r'name'] = this.name;
     return json;
   }
 
@@ -56,10 +58,7 @@ class TemplateResponseDto {
     return null;
   }
 
-  static List<TemplateResponseDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<TemplateResponseDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <TemplateResponseDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -87,19 +86,13 @@ class TemplateResponseDto {
   }
 
   // maps a json object with a list of TemplateResponseDto-objects as value to a dart map
-  static Map<String, List<TemplateResponseDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<TemplateResponseDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<TemplateResponseDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = TemplateResponseDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = TemplateResponseDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -111,3 +104,4 @@ class TemplateResponseDto {
     'name',
   };
 }
+

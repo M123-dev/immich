@@ -25,23 +25,26 @@ class SyncAssetMetadataV1 {
   Object value;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SyncAssetMetadataV1 && other.assetId == assetId && other.key == key && other.value == value;
+  bool operator ==(Object other) => identical(this, other) || other is SyncAssetMetadataV1 &&
+    other.assetId == assetId &&
+    other.key == key &&
+    other.value == value;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (assetId.hashCode) + (key.hashCode) + (value.hashCode);
+    // ignore: unnecessary_parenthesis
+    (assetId.hashCode) +
+    (key.hashCode) +
+    (value.hashCode);
 
   @override
   String toString() => 'SyncAssetMetadataV1[assetId=$assetId, key=$key, value=$value]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'assetId'] = this.assetId;
-    json[r'key'] = this.key;
-    json[r'value'] = this.value;
+      json[r'assetId'] = this.assetId;
+      json[r'key'] = this.key;
+      json[r'value'] = this.value;
     return json;
   }
 
@@ -62,10 +65,7 @@ class SyncAssetMetadataV1 {
     return null;
   }
 
-  static List<SyncAssetMetadataV1> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<SyncAssetMetadataV1> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SyncAssetMetadataV1>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -93,19 +93,13 @@ class SyncAssetMetadataV1 {
   }
 
   // maps a json object with a list of SyncAssetMetadataV1-objects as value to a dart map
-  static Map<String, List<SyncAssetMetadataV1>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<SyncAssetMetadataV1>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<SyncAssetMetadataV1>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = SyncAssetMetadataV1.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = SyncAssetMetadataV1.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -118,3 +112,4 @@ class SyncAssetMetadataV1 {
     'value',
   };
 }
+

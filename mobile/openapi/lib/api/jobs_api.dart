@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class JobsApi {
   JobsApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -22,9 +23,7 @@ class JobsApi {
   /// Parameters:
   ///
   /// * [JobCreateDto] jobCreateDto (required):
-  Future<Response> createJobWithHttpInfo(
-    JobCreateDto jobCreateDto,
-  ) async {
+  Future<Response> createJobWithHttpInfo(JobCreateDto jobCreateDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/jobs';
 
@@ -36,6 +35,7 @@ class JobsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -53,12 +53,8 @@ class JobsApi {
   /// Parameters:
   ///
   /// * [JobCreateDto] jobCreateDto (required):
-  Future<void> createJob(
-    JobCreateDto jobCreateDto,
-  ) async {
-    final response = await createJobWithHttpInfo(
-      jobCreateDto,
-    );
+  Future<void> createJob(JobCreateDto jobCreateDto,) async {
+    final response = await createJobWithHttpInfo(jobCreateDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -79,6 +75,7 @@ class JobsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -101,10 +98,8 @@ class JobsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AllJobStatusResponseDto',
-      ) as AllJobStatusResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AllJobStatusResponseDto',) as AllJobStatusResponseDto;
+    
     }
     return null;
   }
@@ -118,12 +113,10 @@ class JobsApi {
   /// * [JobName] id (required):
   ///
   /// * [JobCommandDto] jobCommandDto (required):
-  Future<Response> sendJobCommandWithHttpInfo(
-    JobName id,
-    JobCommandDto jobCommandDto,
-  ) async {
+  Future<Response> sendJobCommandWithHttpInfo(JobName id, JobCommandDto jobCommandDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/jobs/{id}'.replaceAll('{id}', id.toString());
+    final apiPath = r'/jobs/{id}'
+      .replaceAll('{id}', id.toString());
 
     // ignore: prefer_final_locals
     Object? postBody = jobCommandDto;
@@ -133,6 +126,7 @@ class JobsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -152,14 +146,8 @@ class JobsApi {
   /// * [JobName] id (required):
   ///
   /// * [JobCommandDto] jobCommandDto (required):
-  Future<JobStatusDto?> sendJobCommand(
-    JobName id,
-    JobCommandDto jobCommandDto,
-  ) async {
-    final response = await sendJobCommandWithHttpInfo(
-      id,
-      jobCommandDto,
-    );
+  Future<JobStatusDto?> sendJobCommand(JobName id, JobCommandDto jobCommandDto,) async {
+    final response = await sendJobCommandWithHttpInfo(id, jobCommandDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -167,10 +155,8 @@ class JobsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'JobStatusDto',
-      ) as JobStatusDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'JobStatusDto',) as JobStatusDto;
+    
     }
     return null;
   }

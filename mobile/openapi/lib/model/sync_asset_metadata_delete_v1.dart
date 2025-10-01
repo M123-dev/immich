@@ -22,21 +22,23 @@ class SyncAssetMetadataDeleteV1 {
   AssetMetadataKey key;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is SyncAssetMetadataDeleteV1 && other.assetId == assetId && other.key == key;
+  bool operator ==(Object other) => identical(this, other) || other is SyncAssetMetadataDeleteV1 &&
+    other.assetId == assetId &&
+    other.key == key;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (assetId.hashCode) + (key.hashCode);
+    // ignore: unnecessary_parenthesis
+    (assetId.hashCode) +
+    (key.hashCode);
 
   @override
   String toString() => 'SyncAssetMetadataDeleteV1[assetId=$assetId, key=$key]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'assetId'] = this.assetId;
-    json[r'key'] = this.key;
+      json[r'assetId'] = this.assetId;
+      json[r'key'] = this.key;
     return json;
   }
 
@@ -56,10 +58,7 @@ class SyncAssetMetadataDeleteV1 {
     return null;
   }
 
-  static List<SyncAssetMetadataDeleteV1> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<SyncAssetMetadataDeleteV1> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SyncAssetMetadataDeleteV1>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -87,19 +86,13 @@ class SyncAssetMetadataDeleteV1 {
   }
 
   // maps a json object with a list of SyncAssetMetadataDeleteV1-objects as value to a dart map
-  static Map<String, List<SyncAssetMetadataDeleteV1>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<SyncAssetMetadataDeleteV1>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<SyncAssetMetadataDeleteV1>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = SyncAssetMetadataDeleteV1.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = SyncAssetMetadataDeleteV1.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -111,3 +104,4 @@ class SyncAssetMetadataDeleteV1 {
     'key',
   };
 }
+

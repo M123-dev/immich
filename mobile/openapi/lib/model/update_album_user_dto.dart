@@ -19,19 +19,20 @@ class UpdateAlbumUserDto {
   AlbumUserRole role;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is UpdateAlbumUserDto && other.role == role;
+  bool operator ==(Object other) => identical(this, other) || other is UpdateAlbumUserDto &&
+    other.role == role;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (role.hashCode);
+    // ignore: unnecessary_parenthesis
+    (role.hashCode);
 
   @override
   String toString() => 'UpdateAlbumUserDto[role=$role]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'role'] = this.role;
+      json[r'role'] = this.role;
     return json;
   }
 
@@ -50,10 +51,7 @@ class UpdateAlbumUserDto {
     return null;
   }
 
-  static List<UpdateAlbumUserDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<UpdateAlbumUserDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <UpdateAlbumUserDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -81,19 +79,13 @@ class UpdateAlbumUserDto {
   }
 
   // maps a json object with a list of UpdateAlbumUserDto-objects as value to a dart map
-  static Map<String, List<UpdateAlbumUserDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<UpdateAlbumUserDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<UpdateAlbumUserDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = UpdateAlbumUserDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = UpdateAlbumUserDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -104,3 +96,4 @@ class UpdateAlbumUserDto {
     'role',
   };
 }
+

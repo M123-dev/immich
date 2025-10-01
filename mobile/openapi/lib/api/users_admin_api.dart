@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class UsersAdminApi {
   UsersAdminApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -22,9 +23,7 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [UserAdminCreateDto] userAdminCreateDto (required):
-  Future<Response> createUserAdminWithHttpInfo(
-    UserAdminCreateDto userAdminCreateDto,
-  ) async {
+  Future<Response> createUserAdminWithHttpInfo(UserAdminCreateDto userAdminCreateDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/admin/users';
 
@@ -36,6 +35,7 @@ class UsersAdminApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -53,12 +53,8 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [UserAdminCreateDto] userAdminCreateDto (required):
-  Future<UserAdminResponseDto?> createUserAdmin(
-    UserAdminCreateDto userAdminCreateDto,
-  ) async {
-    final response = await createUserAdminWithHttpInfo(
-      userAdminCreateDto,
-    );
+  Future<UserAdminResponseDto?> createUserAdmin(UserAdminCreateDto userAdminCreateDto,) async {
+    final response = await createUserAdminWithHttpInfo(userAdminCreateDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -66,10 +62,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'UserAdminResponseDto',
-      ) as UserAdminResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserAdminResponseDto',) as UserAdminResponseDto;
+    
     }
     return null;
   }
@@ -83,12 +77,10 @@ class UsersAdminApi {
   /// * [String] id (required):
   ///
   /// * [UserAdminDeleteDto] userAdminDeleteDto (required):
-  Future<Response> deleteUserAdminWithHttpInfo(
-    String id,
-    UserAdminDeleteDto userAdminDeleteDto,
-  ) async {
+  Future<Response> deleteUserAdminWithHttpInfo(String id, UserAdminDeleteDto userAdminDeleteDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/admin/users/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/admin/users/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = userAdminDeleteDto;
@@ -98,6 +90,7 @@ class UsersAdminApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -117,14 +110,8 @@ class UsersAdminApi {
   /// * [String] id (required):
   ///
   /// * [UserAdminDeleteDto] userAdminDeleteDto (required):
-  Future<UserAdminResponseDto?> deleteUserAdmin(
-    String id,
-    UserAdminDeleteDto userAdminDeleteDto,
-  ) async {
-    final response = await deleteUserAdminWithHttpInfo(
-      id,
-      userAdminDeleteDto,
-    );
+  Future<UserAdminResponseDto?> deleteUserAdmin(String id, UserAdminDeleteDto userAdminDeleteDto,) async {
+    final response = await deleteUserAdminWithHttpInfo(id, userAdminDeleteDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -132,10 +119,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'UserAdminResponseDto',
-      ) as UserAdminResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserAdminResponseDto',) as UserAdminResponseDto;
+    
     }
     return null;
   }
@@ -147,11 +132,10 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> getUserAdminWithHttpInfo(
-    String id,
-  ) async {
+  Future<Response> getUserAdminWithHttpInfo(String id,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/admin/users/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/admin/users/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -161,6 +145,7 @@ class UsersAdminApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -178,12 +163,8 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<UserAdminResponseDto?> getUserAdmin(
-    String id,
-  ) async {
-    final response = await getUserAdminWithHttpInfo(
-      id,
-    );
+  Future<UserAdminResponseDto?> getUserAdmin(String id,) async {
+    final response = await getUserAdminWithHttpInfo(id,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -191,10 +172,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'UserAdminResponseDto',
-      ) as UserAdminResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserAdminResponseDto',) as UserAdminResponseDto;
+    
     }
     return null;
   }
@@ -206,11 +185,10 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> getUserPreferencesAdminWithHttpInfo(
-    String id,
-  ) async {
+  Future<Response> getUserPreferencesAdminWithHttpInfo(String id,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/admin/users/{id}/preferences'.replaceAll('{id}', id);
+    final apiPath = r'/admin/users/{id}/preferences'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -220,6 +198,7 @@ class UsersAdminApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -237,12 +216,8 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<UserPreferencesResponseDto?> getUserPreferencesAdmin(
-    String id,
-  ) async {
-    final response = await getUserPreferencesAdminWithHttpInfo(
-      id,
-    );
+  Future<UserPreferencesResponseDto?> getUserPreferencesAdmin(String id,) async {
+    final response = await getUserPreferencesAdminWithHttpInfo(id,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -250,10 +225,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'UserPreferencesResponseDto',
-      ) as UserPreferencesResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserPreferencesResponseDto',) as UserPreferencesResponseDto;
+    
     }
     return null;
   }
@@ -271,14 +244,10 @@ class UsersAdminApi {
   /// * [bool] isTrashed:
   ///
   /// * [AssetVisibility] visibility:
-  Future<Response> getUserStatisticsAdminWithHttpInfo(
-    String id, {
-    bool? isFavorite,
-    bool? isTrashed,
-    AssetVisibility? visibility,
-  }) async {
+  Future<Response> getUserStatisticsAdminWithHttpInfo(String id, { bool? isFavorite, bool? isTrashed, AssetVisibility? visibility, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/admin/users/{id}/statistics'.replaceAll('{id}', id);
+    final apiPath = r'/admin/users/{id}/statistics'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -299,6 +268,7 @@ class UsersAdminApi {
 
     const contentTypes = <String>[];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -321,18 +291,8 @@ class UsersAdminApi {
   /// * [bool] isTrashed:
   ///
   /// * [AssetVisibility] visibility:
-  Future<AssetStatsResponseDto?> getUserStatisticsAdmin(
-    String id, {
-    bool? isFavorite,
-    bool? isTrashed,
-    AssetVisibility? visibility,
-  }) async {
-    final response = await getUserStatisticsAdminWithHttpInfo(
-      id,
-      isFavorite: isFavorite,
-      isTrashed: isTrashed,
-      visibility: visibility,
-    );
+  Future<AssetStatsResponseDto?> getUserStatisticsAdmin(String id, { bool? isFavorite, bool? isTrashed, AssetVisibility? visibility, }) async {
+    final response = await getUserStatisticsAdminWithHttpInfo(id,  isFavorite: isFavorite, isTrashed: isTrashed, visibility: visibility, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -340,10 +300,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetStatsResponseDto',
-      ) as AssetStatsResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetStatsResponseDto',) as AssetStatsResponseDto;
+    
     }
     return null;
   }
@@ -355,11 +313,10 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> restoreUserAdminWithHttpInfo(
-    String id,
-  ) async {
+  Future<Response> restoreUserAdminWithHttpInfo(String id,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/admin/users/{id}/restore'.replaceAll('{id}', id);
+    final apiPath = r'/admin/users/{id}/restore'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -369,6 +326,7 @@ class UsersAdminApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -386,12 +344,8 @@ class UsersAdminApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<UserAdminResponseDto?> restoreUserAdmin(
-    String id,
-  ) async {
-    final response = await restoreUserAdminWithHttpInfo(
-      id,
-    );
+  Future<UserAdminResponseDto?> restoreUserAdmin(String id,) async {
+    final response = await restoreUserAdminWithHttpInfo(id,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -399,10 +353,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'UserAdminResponseDto',
-      ) as UserAdminResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserAdminResponseDto',) as UserAdminResponseDto;
+    
     }
     return null;
   }
@@ -416,10 +368,7 @@ class UsersAdminApi {
   /// * [String] id:
   ///
   /// * [bool] withDeleted:
-  Future<Response> searchUsersAdminWithHttpInfo({
-    String? id,
-    bool? withDeleted,
-  }) async {
+  Future<Response> searchUsersAdminWithHttpInfo({ String? id, bool? withDeleted, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/admin/users';
 
@@ -439,6 +388,7 @@ class UsersAdminApi {
 
     const contentTypes = <String>[];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -457,14 +407,8 @@ class UsersAdminApi {
   /// * [String] id:
   ///
   /// * [bool] withDeleted:
-  Future<List<UserAdminResponseDto>?> searchUsersAdmin({
-    String? id,
-    bool? withDeleted,
-  }) async {
-    final response = await searchUsersAdminWithHttpInfo(
-      id: id,
-      withDeleted: withDeleted,
-    );
+  Future<List<UserAdminResponseDto>?> searchUsersAdmin({ String? id, bool? withDeleted, }) async {
+    final response = await searchUsersAdminWithHttpInfo( id: id, withDeleted: withDeleted, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -474,8 +418,9 @@ class UsersAdminApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<UserAdminResponseDto>') as List)
-          .cast<UserAdminResponseDto>()
-          .toList(growable: false);
+        .cast<UserAdminResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -489,12 +434,10 @@ class UsersAdminApi {
   /// * [String] id (required):
   ///
   /// * [UserAdminUpdateDto] userAdminUpdateDto (required):
-  Future<Response> updateUserAdminWithHttpInfo(
-    String id,
-    UserAdminUpdateDto userAdminUpdateDto,
-  ) async {
+  Future<Response> updateUserAdminWithHttpInfo(String id, UserAdminUpdateDto userAdminUpdateDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/admin/users/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/admin/users/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = userAdminUpdateDto;
@@ -505,6 +448,7 @@ class UsersAdminApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'PUT',
@@ -523,14 +467,8 @@ class UsersAdminApi {
   /// * [String] id (required):
   ///
   /// * [UserAdminUpdateDto] userAdminUpdateDto (required):
-  Future<UserAdminResponseDto?> updateUserAdmin(
-    String id,
-    UserAdminUpdateDto userAdminUpdateDto,
-  ) async {
-    final response = await updateUserAdminWithHttpInfo(
-      id,
-      userAdminUpdateDto,
-    );
+  Future<UserAdminResponseDto?> updateUserAdmin(String id, UserAdminUpdateDto userAdminUpdateDto,) async {
+    final response = await updateUserAdminWithHttpInfo(id, userAdminUpdateDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -538,10 +476,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'UserAdminResponseDto',
-      ) as UserAdminResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserAdminResponseDto',) as UserAdminResponseDto;
+    
     }
     return null;
   }
@@ -555,12 +491,10 @@ class UsersAdminApi {
   /// * [String] id (required):
   ///
   /// * [UserPreferencesUpdateDto] userPreferencesUpdateDto (required):
-  Future<Response> updateUserPreferencesAdminWithHttpInfo(
-    String id,
-    UserPreferencesUpdateDto userPreferencesUpdateDto,
-  ) async {
+  Future<Response> updateUserPreferencesAdminWithHttpInfo(String id, UserPreferencesUpdateDto userPreferencesUpdateDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/admin/users/{id}/preferences'.replaceAll('{id}', id);
+    final apiPath = r'/admin/users/{id}/preferences'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = userPreferencesUpdateDto;
@@ -570,6 +504,7 @@ class UsersAdminApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -589,14 +524,8 @@ class UsersAdminApi {
   /// * [String] id (required):
   ///
   /// * [UserPreferencesUpdateDto] userPreferencesUpdateDto (required):
-  Future<UserPreferencesResponseDto?> updateUserPreferencesAdmin(
-    String id,
-    UserPreferencesUpdateDto userPreferencesUpdateDto,
-  ) async {
-    final response = await updateUserPreferencesAdminWithHttpInfo(
-      id,
-      userPreferencesUpdateDto,
-    );
+  Future<UserPreferencesResponseDto?> updateUserPreferencesAdmin(String id, UserPreferencesUpdateDto userPreferencesUpdateDto,) async {
+    final response = await updateUserPreferencesAdminWithHttpInfo(id, userPreferencesUpdateDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -604,10 +533,8 @@ class UsersAdminApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'UserPreferencesResponseDto',
-      ) as UserPreferencesResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserPreferencesResponseDto',) as UserPreferencesResponseDto;
+    
     }
     return null;
   }

@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AssetsApi {
   AssetsApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -24,9 +25,7 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetBulkUploadCheckDto] assetBulkUploadCheckDto (required):
-  Future<Response> checkBulkUploadWithHttpInfo(
-    AssetBulkUploadCheckDto assetBulkUploadCheckDto,
-  ) async {
+  Future<Response> checkBulkUploadWithHttpInfo(AssetBulkUploadCheckDto assetBulkUploadCheckDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets/bulk-upload-check';
 
@@ -38,6 +37,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -57,12 +57,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetBulkUploadCheckDto] assetBulkUploadCheckDto (required):
-  Future<AssetBulkUploadCheckResponseDto?> checkBulkUpload(
-    AssetBulkUploadCheckDto assetBulkUploadCheckDto,
-  ) async {
-    final response = await checkBulkUploadWithHttpInfo(
-      assetBulkUploadCheckDto,
-    );
+  Future<AssetBulkUploadCheckResponseDto?> checkBulkUpload(AssetBulkUploadCheckDto assetBulkUploadCheckDto,) async {
+    final response = await checkBulkUploadWithHttpInfo(assetBulkUploadCheckDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -70,10 +66,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetBulkUploadCheckResponseDto',
-      ) as AssetBulkUploadCheckResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetBulkUploadCheckResponseDto',) as AssetBulkUploadCheckResponseDto;
+    
     }
     return null;
   }
@@ -87,9 +81,7 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [CheckExistingAssetsDto] checkExistingAssetsDto (required):
-  Future<Response> checkExistingAssetsWithHttpInfo(
-    CheckExistingAssetsDto checkExistingAssetsDto,
-  ) async {
+  Future<Response> checkExistingAssetsWithHttpInfo(CheckExistingAssetsDto checkExistingAssetsDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets/exist';
 
@@ -101,6 +93,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -120,12 +113,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [CheckExistingAssetsDto] checkExistingAssetsDto (required):
-  Future<CheckExistingAssetsResponseDto?> checkExistingAssets(
-    CheckExistingAssetsDto checkExistingAssetsDto,
-  ) async {
-    final response = await checkExistingAssetsWithHttpInfo(
-      checkExistingAssetsDto,
-    );
+  Future<CheckExistingAssetsResponseDto?> checkExistingAssets(CheckExistingAssetsDto checkExistingAssetsDto,) async {
+    final response = await checkExistingAssetsWithHttpInfo(checkExistingAssetsDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -133,10 +122,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'CheckExistingAssetsResponseDto',
-      ) as CheckExistingAssetsResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CheckExistingAssetsResponseDto',) as CheckExistingAssetsResponseDto;
+    
     }
     return null;
   }
@@ -150,12 +137,11 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [AssetMetadataKey] key (required):
-  Future<Response> deleteAssetMetadataWithHttpInfo(
-    String id,
-    AssetMetadataKey key,
-  ) async {
+  Future<Response> deleteAssetMetadataWithHttpInfo(String id, AssetMetadataKey key,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/metadata/{key}'.replaceAll('{id}', id).replaceAll('{key}', key.toString());
+    final apiPath = r'/assets/{id}/metadata/{key}'
+      .replaceAll('{id}', id)
+      .replaceAll('{key}', key.toString());
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -165,6 +151,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -184,14 +171,8 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [AssetMetadataKey] key (required):
-  Future<void> deleteAssetMetadata(
-    String id,
-    AssetMetadataKey key,
-  ) async {
-    final response = await deleteAssetMetadataWithHttpInfo(
-      id,
-      key,
-    );
+  Future<void> deleteAssetMetadata(String id, AssetMetadataKey key,) async {
+    final response = await deleteAssetMetadataWithHttpInfo(id, key,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -204,9 +185,7 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetBulkDeleteDto] assetBulkDeleteDto (required):
-  Future<Response> deleteAssetsWithHttpInfo(
-    AssetBulkDeleteDto assetBulkDeleteDto,
-  ) async {
+  Future<Response> deleteAssetsWithHttpInfo(AssetBulkDeleteDto assetBulkDeleteDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets';
 
@@ -219,6 +198,7 @@ class AssetsApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'DELETE',
@@ -235,12 +215,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetBulkDeleteDto] assetBulkDeleteDto (required):
-  Future<void> deleteAssets(
-    AssetBulkDeleteDto assetBulkDeleteDto,
-  ) async {
-    final response = await deleteAssetsWithHttpInfo(
-      assetBulkDeleteDto,
-    );
+  Future<void> deleteAssets(AssetBulkDeleteDto assetBulkDeleteDto,) async {
+    final response = await deleteAssetsWithHttpInfo(assetBulkDeleteDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -257,13 +233,10 @@ class AssetsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<Response> downloadAssetWithHttpInfo(
-    String id, {
-    String? key,
-    String? slug,
-  }) async {
+  Future<Response> downloadAssetWithHttpInfo(String id, { String? key, String? slug, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/original'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}/original'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -281,6 +254,7 @@ class AssetsApi {
 
     const contentTypes = <String>[];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -301,16 +275,8 @@ class AssetsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<MultipartFile?> downloadAsset(
-    String id, {
-    String? key,
-    String? slug,
-  }) async {
-    final response = await downloadAssetWithHttpInfo(
-      id,
-      key: key,
-      slug: slug,
-    );
+  Future<MultipartFile?> downloadAsset(String id, { String? key, String? slug, }) async {
+    final response = await downloadAssetWithHttpInfo(id,  key: key, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -318,10 +284,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'MultipartFile',
-      ) as MultipartFile;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'MultipartFile',) as MultipartFile;
+    
     }
     return null;
   }
@@ -335,11 +299,10 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [String] deviceId (required):
-  Future<Response> getAllUserAssetsByDeviceIdWithHttpInfo(
-    String deviceId,
-  ) async {
+  Future<Response> getAllUserAssetsByDeviceIdWithHttpInfo(String deviceId,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/device/{deviceId}'.replaceAll('{deviceId}', deviceId);
+    final apiPath = r'/assets/device/{deviceId}'
+      .replaceAll('{deviceId}', deviceId);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -349,6 +312,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -368,12 +332,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [String] deviceId (required):
-  Future<List<String>?> getAllUserAssetsByDeviceId(
-    String deviceId,
-  ) async {
-    final response = await getAllUserAssetsByDeviceIdWithHttpInfo(
-      deviceId,
-    );
+  Future<List<String>?> getAllUserAssetsByDeviceId(String deviceId,) async {
+    final response = await getAllUserAssetsByDeviceIdWithHttpInfo(deviceId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -383,8 +343,9 @@ class AssetsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<String>') as List)
-          .cast<String>()
-          .toList(growable: false);
+        .cast<String>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -400,13 +361,10 @@ class AssetsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<Response> getAssetInfoWithHttpInfo(
-    String id, {
-    String? key,
-    String? slug,
-  }) async {
+  Future<Response> getAssetInfoWithHttpInfo(String id, { String? key, String? slug, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -424,6 +382,7 @@ class AssetsApi {
 
     const contentTypes = <String>[];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -444,16 +403,8 @@ class AssetsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<AssetResponseDto?> getAssetInfo(
-    String id, {
-    String? key,
-    String? slug,
-  }) async {
-    final response = await getAssetInfoWithHttpInfo(
-      id,
-      key: key,
-      slug: slug,
-    );
+  Future<AssetResponseDto?> getAssetInfo(String id, { String? key, String? slug, }) async {
+    final response = await getAssetInfoWithHttpInfo(id,  key: key, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -461,10 +412,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetResponseDto',
-      ) as AssetResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetResponseDto',) as AssetResponseDto;
+    
     }
     return null;
   }
@@ -476,11 +425,10 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> getAssetMetadataWithHttpInfo(
-    String id,
-  ) async {
+  Future<Response> getAssetMetadataWithHttpInfo(String id,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/metadata'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}/metadata'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -490,6 +438,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -507,12 +456,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<List<AssetMetadataResponseDto>?> getAssetMetadata(
-    String id,
-  ) async {
-    final response = await getAssetMetadataWithHttpInfo(
-      id,
-    );
+  Future<List<AssetMetadataResponseDto>?> getAssetMetadata(String id,) async {
+    final response = await getAssetMetadataWithHttpInfo(id,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -522,8 +467,9 @@ class AssetsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<AssetMetadataResponseDto>') as List)
-          .cast<AssetMetadataResponseDto>()
-          .toList(growable: false);
+        .cast<AssetMetadataResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -537,12 +483,11 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [AssetMetadataKey] key (required):
-  Future<Response> getAssetMetadataByKeyWithHttpInfo(
-    String id,
-    AssetMetadataKey key,
-  ) async {
+  Future<Response> getAssetMetadataByKeyWithHttpInfo(String id, AssetMetadataKey key,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/metadata/{key}'.replaceAll('{id}', id).replaceAll('{key}', key.toString());
+    final apiPath = r'/assets/{id}/metadata/{key}'
+      .replaceAll('{id}', id)
+      .replaceAll('{key}', key.toString());
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -552,6 +497,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -571,14 +517,8 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [AssetMetadataKey] key (required):
-  Future<AssetMetadataResponseDto?> getAssetMetadataByKey(
-    String id,
-    AssetMetadataKey key,
-  ) async {
-    final response = await getAssetMetadataByKeyWithHttpInfo(
-      id,
-      key,
-    );
+  Future<AssetMetadataResponseDto?> getAssetMetadataByKey(String id, AssetMetadataKey key,) async {
+    final response = await getAssetMetadataByKeyWithHttpInfo(id, key,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -586,10 +526,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetMetadataResponseDto',
-      ) as AssetMetadataResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetMetadataResponseDto',) as AssetMetadataResponseDto;
+    
     }
     return null;
   }
@@ -605,11 +543,7 @@ class AssetsApi {
   /// * [bool] isTrashed:
   ///
   /// * [AssetVisibility] visibility:
-  Future<Response> getAssetStatisticsWithHttpInfo({
-    bool? isFavorite,
-    bool? isTrashed,
-    AssetVisibility? visibility,
-  }) async {
+  Future<Response> getAssetStatisticsWithHttpInfo({ bool? isFavorite, bool? isTrashed, AssetVisibility? visibility, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets/statistics';
 
@@ -632,6 +566,7 @@ class AssetsApi {
 
     const contentTypes = <String>[];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -652,16 +587,8 @@ class AssetsApi {
   /// * [bool] isTrashed:
   ///
   /// * [AssetVisibility] visibility:
-  Future<AssetStatsResponseDto?> getAssetStatistics({
-    bool? isFavorite,
-    bool? isTrashed,
-    AssetVisibility? visibility,
-  }) async {
-    final response = await getAssetStatisticsWithHttpInfo(
-      isFavorite: isFavorite,
-      isTrashed: isTrashed,
-      visibility: visibility,
-    );
+  Future<AssetStatsResponseDto?> getAssetStatistics({ bool? isFavorite, bool? isTrashed, AssetVisibility? visibility, }) async {
+    final response = await getAssetStatisticsWithHttpInfo( isFavorite: isFavorite, isTrashed: isTrashed, visibility: visibility, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -669,10 +596,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetStatsResponseDto',
-      ) as AssetStatsResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetStatsResponseDto',) as AssetStatsResponseDto;
+    
     }
     return null;
   }
@@ -684,9 +609,7 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [num] count:
-  Future<Response> getRandomWithHttpInfo({
-    num? count,
-  }) async {
+  Future<Response> getRandomWithHttpInfo({ num? count, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets/random';
 
@@ -702,6 +625,7 @@ class AssetsApi {
     }
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -719,12 +643,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [num] count:
-  Future<List<AssetResponseDto>?> getRandom({
-    num? count,
-  }) async {
-    final response = await getRandomWithHttpInfo(
-      count: count,
-    );
+  Future<List<AssetResponseDto>?> getRandom({ num? count, }) async {
+    final response = await getRandomWithHttpInfo( count: count, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -734,8 +654,9 @@ class AssetsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<AssetResponseDto>') as List)
-          .cast<AssetResponseDto>()
-          .toList(growable: false);
+        .cast<AssetResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -751,13 +672,10 @@ class AssetsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<Response> playAssetVideoWithHttpInfo(
-    String id, {
-    String? key,
-    String? slug,
-  }) async {
+  Future<Response> playAssetVideoWithHttpInfo(String id, { String? key, String? slug, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/video/playback'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}/video/playback'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -775,6 +693,7 @@ class AssetsApi {
 
     const contentTypes = <String>[];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -795,16 +714,8 @@ class AssetsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<MultipartFile?> playAssetVideo(
-    String id, {
-    String? key,
-    String? slug,
-  }) async {
-    final response = await playAssetVideoWithHttpInfo(
-      id,
-      key: key,
-      slug: slug,
-    );
+  Future<MultipartFile?> playAssetVideo(String id, { String? key, String? slug, }) async {
+    final response = await playAssetVideoWithHttpInfo(id,  key: key, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -812,10 +723,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'MultipartFile',
-      ) as MultipartFile;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'MultipartFile',) as MultipartFile;
+    
     }
     return null;
   }
@@ -847,20 +756,10 @@ class AssetsApi {
   /// * [String] duration:
   ///
   /// * [String] filename:
-  Future<Response> replaceAssetWithHttpInfo(
-    String id,
-    MultipartFile assetData,
-    String deviceAssetId,
-    String deviceId,
-    DateTime fileCreatedAt,
-    DateTime fileModifiedAt, {
-    String? key,
-    String? slug,
-    String? duration,
-    String? filename,
-  }) async {
+  Future<Response> replaceAssetWithHttpInfo(String id, MultipartFile assetData, String deviceAssetId, String deviceId, DateTime fileCreatedAt, DateTime fileModifiedAt, { String? key, String? slug, String? duration, String? filename, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/original'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}/original'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -949,30 +848,8 @@ class AssetsApi {
   /// * [String] duration:
   ///
   /// * [String] filename:
-  Future<AssetMediaResponseDto?> replaceAsset(
-    String id,
-    MultipartFile assetData,
-    String deviceAssetId,
-    String deviceId,
-    DateTime fileCreatedAt,
-    DateTime fileModifiedAt, {
-    String? key,
-    String? slug,
-    String? duration,
-    String? filename,
-  }) async {
-    final response = await replaceAssetWithHttpInfo(
-      id,
-      assetData,
-      deviceAssetId,
-      deviceId,
-      fileCreatedAt,
-      fileModifiedAt,
-      key: key,
-      slug: slug,
-      duration: duration,
-      filename: filename,
-    );
+  Future<AssetMediaResponseDto?> replaceAsset(String id, MultipartFile assetData, String deviceAssetId, String deviceId, DateTime fileCreatedAt, DateTime fileModifiedAt, { String? key, String? slug, String? duration, String? filename, }) async {
+    final response = await replaceAssetWithHttpInfo(id, assetData, deviceAssetId, deviceId, fileCreatedAt, fileModifiedAt,  key: key, slug: slug, duration: duration, filename: filename, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -980,10 +857,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetMediaResponseDto',
-      ) as AssetMediaResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetMediaResponseDto',) as AssetMediaResponseDto;
+    
     }
     return null;
   }
@@ -992,9 +867,7 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetJobsDto] assetJobsDto (required):
-  Future<Response> runAssetJobsWithHttpInfo(
-    AssetJobsDto assetJobsDto,
-  ) async {
+  Future<Response> runAssetJobsWithHttpInfo(AssetJobsDto assetJobsDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets/jobs';
 
@@ -1006,6 +879,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -1021,12 +895,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetJobsDto] assetJobsDto (required):
-  Future<void> runAssetJobs(
-    AssetJobsDto assetJobsDto,
-  ) async {
-    final response = await runAssetJobsWithHttpInfo(
-      assetJobsDto,
-    );
+  Future<void> runAssetJobs(AssetJobsDto assetJobsDto,) async {
+    final response = await runAssetJobsWithHttpInfo(assetJobsDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1041,12 +911,10 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [UpdateAssetDto] updateAssetDto (required):
-  Future<Response> updateAssetWithHttpInfo(
-    String id,
-    UpdateAssetDto updateAssetDto,
-  ) async {
+  Future<Response> updateAssetWithHttpInfo(String id, UpdateAssetDto updateAssetDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = updateAssetDto;
@@ -1056,6 +924,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -1075,14 +944,8 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [UpdateAssetDto] updateAssetDto (required):
-  Future<AssetResponseDto?> updateAsset(
-    String id,
-    UpdateAssetDto updateAssetDto,
-  ) async {
-    final response = await updateAssetWithHttpInfo(
-      id,
-      updateAssetDto,
-    );
+  Future<AssetResponseDto?> updateAsset(String id, UpdateAssetDto updateAssetDto,) async {
+    final response = await updateAssetWithHttpInfo(id, updateAssetDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1090,10 +953,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetResponseDto',
-      ) as AssetResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetResponseDto',) as AssetResponseDto;
+    
     }
     return null;
   }
@@ -1107,12 +968,10 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [AssetMetadataUpsertDto] assetMetadataUpsertDto (required):
-  Future<Response> updateAssetMetadataWithHttpInfo(
-    String id,
-    AssetMetadataUpsertDto assetMetadataUpsertDto,
-  ) async {
+  Future<Response> updateAssetMetadataWithHttpInfo(String id, AssetMetadataUpsertDto assetMetadataUpsertDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/metadata'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}/metadata'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = assetMetadataUpsertDto;
@@ -1122,6 +981,7 @@ class AssetsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -1141,14 +1001,8 @@ class AssetsApi {
   /// * [String] id (required):
   ///
   /// * [AssetMetadataUpsertDto] assetMetadataUpsertDto (required):
-  Future<List<AssetMetadataResponseDto>?> updateAssetMetadata(
-    String id,
-    AssetMetadataUpsertDto assetMetadataUpsertDto,
-  ) async {
-    final response = await updateAssetMetadataWithHttpInfo(
-      id,
-      assetMetadataUpsertDto,
-    );
+  Future<List<AssetMetadataResponseDto>?> updateAssetMetadata(String id, AssetMetadataUpsertDto assetMetadataUpsertDto,) async {
+    final response = await updateAssetMetadataWithHttpInfo(id, assetMetadataUpsertDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1158,8 +1012,9 @@ class AssetsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<AssetMetadataResponseDto>') as List)
-          .cast<AssetMetadataResponseDto>()
-          .toList(growable: false);
+        .cast<AssetMetadataResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -1171,9 +1026,7 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetBulkUpdateDto] assetBulkUpdateDto (required):
-  Future<Response> updateAssetsWithHttpInfo(
-    AssetBulkUpdateDto assetBulkUpdateDto,
-  ) async {
+  Future<Response> updateAssetsWithHttpInfo(AssetBulkUpdateDto assetBulkUpdateDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets';
 
@@ -1186,6 +1039,7 @@ class AssetsApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'PUT',
@@ -1202,12 +1056,8 @@ class AssetsApi {
   /// Parameters:
   ///
   /// * [AssetBulkUpdateDto] assetBulkUpdateDto (required):
-  Future<void> updateAssets(
-    AssetBulkUpdateDto assetBulkUpdateDto,
-  ) async {
-    final response = await updateAssetsWithHttpInfo(
-      assetBulkUpdateDto,
-    );
+  Future<void> updateAssets(AssetBulkUpdateDto assetBulkUpdateDto,) async {
+    final response = await updateAssetsWithHttpInfo(assetBulkUpdateDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1249,23 +1099,7 @@ class AssetsApi {
   /// * [MultipartFile] sidecarData:
   ///
   /// * [AssetVisibility] visibility:
-  Future<Response> uploadAssetWithHttpInfo(
-    MultipartFile assetData,
-    String deviceAssetId,
-    String deviceId,
-    DateTime fileCreatedAt,
-    DateTime fileModifiedAt,
-    List<AssetMetadataUpsertItemDto> metadata, {
-    String? key,
-    String? slug,
-    String? xImmichChecksum,
-    String? duration,
-    String? filename,
-    bool? isFavorite,
-    String? livePhotoVideoId,
-    MultipartFile? sidecarData,
-    AssetVisibility? visibility,
-  }) async {
+  Future<Response> uploadAssetWithHttpInfo(MultipartFile assetData, String deviceAssetId, String deviceId, DateTime fileCreatedAt, DateTime fileModifiedAt, List<AssetMetadataUpsertItemDto> metadata, { String? key, String? slug, String? xImmichChecksum, String? duration, String? filename, bool? isFavorite, String? livePhotoVideoId, MultipartFile? sidecarData, AssetVisibility? visibility, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets';
 
@@ -1390,40 +1224,8 @@ class AssetsApi {
   /// * [MultipartFile] sidecarData:
   ///
   /// * [AssetVisibility] visibility:
-  Future<AssetMediaResponseDto?> uploadAsset(
-    MultipartFile assetData,
-    String deviceAssetId,
-    String deviceId,
-    DateTime fileCreatedAt,
-    DateTime fileModifiedAt,
-    List<AssetMetadataUpsertItemDto> metadata, {
-    String? key,
-    String? slug,
-    String? xImmichChecksum,
-    String? duration,
-    String? filename,
-    bool? isFavorite,
-    String? livePhotoVideoId,
-    MultipartFile? sidecarData,
-    AssetVisibility? visibility,
-  }) async {
-    final response = await uploadAssetWithHttpInfo(
-      assetData,
-      deviceAssetId,
-      deviceId,
-      fileCreatedAt,
-      fileModifiedAt,
-      metadata,
-      key: key,
-      slug: slug,
-      xImmichChecksum: xImmichChecksum,
-      duration: duration,
-      filename: filename,
-      isFavorite: isFavorite,
-      livePhotoVideoId: livePhotoVideoId,
-      sidecarData: sidecarData,
-      visibility: visibility,
-    );
+  Future<AssetMediaResponseDto?> uploadAsset(MultipartFile assetData, String deviceAssetId, String deviceId, DateTime fileCreatedAt, DateTime fileModifiedAt, List<AssetMetadataUpsertItemDto> metadata, { String? key, String? slug, String? xImmichChecksum, String? duration, String? filename, bool? isFavorite, String? livePhotoVideoId, MultipartFile? sidecarData, AssetVisibility? visibility, }) async {
+    final response = await uploadAssetWithHttpInfo(assetData, deviceAssetId, deviceId, fileCreatedAt, fileModifiedAt, metadata,  key: key, slug: slug, xImmichChecksum: xImmichChecksum, duration: duration, filename: filename, isFavorite: isFavorite, livePhotoVideoId: livePhotoVideoId, sidecarData: sidecarData, visibility: visibility, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1431,10 +1233,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetMediaResponseDto',
-      ) as AssetMediaResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetMediaResponseDto',) as AssetMediaResponseDto;
+    
     }
     return null;
   }
@@ -1452,14 +1252,10 @@ class AssetsApi {
   /// * [AssetMediaSize] size:
   ///
   /// * [String] slug:
-  Future<Response> viewAssetWithHttpInfo(
-    String id, {
-    String? key,
-    AssetMediaSize? size,
-    String? slug,
-  }) async {
+  Future<Response> viewAssetWithHttpInfo(String id, { String? key, AssetMediaSize? size, String? slug, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/thumbnail'.replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}/thumbnail'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -1479,6 +1275,7 @@ class AssetsApi {
     }
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -1502,18 +1299,8 @@ class AssetsApi {
   /// * [AssetMediaSize] size:
   ///
   /// * [String] slug:
-  Future<MultipartFile?> viewAsset(
-    String id, {
-    String? key,
-    AssetMediaSize? size,
-    String? slug,
-  }) async {
-    final response = await viewAssetWithHttpInfo(
-      id,
-      key: key,
-      size: size,
-      slug: slug,
-    );
+  Future<MultipartFile?> viewAsset(String id, { String? key, AssetMediaSize? size, String? slug, }) async {
+    final response = await viewAssetWithHttpInfo(id,  key: key, size: size, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1521,10 +1308,8 @@ class AssetsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'MultipartFile',
-      ) as MultipartFile;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'MultipartFile',) as MultipartFile;
+    
     }
     return null;
   }

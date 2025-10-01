@@ -19,19 +19,20 @@ class SyncPersonDeleteV1 {
   String personId;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is SyncPersonDeleteV1 && other.personId == personId;
+  bool operator ==(Object other) => identical(this, other) || other is SyncPersonDeleteV1 &&
+    other.personId == personId;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (personId.hashCode);
+    // ignore: unnecessary_parenthesis
+    (personId.hashCode);
 
   @override
   String toString() => 'SyncPersonDeleteV1[personId=$personId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'personId'] = this.personId;
+      json[r'personId'] = this.personId;
     return json;
   }
 
@@ -50,10 +51,7 @@ class SyncPersonDeleteV1 {
     return null;
   }
 
-  static List<SyncPersonDeleteV1> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<SyncPersonDeleteV1> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SyncPersonDeleteV1>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -81,19 +79,13 @@ class SyncPersonDeleteV1 {
   }
 
   // maps a json object with a list of SyncPersonDeleteV1-objects as value to a dart map
-  static Map<String, List<SyncPersonDeleteV1>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<SyncPersonDeleteV1>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<SyncPersonDeleteV1>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = SyncPersonDeleteV1.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = SyncPersonDeleteV1.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -104,3 +96,4 @@ class SyncPersonDeleteV1 {
     'personId',
   };
 }
+

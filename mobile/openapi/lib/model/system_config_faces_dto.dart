@@ -19,19 +19,20 @@ class SystemConfigFacesDto {
   bool import_;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is SystemConfigFacesDto && other.import_ == import_;
+  bool operator ==(Object other) => identical(this, other) || other is SystemConfigFacesDto &&
+    other.import_ == import_;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (import_.hashCode);
+    // ignore: unnecessary_parenthesis
+    (import_.hashCode);
 
   @override
   String toString() => 'SystemConfigFacesDto[import_=$import_]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'import'] = this.import_;
+      json[r'import'] = this.import_;
     return json;
   }
 
@@ -50,10 +51,7 @@ class SystemConfigFacesDto {
     return null;
   }
 
-  static List<SystemConfigFacesDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<SystemConfigFacesDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SystemConfigFacesDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -81,19 +79,13 @@ class SystemConfigFacesDto {
   }
 
   // maps a json object with a list of SystemConfigFacesDto-objects as value to a dart map
-  static Map<String, List<SystemConfigFacesDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<SystemConfigFacesDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<SystemConfigFacesDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = SystemConfigFacesDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = SystemConfigFacesDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -104,3 +96,4 @@ class SystemConfigFacesDto {
     'import',
   };
 }
+

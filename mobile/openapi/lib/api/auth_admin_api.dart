@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AuthAdminApi {
   AuthAdminApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -30,6 +31,7 @@ class AuthAdminApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,

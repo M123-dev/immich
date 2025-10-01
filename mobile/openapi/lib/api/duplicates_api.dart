@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class DuplicatesApi {
   DuplicatesApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -22,11 +23,10 @@ class DuplicatesApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> deleteDuplicateWithHttpInfo(
-    String id,
-  ) async {
+  Future<Response> deleteDuplicateWithHttpInfo(String id,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/duplicates/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/duplicates/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -36,6 +36,7 @@ class DuplicatesApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -53,12 +54,8 @@ class DuplicatesApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<void> deleteDuplicate(
-    String id,
-  ) async {
-    final response = await deleteDuplicateWithHttpInfo(
-      id,
-    );
+  Future<void> deleteDuplicate(String id,) async {
+    final response = await deleteDuplicateWithHttpInfo(id,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -71,9 +68,7 @@ class DuplicatesApi {
   /// Parameters:
   ///
   /// * [BulkIdsDto] bulkIdsDto (required):
-  Future<Response> deleteDuplicatesWithHttpInfo(
-    BulkIdsDto bulkIdsDto,
-  ) async {
+  Future<Response> deleteDuplicatesWithHttpInfo(BulkIdsDto bulkIdsDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/duplicates';
 
@@ -85,6 +80,7 @@ class DuplicatesApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -102,12 +98,8 @@ class DuplicatesApi {
   /// Parameters:
   ///
   /// * [BulkIdsDto] bulkIdsDto (required):
-  Future<void> deleteDuplicates(
-    BulkIdsDto bulkIdsDto,
-  ) async {
-    final response = await deleteDuplicatesWithHttpInfo(
-      bulkIdsDto,
-    );
+  Future<void> deleteDuplicates(BulkIdsDto bulkIdsDto,) async {
+    final response = await deleteDuplicatesWithHttpInfo(bulkIdsDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -128,6 +120,7 @@ class DuplicatesApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -152,8 +145,9 @@ class DuplicatesApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<DuplicateResponseDto>') as List)
-          .cast<DuplicateResponseDto>()
-          .toList(growable: false);
+        .cast<DuplicateResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }

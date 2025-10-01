@@ -22,25 +22,26 @@ class NotificationUpdateAllDto {
   DateTime? readAt;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is NotificationUpdateAllDto && _deepEquality.equals(other.ids, ids) && other.readAt == readAt;
+  bool operator ==(Object other) => identical(this, other) || other is NotificationUpdateAllDto &&
+    _deepEquality.equals(other.ids, ids) &&
+    other.readAt == readAt;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (ids.hashCode) + (readAt == null ? 0 : readAt!.hashCode);
+    // ignore: unnecessary_parenthesis
+    (ids.hashCode) +
+    (readAt == null ? 0 : readAt!.hashCode);
 
   @override
   String toString() => 'NotificationUpdateAllDto[ids=$ids, readAt=$readAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'ids'] = this.ids;
+      json[r'ids'] = this.ids;
     if (this.readAt != null) {
       json[r'readAt'] = this.readAt!.toUtc().toIso8601String();
     } else {
-      //  json[r'readAt'] = null;
+    //  json[r'readAt'] = null;
     }
     return json;
   }
@@ -54,17 +55,16 @@ class NotificationUpdateAllDto {
       final json = value.cast<String, dynamic>();
 
       return NotificationUpdateAllDto(
-        ids: json[r'ids'] is Iterable ? (json[r'ids'] as Iterable).cast<String>().toList(growable: false) : const [],
+        ids: json[r'ids'] is Iterable
+            ? (json[r'ids'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
         readAt: mapDateTime(json, r'readAt', r''),
       );
     }
     return null;
   }
 
-  static List<NotificationUpdateAllDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<NotificationUpdateAllDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <NotificationUpdateAllDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -92,19 +92,13 @@ class NotificationUpdateAllDto {
   }
 
   // maps a json object with a list of NotificationUpdateAllDto-objects as value to a dart map
-  static Map<String, List<NotificationUpdateAllDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<NotificationUpdateAllDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<NotificationUpdateAllDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = NotificationUpdateAllDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = NotificationUpdateAllDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -115,3 +109,4 @@ class NotificationUpdateAllDto {
     'ids',
   };
 }
+

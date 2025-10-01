@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AlbumUserRole {
   /// Instantiate a new enum with the provided [value].
   const AlbumUserRole._(this.value);
@@ -33,10 +34,7 @@ class AlbumUserRole {
 
   static AlbumUserRole? fromJson(dynamic value) => AlbumUserRoleTypeTransformer().decode(value);
 
-  static List<AlbumUserRole> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<AlbumUserRole> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AlbumUserRole>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -70,10 +68,8 @@ class AlbumUserRoleTypeTransformer {
   AlbumUserRole? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'editor':
-          return AlbumUserRole.editor;
-        case r'viewer':
-          return AlbumUserRole.viewer;
+        case r'editor': return AlbumUserRole.editor;
+        case r'viewer': return AlbumUserRole.viewer;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -86,3 +82,4 @@ class AlbumUserRoleTypeTransformer {
   /// Singleton [AlbumUserRoleTypeTransformer] instance.
   static AlbumUserRoleTypeTransformer? _instance;
 }
+

@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class MapApi {
   MapApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -29,14 +30,7 @@ class MapApi {
   /// * [bool] withPartners:
   ///
   /// * [bool] withSharedAlbums:
-  Future<Response> getMapMarkersWithHttpInfo({
-    bool? isArchived,
-    bool? isFavorite,
-    DateTime? fileCreatedAfter,
-    DateTime? fileCreatedBefore,
-    bool? withPartners,
-    bool? withSharedAlbums,
-  }) async {
+  Future<Response> getMapMarkersWithHttpInfo({ bool? isArchived, bool? isFavorite, DateTime? fileCreatedAfter, DateTime? fileCreatedBefore, bool? withPartners, bool? withSharedAlbums, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/map/markers';
 
@@ -68,6 +62,7 @@ class MapApi {
 
     const contentTypes = <String>[];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -92,22 +87,8 @@ class MapApi {
   /// * [bool] withPartners:
   ///
   /// * [bool] withSharedAlbums:
-  Future<List<MapMarkerResponseDto>?> getMapMarkers({
-    bool? isArchived,
-    bool? isFavorite,
-    DateTime? fileCreatedAfter,
-    DateTime? fileCreatedBefore,
-    bool? withPartners,
-    bool? withSharedAlbums,
-  }) async {
-    final response = await getMapMarkersWithHttpInfo(
-      isArchived: isArchived,
-      isFavorite: isFavorite,
-      fileCreatedAfter: fileCreatedAfter,
-      fileCreatedBefore: fileCreatedBefore,
-      withPartners: withPartners,
-      withSharedAlbums: withSharedAlbums,
-    );
+  Future<List<MapMarkerResponseDto>?> getMapMarkers({ bool? isArchived, bool? isFavorite, DateTime? fileCreatedAfter, DateTime? fileCreatedBefore, bool? withPartners, bool? withSharedAlbums, }) async {
+    final response = await getMapMarkersWithHttpInfo( isArchived: isArchived, isFavorite: isFavorite, fileCreatedAfter: fileCreatedAfter, fileCreatedBefore: fileCreatedBefore, withPartners: withPartners, withSharedAlbums: withSharedAlbums, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -117,8 +98,9 @@ class MapApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<MapMarkerResponseDto>') as List)
-          .cast<MapMarkerResponseDto>()
-          .toList(growable: false);
+        .cast<MapMarkerResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -129,10 +111,7 @@ class MapApi {
   /// * [double] lat (required):
   ///
   /// * [double] lon (required):
-  Future<Response> reverseGeocodeWithHttpInfo(
-    double lat,
-    double lon,
-  ) async {
+  Future<Response> reverseGeocodeWithHttpInfo(double lat, double lon,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/map/reverse-geocode';
 
@@ -143,10 +122,11 @@ class MapApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    queryParams.addAll(_queryParams('', 'lat', lat));
-    queryParams.addAll(_queryParams('', 'lon', lon));
+      queryParams.addAll(_queryParams('', 'lat', lat));
+      queryParams.addAll(_queryParams('', 'lon', lon));
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -164,14 +144,8 @@ class MapApi {
   /// * [double] lat (required):
   ///
   /// * [double] lon (required):
-  Future<List<MapReverseGeocodeResponseDto>?> reverseGeocode(
-    double lat,
-    double lon,
-  ) async {
-    final response = await reverseGeocodeWithHttpInfo(
-      lat,
-      lon,
-    );
+  Future<List<MapReverseGeocodeResponseDto>?> reverseGeocode(double lat, double lon,) async {
+    final response = await reverseGeocodeWithHttpInfo(lat, lon,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -181,8 +155,9 @@ class MapApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<MapReverseGeocodeResponseDto>') as List)
-          .cast<MapReverseGeocodeResponseDto>()
-          .toList(growable: false);
+        .cast<MapReverseGeocodeResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }

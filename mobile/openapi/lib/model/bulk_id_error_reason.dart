@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class BulkIdErrorReason {
   /// Instantiate a new enum with the provided [value].
   const BulkIdErrorReason._(this.value);
@@ -37,10 +38,7 @@ class BulkIdErrorReason {
 
   static BulkIdErrorReason? fromJson(dynamic value) => BulkIdErrorReasonTypeTransformer().decode(value);
 
-  static List<BulkIdErrorReason> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<BulkIdErrorReason> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <BulkIdErrorReason>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -74,14 +72,10 @@ class BulkIdErrorReasonTypeTransformer {
   BulkIdErrorReason? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'duplicate':
-          return BulkIdErrorReason.duplicate;
-        case r'no_permission':
-          return BulkIdErrorReason.noPermission;
-        case r'not_found':
-          return BulkIdErrorReason.notFound;
-        case r'unknown':
-          return BulkIdErrorReason.unknown;
+        case r'duplicate': return BulkIdErrorReason.duplicate;
+        case r'no_permission': return BulkIdErrorReason.noPermission;
+        case r'not_found': return BulkIdErrorReason.notFound;
+        case r'unknown': return BulkIdErrorReason.unknown;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -94,3 +88,4 @@ class BulkIdErrorReasonTypeTransformer {
   /// Singleton [BulkIdErrorReasonTypeTransformer] instance.
   static BulkIdErrorReasonTypeTransformer? _instance;
 }
+

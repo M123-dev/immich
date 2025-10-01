@@ -22,21 +22,23 @@ class SystemConfigLoggingDto {
   LogLevel level;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is SystemConfigLoggingDto && other.enabled == enabled && other.level == level;
+  bool operator ==(Object other) => identical(this, other) || other is SystemConfigLoggingDto &&
+    other.enabled == enabled &&
+    other.level == level;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (enabled.hashCode) + (level.hashCode);
+    // ignore: unnecessary_parenthesis
+    (enabled.hashCode) +
+    (level.hashCode);
 
   @override
   String toString() => 'SystemConfigLoggingDto[enabled=$enabled, level=$level]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'enabled'] = this.enabled;
-    json[r'level'] = this.level;
+      json[r'enabled'] = this.enabled;
+      json[r'level'] = this.level;
     return json;
   }
 
@@ -56,10 +58,7 @@ class SystemConfigLoggingDto {
     return null;
   }
 
-  static List<SystemConfigLoggingDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<SystemConfigLoggingDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SystemConfigLoggingDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -87,19 +86,13 @@ class SystemConfigLoggingDto {
   }
 
   // maps a json object with a list of SystemConfigLoggingDto-objects as value to a dart map
-  static Map<String, List<SystemConfigLoggingDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<SystemConfigLoggingDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<SystemConfigLoggingDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = SystemConfigLoggingDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = SystemConfigLoggingDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -111,3 +104,4 @@ class SystemConfigLoggingDto {
     'level',
   };
 }
+

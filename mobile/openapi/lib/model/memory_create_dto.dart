@@ -46,46 +46,43 @@ class MemoryCreateDto {
   MemoryType type;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is MemoryCreateDto &&
-          _deepEquality.equals(other.assetIds, assetIds) &&
-          other.data == data &&
-          other.isSaved == isSaved &&
-          other.memoryAt == memoryAt &&
-          other.seenAt == seenAt &&
-          other.type == type;
+  bool operator ==(Object other) => identical(this, other) || other is MemoryCreateDto &&
+    _deepEquality.equals(other.assetIds, assetIds) &&
+    other.data == data &&
+    other.isSaved == isSaved &&
+    other.memoryAt == memoryAt &&
+    other.seenAt == seenAt &&
+    other.type == type;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (assetIds.hashCode) +
-      (data.hashCode) +
-      (isSaved == null ? 0 : isSaved!.hashCode) +
-      (memoryAt.hashCode) +
-      (seenAt == null ? 0 : seenAt!.hashCode) +
-      (type.hashCode);
+    // ignore: unnecessary_parenthesis
+    (assetIds.hashCode) +
+    (data.hashCode) +
+    (isSaved == null ? 0 : isSaved!.hashCode) +
+    (memoryAt.hashCode) +
+    (seenAt == null ? 0 : seenAt!.hashCode) +
+    (type.hashCode);
 
   @override
-  String toString() =>
-      'MemoryCreateDto[assetIds=$assetIds, data=$data, isSaved=$isSaved, memoryAt=$memoryAt, seenAt=$seenAt, type=$type]';
+  String toString() => 'MemoryCreateDto[assetIds=$assetIds, data=$data, isSaved=$isSaved, memoryAt=$memoryAt, seenAt=$seenAt, type=$type]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'assetIds'] = this.assetIds;
-    json[r'data'] = this.data;
+      json[r'assetIds'] = this.assetIds;
+      json[r'data'] = this.data;
     if (this.isSaved != null) {
       json[r'isSaved'] = this.isSaved;
     } else {
-      //  json[r'isSaved'] = null;
+    //  json[r'isSaved'] = null;
     }
-    json[r'memoryAt'] = this.memoryAt.toUtc().toIso8601String();
+      json[r'memoryAt'] = this.memoryAt.toUtc().toIso8601String();
     if (this.seenAt != null) {
       json[r'seenAt'] = this.seenAt!.toUtc().toIso8601String();
     } else {
-      //  json[r'seenAt'] = null;
+    //  json[r'seenAt'] = null;
     }
-    json[r'type'] = this.type;
+      json[r'type'] = this.type;
     return json;
   }
 
@@ -111,10 +108,7 @@ class MemoryCreateDto {
     return null;
   }
 
-  static List<MemoryCreateDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<MemoryCreateDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <MemoryCreateDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -142,19 +136,13 @@ class MemoryCreateDto {
   }
 
   // maps a json object with a list of MemoryCreateDto-objects as value to a dart map
-  static Map<String, List<MemoryCreateDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<MemoryCreateDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<MemoryCreateDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = MemoryCreateDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = MemoryCreateDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -167,3 +155,4 @@ class MemoryCreateDto {
     'type',
   };
 }
+

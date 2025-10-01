@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class DownloadApi {
   DownloadApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -26,11 +27,7 @@ class DownloadApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<Response> downloadArchiveWithHttpInfo(
-    AssetIdsDto assetIdsDto, {
-    String? key,
-    String? slug,
-  }) async {
+  Future<Response> downloadArchiveWithHttpInfo(AssetIdsDto assetIdsDto, { String? key, String? slug, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/download/archive';
 
@@ -50,6 +47,7 @@ class DownloadApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'POST',
@@ -70,16 +68,8 @@ class DownloadApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<MultipartFile?> downloadArchive(
-    AssetIdsDto assetIdsDto, {
-    String? key,
-    String? slug,
-  }) async {
-    final response = await downloadArchiveWithHttpInfo(
-      assetIdsDto,
-      key: key,
-      slug: slug,
-    );
+  Future<MultipartFile?> downloadArchive(AssetIdsDto assetIdsDto, { String? key, String? slug, }) async {
+    final response = await downloadArchiveWithHttpInfo(assetIdsDto,  key: key, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -87,10 +77,8 @@ class DownloadApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'MultipartFile',
-      ) as MultipartFile;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'MultipartFile',) as MultipartFile;
+    
     }
     return null;
   }
@@ -106,11 +94,7 @@ class DownloadApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<Response> getDownloadInfoWithHttpInfo(
-    DownloadInfoDto downloadInfoDto, {
-    String? key,
-    String? slug,
-  }) async {
+  Future<Response> getDownloadInfoWithHttpInfo(DownloadInfoDto downloadInfoDto, { String? key, String? slug, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/download/info';
 
@@ -129,6 +113,7 @@ class DownloadApi {
     }
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -150,16 +135,8 @@ class DownloadApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<DownloadResponseDto?> getDownloadInfo(
-    DownloadInfoDto downloadInfoDto, {
-    String? key,
-    String? slug,
-  }) async {
-    final response = await getDownloadInfoWithHttpInfo(
-      downloadInfoDto,
-      key: key,
-      slug: slug,
-    );
+  Future<DownloadResponseDto?> getDownloadInfo(DownloadInfoDto downloadInfoDto, { String? key, String? slug, }) async {
+    final response = await getDownloadInfoWithHttpInfo(downloadInfoDto,  key: key, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -167,10 +144,8 @@ class DownloadApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'DownloadResponseDto',
-      ) as DownloadResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'DownloadResponseDto',) as DownloadResponseDto;
+    
     }
     return null;
   }

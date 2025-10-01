@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AlbumsApi {
   AlbumsApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -28,14 +29,10 @@ class AlbumsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<Response> addAssetsToAlbumWithHttpInfo(
-    String id,
-    BulkIdsDto bulkIdsDto, {
-    String? key,
-    String? slug,
-  }) async {
+  Future<Response> addAssetsToAlbumWithHttpInfo(String id, BulkIdsDto bulkIdsDto, { String? key, String? slug, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}/assets'.replaceAll('{id}', id);
+    final apiPath = r'/albums/{id}/assets'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = bulkIdsDto;
@@ -52,6 +49,7 @@ class AlbumsApi {
     }
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -75,18 +73,8 @@ class AlbumsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<List<BulkIdResponseDto>?> addAssetsToAlbum(
-    String id,
-    BulkIdsDto bulkIdsDto, {
-    String? key,
-    String? slug,
-  }) async {
-    final response = await addAssetsToAlbumWithHttpInfo(
-      id,
-      bulkIdsDto,
-      key: key,
-      slug: slug,
-    );
+  Future<List<BulkIdResponseDto>?> addAssetsToAlbum(String id, BulkIdsDto bulkIdsDto, { String? key, String? slug, }) async {
+    final response = await addAssetsToAlbumWithHttpInfo(id, bulkIdsDto,  key: key, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -96,8 +84,9 @@ class AlbumsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<BulkIdResponseDto>') as List)
-          .cast<BulkIdResponseDto>()
-          .toList(growable: false);
+        .cast<BulkIdResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -113,11 +102,7 @@ class AlbumsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<Response> addAssetsToAlbumsWithHttpInfo(
-    AlbumsAddAssetsDto albumsAddAssetsDto, {
-    String? key,
-    String? slug,
-  }) async {
+  Future<Response> addAssetsToAlbumsWithHttpInfo(AlbumsAddAssetsDto albumsAddAssetsDto, { String? key, String? slug, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/albums/assets';
 
@@ -137,6 +122,7 @@ class AlbumsApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'PUT',
@@ -157,16 +143,8 @@ class AlbumsApi {
   /// * [String] key:
   ///
   /// * [String] slug:
-  Future<AlbumsAddAssetsResponseDto?> addAssetsToAlbums(
-    AlbumsAddAssetsDto albumsAddAssetsDto, {
-    String? key,
-    String? slug,
-  }) async {
-    final response = await addAssetsToAlbumsWithHttpInfo(
-      albumsAddAssetsDto,
-      key: key,
-      slug: slug,
-    );
+  Future<AlbumsAddAssetsResponseDto?> addAssetsToAlbums(AlbumsAddAssetsDto albumsAddAssetsDto, { String? key, String? slug, }) async {
+    final response = await addAssetsToAlbumsWithHttpInfo(albumsAddAssetsDto,  key: key, slug: slug, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -174,10 +152,8 @@ class AlbumsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AlbumsAddAssetsResponseDto',
-      ) as AlbumsAddAssetsResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumsAddAssetsResponseDto',) as AlbumsAddAssetsResponseDto;
+    
     }
     return null;
   }
@@ -191,12 +167,10 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [AddUsersDto] addUsersDto (required):
-  Future<Response> addUsersToAlbumWithHttpInfo(
-    String id,
-    AddUsersDto addUsersDto,
-  ) async {
+  Future<Response> addUsersToAlbumWithHttpInfo(String id, AddUsersDto addUsersDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}/users'.replaceAll('{id}', id);
+    final apiPath = r'/albums/{id}/users'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = addUsersDto;
@@ -206,6 +180,7 @@ class AlbumsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -225,14 +200,8 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [AddUsersDto] addUsersDto (required):
-  Future<AlbumResponseDto?> addUsersToAlbum(
-    String id,
-    AddUsersDto addUsersDto,
-  ) async {
-    final response = await addUsersToAlbumWithHttpInfo(
-      id,
-      addUsersDto,
-    );
+  Future<AlbumResponseDto?> addUsersToAlbum(String id, AddUsersDto addUsersDto,) async {
+    final response = await addUsersToAlbumWithHttpInfo(id, addUsersDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -240,10 +209,8 @@ class AlbumsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AlbumResponseDto',
-      ) as AlbumResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumResponseDto',) as AlbumResponseDto;
+    
     }
     return null;
   }
@@ -255,9 +222,7 @@ class AlbumsApi {
   /// Parameters:
   ///
   /// * [CreateAlbumDto] createAlbumDto (required):
-  Future<Response> createAlbumWithHttpInfo(
-    CreateAlbumDto createAlbumDto,
-  ) async {
+  Future<Response> createAlbumWithHttpInfo(CreateAlbumDto createAlbumDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/albums';
 
@@ -269,6 +234,7 @@ class AlbumsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -286,12 +252,8 @@ class AlbumsApi {
   /// Parameters:
   ///
   /// * [CreateAlbumDto] createAlbumDto (required):
-  Future<AlbumResponseDto?> createAlbum(
-    CreateAlbumDto createAlbumDto,
-  ) async {
-    final response = await createAlbumWithHttpInfo(
-      createAlbumDto,
-    );
+  Future<AlbumResponseDto?> createAlbum(CreateAlbumDto createAlbumDto,) async {
+    final response = await createAlbumWithHttpInfo(createAlbumDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -299,10 +261,8 @@ class AlbumsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AlbumResponseDto',
-      ) as AlbumResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumResponseDto',) as AlbumResponseDto;
+    
     }
     return null;
   }
@@ -314,11 +274,10 @@ class AlbumsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> deleteAlbumWithHttpInfo(
-    String id,
-  ) async {
+  Future<Response> deleteAlbumWithHttpInfo(String id,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/albums/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -328,6 +287,7 @@ class AlbumsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -345,12 +305,8 @@ class AlbumsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<void> deleteAlbum(
-    String id,
-  ) async {
-    final response = await deleteAlbumWithHttpInfo(
-      id,
-    );
+  Future<void> deleteAlbum(String id,) async {
+    final response = await deleteAlbumWithHttpInfo(id,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -369,14 +325,10 @@ class AlbumsApi {
   /// * [String] slug:
   ///
   /// * [bool] withoutAssets:
-  Future<Response> getAlbumInfoWithHttpInfo(
-    String id, {
-    String? key,
-    String? slug,
-    bool? withoutAssets,
-  }) async {
+  Future<Response> getAlbumInfoWithHttpInfo(String id, { String? key, String? slug, bool? withoutAssets, }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/albums/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -396,6 +348,7 @@ class AlbumsApi {
     }
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -419,18 +372,8 @@ class AlbumsApi {
   /// * [String] slug:
   ///
   /// * [bool] withoutAssets:
-  Future<AlbumResponseDto?> getAlbumInfo(
-    String id, {
-    String? key,
-    String? slug,
-    bool? withoutAssets,
-  }) async {
-    final response = await getAlbumInfoWithHttpInfo(
-      id,
-      key: key,
-      slug: slug,
-      withoutAssets: withoutAssets,
-    );
+  Future<AlbumResponseDto?> getAlbumInfo(String id, { String? key, String? slug, bool? withoutAssets, }) async {
+    final response = await getAlbumInfoWithHttpInfo(id,  key: key, slug: slug, withoutAssets: withoutAssets, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -438,10 +381,8 @@ class AlbumsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AlbumResponseDto',
-      ) as AlbumResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumResponseDto',) as AlbumResponseDto;
+    
     }
     return null;
   }
@@ -461,6 +402,7 @@ class AlbumsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -483,10 +425,8 @@ class AlbumsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AlbumStatisticsResponseDto',
-      ) as AlbumStatisticsResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumStatisticsResponseDto',) as AlbumStatisticsResponseDto;
+    
     }
     return null;
   }
@@ -501,10 +441,7 @@ class AlbumsApi {
   ///   Only returns albums that contain the asset Ignores the shared parameter undefined: get all albums
   ///
   /// * [bool] shared:
-  Future<Response> getAllAlbumsWithHttpInfo({
-    String? assetId,
-    bool? shared,
-  }) async {
+  Future<Response> getAllAlbumsWithHttpInfo({ String? assetId, bool? shared, }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/albums';
 
@@ -523,6 +460,7 @@ class AlbumsApi {
     }
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -543,14 +481,8 @@ class AlbumsApi {
   ///   Only returns albums that contain the asset Ignores the shared parameter undefined: get all albums
   ///
   /// * [bool] shared:
-  Future<List<AlbumResponseDto>?> getAllAlbums({
-    String? assetId,
-    bool? shared,
-  }) async {
-    final response = await getAllAlbumsWithHttpInfo(
-      assetId: assetId,
-      shared: shared,
-    );
+  Future<List<AlbumResponseDto>?> getAllAlbums({ String? assetId, bool? shared, }) async {
+    final response = await getAllAlbumsWithHttpInfo( assetId: assetId, shared: shared, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -560,8 +492,9 @@ class AlbumsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<AlbumResponseDto>') as List)
-          .cast<AlbumResponseDto>()
-          .toList(growable: false);
+        .cast<AlbumResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -575,12 +508,10 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [BulkIdsDto] bulkIdsDto (required):
-  Future<Response> removeAssetFromAlbumWithHttpInfo(
-    String id,
-    BulkIdsDto bulkIdsDto,
-  ) async {
+  Future<Response> removeAssetFromAlbumWithHttpInfo(String id, BulkIdsDto bulkIdsDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}/assets'.replaceAll('{id}', id);
+    final apiPath = r'/albums/{id}/assets'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = bulkIdsDto;
@@ -591,6 +522,7 @@ class AlbumsApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'DELETE',
@@ -609,14 +541,8 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [BulkIdsDto] bulkIdsDto (required):
-  Future<List<BulkIdResponseDto>?> removeAssetFromAlbum(
-    String id,
-    BulkIdsDto bulkIdsDto,
-  ) async {
-    final response = await removeAssetFromAlbumWithHttpInfo(
-      id,
-      bulkIdsDto,
-    );
+  Future<List<BulkIdResponseDto>?> removeAssetFromAlbum(String id, BulkIdsDto bulkIdsDto,) async {
+    final response = await removeAssetFromAlbumWithHttpInfo(id, bulkIdsDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -626,8 +552,9 @@ class AlbumsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<BulkIdResponseDto>') as List)
-          .cast<BulkIdResponseDto>()
-          .toList(growable: false);
+        .cast<BulkIdResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -641,12 +568,11 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [String] userId (required):
-  Future<Response> removeUserFromAlbumWithHttpInfo(
-    String id,
-    String userId,
-  ) async {
+  Future<Response> removeUserFromAlbumWithHttpInfo(String id, String userId,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}/user/{userId}'.replaceAll('{id}', id).replaceAll('{userId}', userId);
+    final apiPath = r'/albums/{id}/user/{userId}'
+      .replaceAll('{id}', id)
+      .replaceAll('{userId}', userId);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -656,6 +582,7 @@ class AlbumsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -675,14 +602,8 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [String] userId (required):
-  Future<void> removeUserFromAlbum(
-    String id,
-    String userId,
-  ) async {
-    final response = await removeUserFromAlbumWithHttpInfo(
-      id,
-      userId,
-    );
+  Future<void> removeUserFromAlbum(String id, String userId,) async {
+    final response = await removeUserFromAlbumWithHttpInfo(id, userId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -697,12 +618,10 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [UpdateAlbumDto] updateAlbumDto (required):
-  Future<Response> updateAlbumInfoWithHttpInfo(
-    String id,
-    UpdateAlbumDto updateAlbumDto,
-  ) async {
+  Future<Response> updateAlbumInfoWithHttpInfo(String id, UpdateAlbumDto updateAlbumDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}'.replaceAll('{id}', id);
+    final apiPath = r'/albums/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = updateAlbumDto;
@@ -712,6 +631,7 @@ class AlbumsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -731,14 +651,8 @@ class AlbumsApi {
   /// * [String] id (required):
   ///
   /// * [UpdateAlbumDto] updateAlbumDto (required):
-  Future<AlbumResponseDto?> updateAlbumInfo(
-    String id,
-    UpdateAlbumDto updateAlbumDto,
-  ) async {
-    final response = await updateAlbumInfoWithHttpInfo(
-      id,
-      updateAlbumDto,
-    );
+  Future<AlbumResponseDto?> updateAlbumInfo(String id, UpdateAlbumDto updateAlbumDto,) async {
+    final response = await updateAlbumInfoWithHttpInfo(id, updateAlbumDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -746,10 +660,8 @@ class AlbumsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AlbumResponseDto',
-      ) as AlbumResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumResponseDto',) as AlbumResponseDto;
+    
     }
     return null;
   }
@@ -765,13 +677,11 @@ class AlbumsApi {
   /// * [String] userId (required):
   ///
   /// * [UpdateAlbumUserDto] updateAlbumUserDto (required):
-  Future<Response> updateAlbumUserWithHttpInfo(
-    String id,
-    String userId,
-    UpdateAlbumUserDto updateAlbumUserDto,
-  ) async {
+  Future<Response> updateAlbumUserWithHttpInfo(String id, String userId, UpdateAlbumUserDto updateAlbumUserDto,) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/albums/{id}/user/{userId}'.replaceAll('{id}', id).replaceAll('{userId}', userId);
+    final apiPath = r'/albums/{id}/user/{userId}'
+      .replaceAll('{id}', id)
+      .replaceAll('{userId}', userId);
 
     // ignore: prefer_final_locals
     Object? postBody = updateAlbumUserDto;
@@ -781,6 +691,7 @@ class AlbumsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -802,16 +713,8 @@ class AlbumsApi {
   /// * [String] userId (required):
   ///
   /// * [UpdateAlbumUserDto] updateAlbumUserDto (required):
-  Future<void> updateAlbumUser(
-    String id,
-    String userId,
-    UpdateAlbumUserDto updateAlbumUserDto,
-  ) async {
-    final response = await updateAlbumUserWithHttpInfo(
-      id,
-      userId,
-      updateAlbumUserDto,
-    );
+  Future<void> updateAlbumUser(String id, String userId, UpdateAlbumUserDto updateAlbumUserDto,) async {
+    final response = await updateAlbumUserWithHttpInfo(id, userId, updateAlbumUserDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

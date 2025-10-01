@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class ManualJobName {
   /// Instantiate a new enum with the provided [value].
   const ManualJobName._(this.value);
@@ -41,10 +42,7 @@ class ManualJobName {
 
   static ManualJobName? fromJson(dynamic value) => ManualJobNameTypeTransformer().decode(value);
 
-  static List<ManualJobName> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<ManualJobName> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ManualJobName>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -78,18 +76,12 @@ class ManualJobNameTypeTransformer {
   ManualJobName? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'person-cleanup':
-          return ManualJobName.personCleanup;
-        case r'tag-cleanup':
-          return ManualJobName.tagCleanup;
-        case r'user-cleanup':
-          return ManualJobName.userCleanup;
-        case r'memory-cleanup':
-          return ManualJobName.memoryCleanup;
-        case r'memory-create':
-          return ManualJobName.memoryCreate;
-        case r'backup-database':
-          return ManualJobName.backupDatabase;
+        case r'person-cleanup': return ManualJobName.personCleanup;
+        case r'tag-cleanup': return ManualJobName.tagCleanup;
+        case r'user-cleanup': return ManualJobName.userCleanup;
+        case r'memory-cleanup': return ManualJobName.memoryCleanup;
+        case r'memory-create': return ManualJobName.memoryCreate;
+        case r'backup-database': return ManualJobName.backupDatabase;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -102,3 +94,4 @@ class ManualJobNameTypeTransformer {
   /// Singleton [ManualJobNameTypeTransformer] instance.
   static ManualJobNameTypeTransformer? _instance;
 }
+

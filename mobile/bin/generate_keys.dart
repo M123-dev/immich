@@ -36,7 +36,11 @@ abstract class IntlKeys {
   await output.writeAsString(buffer.toString());
 }
 
-void _writeKeys(StringBuffer buffer, Map<String, dynamic> map, [String prefix = '']) {
+void _writeKeys(
+  StringBuffer buffer,
+  Map<String, dynamic> map, [
+  String prefix = '',
+]) {
   for (final entry in map.entries) {
     final key = entry.key;
     final value = entry.value;

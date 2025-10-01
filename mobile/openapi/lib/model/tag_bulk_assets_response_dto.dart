@@ -19,19 +19,20 @@ class TagBulkAssetsResponseDto {
   int count;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is TagBulkAssetsResponseDto && other.count == count;
+  bool operator ==(Object other) => identical(this, other) || other is TagBulkAssetsResponseDto &&
+    other.count == count;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (count.hashCode);
+    // ignore: unnecessary_parenthesis
+    (count.hashCode);
 
   @override
   String toString() => 'TagBulkAssetsResponseDto[count=$count]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'count'] = this.count;
+      json[r'count'] = this.count;
     return json;
   }
 
@@ -50,10 +51,7 @@ class TagBulkAssetsResponseDto {
     return null;
   }
 
-  static List<TagBulkAssetsResponseDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<TagBulkAssetsResponseDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <TagBulkAssetsResponseDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -81,19 +79,13 @@ class TagBulkAssetsResponseDto {
   }
 
   // maps a json object with a list of TagBulkAssetsResponseDto-objects as value to a dart map
-  static Map<String, List<TagBulkAssetsResponseDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<TagBulkAssetsResponseDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<TagBulkAssetsResponseDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = TagBulkAssetsResponseDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = TagBulkAssetsResponseDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -104,3 +96,4 @@ class TagBulkAssetsResponseDto {
     'count',
   };
 }
+

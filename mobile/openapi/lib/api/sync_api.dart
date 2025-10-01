@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class SyncApi {
   SyncApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -22,9 +23,7 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [SyncAckDeleteDto] syncAckDeleteDto (required):
-  Future<Response> deleteSyncAckWithHttpInfo(
-    SyncAckDeleteDto syncAckDeleteDto,
-  ) async {
+  Future<Response> deleteSyncAckWithHttpInfo(SyncAckDeleteDto syncAckDeleteDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/sync/ack';
 
@@ -36,6 +35,7 @@ class SyncApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -53,12 +53,8 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [SyncAckDeleteDto] syncAckDeleteDto (required):
-  Future<void> deleteSyncAck(
-    SyncAckDeleteDto syncAckDeleteDto,
-  ) async {
-    final response = await deleteSyncAckWithHttpInfo(
-      syncAckDeleteDto,
-    );
+  Future<void> deleteSyncAck(SyncAckDeleteDto syncAckDeleteDto,) async {
+    final response = await deleteSyncAckWithHttpInfo(syncAckDeleteDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -68,9 +64,7 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [AssetDeltaSyncDto] assetDeltaSyncDto (required):
-  Future<Response> getDeltaSyncWithHttpInfo(
-    AssetDeltaSyncDto assetDeltaSyncDto,
-  ) async {
+  Future<Response> getDeltaSyncWithHttpInfo(AssetDeltaSyncDto assetDeltaSyncDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/sync/delta-sync';
 
@@ -83,6 +77,7 @@ class SyncApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'POST',
@@ -97,12 +92,8 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [AssetDeltaSyncDto] assetDeltaSyncDto (required):
-  Future<AssetDeltaSyncResponseDto?> getDeltaSync(
-    AssetDeltaSyncDto assetDeltaSyncDto,
-  ) async {
-    final response = await getDeltaSyncWithHttpInfo(
-      assetDeltaSyncDto,
-    );
+  Future<AssetDeltaSyncResponseDto?> getDeltaSync(AssetDeltaSyncDto assetDeltaSyncDto,) async {
+    final response = await getDeltaSyncWithHttpInfo(assetDeltaSyncDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -110,10 +101,8 @@ class SyncApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'AssetDeltaSyncResponseDto',
-      ) as AssetDeltaSyncResponseDto;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetDeltaSyncResponseDto',) as AssetDeltaSyncResponseDto;
+    
     }
     return null;
   }
@@ -122,9 +111,7 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [AssetFullSyncDto] assetFullSyncDto (required):
-  Future<Response> getFullSyncForUserWithHttpInfo(
-    AssetFullSyncDto assetFullSyncDto,
-  ) async {
+  Future<Response> getFullSyncForUserWithHttpInfo(AssetFullSyncDto assetFullSyncDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/sync/full-sync';
 
@@ -136,6 +123,7 @@ class SyncApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -151,12 +139,8 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [AssetFullSyncDto] assetFullSyncDto (required):
-  Future<List<AssetResponseDto>?> getFullSyncForUser(
-    AssetFullSyncDto assetFullSyncDto,
-  ) async {
-    final response = await getFullSyncForUserWithHttpInfo(
-      assetFullSyncDto,
-    );
+  Future<List<AssetResponseDto>?> getFullSyncForUser(AssetFullSyncDto assetFullSyncDto,) async {
+    final response = await getFullSyncForUserWithHttpInfo(assetFullSyncDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -166,8 +150,9 @@ class SyncApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<AssetResponseDto>') as List)
-          .cast<AssetResponseDto>()
-          .toList(growable: false);
+        .cast<AssetResponseDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -187,6 +172,7 @@ class SyncApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -211,8 +197,9 @@ class SyncApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<SyncAckDto>') as List)
-          .cast<SyncAckDto>()
-          .toList(growable: false);
+        .cast<SyncAckDto>()
+        .toList(growable: false);
+
     }
     return null;
   }
@@ -224,9 +211,7 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [SyncStreamDto] syncStreamDto (required):
-  Future<Response> getSyncStreamWithHttpInfo(
-    SyncStreamDto syncStreamDto,
-  ) async {
+  Future<Response> getSyncStreamWithHttpInfo(SyncStreamDto syncStreamDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/sync/stream';
 
@@ -239,6 +224,7 @@ class SyncApi {
 
     const contentTypes = <String>['application/json'];
 
+
     return apiClient.invokeAPI(
       apiPath,
       'POST',
@@ -255,12 +241,8 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [SyncStreamDto] syncStreamDto (required):
-  Future<void> getSyncStream(
-    SyncStreamDto syncStreamDto,
-  ) async {
-    final response = await getSyncStreamWithHttpInfo(
-      syncStreamDto,
-    );
+  Future<void> getSyncStream(SyncStreamDto syncStreamDto,) async {
+    final response = await getSyncStreamWithHttpInfo(syncStreamDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -273,9 +255,7 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [SyncAckSetDto] syncAckSetDto (required):
-  Future<Response> sendSyncAckWithHttpInfo(
-    SyncAckSetDto syncAckSetDto,
-  ) async {
+  Future<Response> sendSyncAckWithHttpInfo(SyncAckSetDto syncAckSetDto,) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/sync/ack';
 
@@ -287,6 +267,7 @@ class SyncApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
 
     return apiClient.invokeAPI(
       apiPath,
@@ -304,12 +285,8 @@ class SyncApi {
   /// Parameters:
   ///
   /// * [SyncAckSetDto] syncAckSetDto (required):
-  Future<void> sendSyncAck(
-    SyncAckSetDto syncAckSetDto,
-  ) async {
-    final response = await sendSyncAckWithHttpInfo(
-      syncAckSetDto,
-    );
+  Future<void> sendSyncAck(SyncAckSetDto syncAckSetDto,) async {
+    final response = await sendSyncAckWithHttpInfo(syncAckSetDto,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

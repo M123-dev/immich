@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AssetMetadataKey {
   /// Instantiate a new enum with the provided [value].
   const AssetMetadataKey._(this.value);
@@ -31,10 +32,7 @@ class AssetMetadataKey {
 
   static AssetMetadataKey? fromJson(dynamic value) => AssetMetadataKeyTypeTransformer().decode(value);
 
-  static List<AssetMetadataKey> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<AssetMetadataKey> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AssetMetadataKey>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -68,8 +66,7 @@ class AssetMetadataKeyTypeTransformer {
   AssetMetadataKey? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'mobile-app':
-          return AssetMetadataKey.mobileApp;
+        case r'mobile-app': return AssetMetadataKey.mobileApp;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -82,3 +79,4 @@ class AssetMetadataKeyTypeTransformer {
   /// Singleton [AssetMetadataKeyTypeTransformer] instance.
   static AssetMetadataKeyTypeTransformer? _instance;
 }
+

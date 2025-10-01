@@ -28,4 +28,6 @@ final driftGetPersonByIdProvider = StreamProvider.family<DriftPerson?, String>((
   return ref.watch(driftPeopleServiceProvider).watchPersonById(personId);
 });
 
-final personMergeTrackerProvider = Provider<PersonMergeTrackerService>((ref) => PersonMergeTrackerService());
+final personMergeTrackerProvider = Provider<PersonMergeTrackerService>(
+  (ref) => PersonMergeTrackerService(),
+);

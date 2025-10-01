@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
-import 'package:immich_mobile/providers/infrastructure/timeline.provider.dart';
 import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/utils/image_url_builder.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
@@ -34,6 +33,8 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
           .read(personMergeTrackerProvider)
           .recordMerge(mergedPersonId: widget.person.id, targetPersonId: widget.mergeTarget.id);
 
+      print('m123: Merged');
+
       if (mounted) {
         Navigator.of(context).pop(widget.mergeTarget);
         ImmichToast.show(
@@ -44,7 +45,6 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
         );
       }
       ref.invalidate(driftGetAllPeopleProvider);
-      ref.invalidate(timelineFactoryProvider);
     } catch (e) {
       if (mounted) {
         setState(() => _isMerging = false);

@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AssetMediaStatus {
   /// Instantiate a new enum with the provided [value].
   const AssetMediaStatus._(this.value);
@@ -35,10 +36,7 @@ class AssetMediaStatus {
 
   static AssetMediaStatus? fromJson(dynamic value) => AssetMediaStatusTypeTransformer().decode(value);
 
-  static List<AssetMediaStatus> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<AssetMediaStatus> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AssetMediaStatus>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -72,12 +70,9 @@ class AssetMediaStatusTypeTransformer {
   AssetMediaStatus? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'created':
-          return AssetMediaStatus.created;
-        case r'replaced':
-          return AssetMediaStatus.replaced;
-        case r'duplicate':
-          return AssetMediaStatus.duplicate;
+        case r'created': return AssetMediaStatus.created;
+        case r'replaced': return AssetMediaStatus.replaced;
+        case r'duplicate': return AssetMediaStatus.duplicate;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -90,3 +85,4 @@ class AssetMediaStatusTypeTransformer {
   /// Singleton [AssetMediaStatusTypeTransformer] instance.
   static AssetMediaStatusTypeTransformer? _instance;
 }
+

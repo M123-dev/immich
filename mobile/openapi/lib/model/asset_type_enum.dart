@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AssetTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const AssetTypeEnum._(this.value);
@@ -37,10 +38,7 @@ class AssetTypeEnum {
 
   static AssetTypeEnum? fromJson(dynamic value) => AssetTypeEnumTypeTransformer().decode(value);
 
-  static List<AssetTypeEnum> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<AssetTypeEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AssetTypeEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -74,14 +72,10 @@ class AssetTypeEnumTypeTransformer {
   AssetTypeEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'IMAGE':
-          return AssetTypeEnum.IMAGE;
-        case r'VIDEO':
-          return AssetTypeEnum.VIDEO;
-        case r'AUDIO':
-          return AssetTypeEnum.AUDIO;
-        case r'OTHER':
-          return AssetTypeEnum.OTHER;
+        case r'IMAGE': return AssetTypeEnum.IMAGE;
+        case r'VIDEO': return AssetTypeEnum.VIDEO;
+        case r'AUDIO': return AssetTypeEnum.AUDIO;
+        case r'OTHER': return AssetTypeEnum.OTHER;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -94,3 +88,4 @@ class AssetTypeEnumTypeTransformer {
   /// Singleton [AssetTypeEnumTypeTransformer] instance.
   static AssetTypeEnumTypeTransformer? _instance;
 }
+

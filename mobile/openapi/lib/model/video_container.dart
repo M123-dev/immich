@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class VideoContainer {
   /// Instantiate a new enum with the provided [value].
   const VideoContainer._(this.value);
@@ -37,10 +38,7 @@ class VideoContainer {
 
   static VideoContainer? fromJson(dynamic value) => VideoContainerTypeTransformer().decode(value);
 
-  static List<VideoContainer> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<VideoContainer> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <VideoContainer>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -74,14 +72,10 @@ class VideoContainerTypeTransformer {
   VideoContainer? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'mov':
-          return VideoContainer.mov;
-        case r'mp4':
-          return VideoContainer.mp4;
-        case r'ogg':
-          return VideoContainer.ogg;
-        case r'webm':
-          return VideoContainer.webm;
+        case r'mov': return VideoContainer.mov;
+        case r'mp4': return VideoContainer.mp4;
+        case r'ogg': return VideoContainer.ogg;
+        case r'webm': return VideoContainer.webm;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -94,3 +88,4 @@ class VideoContainerTypeTransformer {
   /// Singleton [VideoContainerTypeTransformer] instance.
   static VideoContainerTypeTransformer? _instance;
 }
+

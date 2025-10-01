@@ -19,20 +19,20 @@ class PartnerCreateDto {
   String sharedWithId;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is PartnerCreateDto && other.sharedWithId == sharedWithId;
+  bool operator ==(Object other) => identical(this, other) || other is PartnerCreateDto &&
+    other.sharedWithId == sharedWithId;
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (sharedWithId.hashCode);
+    // ignore: unnecessary_parenthesis
+    (sharedWithId.hashCode);
 
   @override
   String toString() => 'PartnerCreateDto[sharedWithId=$sharedWithId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'sharedWithId'] = this.sharedWithId;
+      json[r'sharedWithId'] = this.sharedWithId;
     return json;
   }
 
@@ -51,10 +51,7 @@ class PartnerCreateDto {
     return null;
   }
 
-  static List<PartnerCreateDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<PartnerCreateDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <PartnerCreateDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -82,19 +79,13 @@ class PartnerCreateDto {
   }
 
   // maps a json object with a list of PartnerCreateDto-objects as value to a dart map
-  static Map<String, List<PartnerCreateDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<PartnerCreateDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<PartnerCreateDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = PartnerCreateDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = PartnerCreateDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -105,3 +96,4 @@ class PartnerCreateDto {
     'sharedWithId',
   };
 }
+

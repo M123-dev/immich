@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class JobCommand {
   /// Instantiate a new enum with the provided [value].
   const JobCommand._(this.value);
@@ -39,10 +40,7 @@ class JobCommand {
 
   static JobCommand? fromJson(dynamic value) => JobCommandTypeTransformer().decode(value);
 
-  static List<JobCommand> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<JobCommand> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <JobCommand>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -76,16 +74,11 @@ class JobCommandTypeTransformer {
   JobCommand? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'start':
-          return JobCommand.start;
-        case r'pause':
-          return JobCommand.pause;
-        case r'resume':
-          return JobCommand.resume;
-        case r'empty':
-          return JobCommand.empty;
-        case r'clear-failed':
-          return JobCommand.clearFailed;
+        case r'start': return JobCommand.start;
+        case r'pause': return JobCommand.pause;
+        case r'resume': return JobCommand.resume;
+        case r'empty': return JobCommand.empty;
+        case r'clear-failed': return JobCommand.clearFailed;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -98,3 +91,4 @@ class JobCommandTypeTransformer {
   /// Singleton [JobCommandTypeTransformer] instance.
   static JobCommandTypeTransformer? _instance;
 }
+

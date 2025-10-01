@@ -519,7 +519,6 @@ class _AssetViewerState extends ConsumerState<AssetViewer> {
   PhotoViewGalleryPageOptions _assetBuilder(BuildContext ctx, int index) {
     scaffoldContext ??= ctx;
     final timelineService = ref.read(timelineServiceProvider);
-
     final asset = timelineService.getAssetSafe(index);
 
     // If asset is not available in buffer, return a placeholder

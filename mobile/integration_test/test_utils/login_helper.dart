@@ -23,7 +23,11 @@ class ImmichTestLoginHelper {
     return true;
   }
 
-  Future<void> enterCredentials({String server = "", String email = "", String password = ""}) async {
+  Future<void> enterCredentials({
+    String server = "",
+    String email = "",
+    String password = "",
+  }) async {
     final loginForms = find.byType(TextFormField);
 
     await tester.enterText(loginForms.at(0), email);
@@ -40,11 +44,18 @@ class ImmichTestLoginHelper {
   }
 
   Future<void> enterCredentialsOf(LoginCredentials credentials) async {
-    await enterCredentials(server: credentials.server, email: credentials.email, password: credentials.password);
+    await enterCredentials(
+      server: credentials.server,
+      email: credentials.email,
+      password: credentials.password,
+    );
   }
 
   Future<void> pressLoginButton() async {
-    await pumpUntilFound(tester, find.textContaining("login_form_button_text".tr()));
+    await pumpUntilFound(
+      tester,
+      find.textContaining("login_form_button_text".tr()),
+    );
     final button = find.textContaining("login_form_button_text".tr());
     await tester.tap(button);
   }
@@ -59,11 +70,23 @@ class ImmichTestLoginHelper {
 }
 
 enum LoginCredentials {
-  testInstance("https://flutter-int-test.preview.immich.app", "demo@immich.app", "demo"),
+  testInstance(
+    "https://flutter-int-test.preview.immich.app",
+    "demo@immich.app",
+    "demo",
+  ),
 
-  testInstanceButWithWrongPassword("https://flutter-int-test.preview.immich.app", "demo@immich.app", "wrong"),
+  testInstanceButWithWrongPassword(
+    "https://flutter-int-test.preview.immich.app",
+    "demo@immich.app",
+    "wrong",
+  ),
 
-  wrongInstanceUrl("https://does-not-exist.preview.immich.app", "demo@immich.app", "demo");
+  wrongInstanceUrl(
+    "https://does-not-exist.preview.immich.app",
+    "demo@immich.app",
+    "demo",
+  );
 
   const LoginCredentials(this.server, this.email, this.password);
 

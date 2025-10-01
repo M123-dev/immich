@@ -19,20 +19,20 @@ class AssetMetadataUpsertDto {
   List<AssetMetadataUpsertItemDto> items;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is AssetMetadataUpsertDto && _deepEquality.equals(other.items, items);
+  bool operator ==(Object other) => identical(this, other) || other is AssetMetadataUpsertDto &&
+    _deepEquality.equals(other.items, items);
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (items.hashCode);
+    // ignore: unnecessary_parenthesis
+    (items.hashCode);
 
   @override
   String toString() => 'AssetMetadataUpsertDto[items=$items]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'items'] = this.items;
+      json[r'items'] = this.items;
     return json;
   }
 
@@ -51,10 +51,7 @@ class AssetMetadataUpsertDto {
     return null;
   }
 
-  static List<AssetMetadataUpsertDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<AssetMetadataUpsertDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AssetMetadataUpsertDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -82,19 +79,13 @@ class AssetMetadataUpsertDto {
   }
 
   // maps a json object with a list of AssetMetadataUpsertDto-objects as value to a dart map
-  static Map<String, List<AssetMetadataUpsertDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<AssetMetadataUpsertDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<AssetMetadataUpsertDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AssetMetadataUpsertDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = AssetMetadataUpsertDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -105,3 +96,4 @@ class AssetMetadataUpsertDto {
     'items',
   };
 }
+

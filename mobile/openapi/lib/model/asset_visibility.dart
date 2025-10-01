@@ -10,6 +10,7 @@
 
 part of openapi.api;
 
+
 class AssetVisibility {
   /// Instantiate a new enum with the provided [value].
   const AssetVisibility._(this.value);
@@ -37,10 +38,7 @@ class AssetVisibility {
 
   static AssetVisibility? fromJson(dynamic value) => AssetVisibilityTypeTransformer().decode(value);
 
-  static List<AssetVisibility> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<AssetVisibility> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AssetVisibility>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -74,14 +72,10 @@ class AssetVisibilityTypeTransformer {
   AssetVisibility? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'archive':
-          return AssetVisibility.archive;
-        case r'timeline':
-          return AssetVisibility.timeline;
-        case r'hidden':
-          return AssetVisibility.hidden;
-        case r'locked':
-          return AssetVisibility.locked;
+        case r'archive': return AssetVisibility.archive;
+        case r'timeline': return AssetVisibility.timeline;
+        case r'hidden': return AssetVisibility.hidden;
+        case r'locked': return AssetVisibility.locked;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -94,3 +88,4 @@ class AssetVisibilityTypeTransformer {
   /// Singleton [AssetVisibilityTypeTransformer] instance.
   static AssetVisibilityTypeTransformer? _instance;
 }
+

@@ -28,14 +28,15 @@ class AssetBulkDeleteDto {
   List<String> ids;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AssetBulkDeleteDto && other.force == force && _deepEquality.equals(other.ids, ids);
+  bool operator ==(Object other) => identical(this, other) || other is AssetBulkDeleteDto &&
+    other.force == force &&
+    _deepEquality.equals(other.ids, ids);
 
   @override
   int get hashCode =>
-      // ignore: unnecessary_parenthesis
-      (force == null ? 0 : force!.hashCode) + (ids.hashCode);
+    // ignore: unnecessary_parenthesis
+    (force == null ? 0 : force!.hashCode) +
+    (ids.hashCode);
 
   @override
   String toString() => 'AssetBulkDeleteDto[force=$force, ids=$ids]';
@@ -45,9 +46,9 @@ class AssetBulkDeleteDto {
     if (this.force != null) {
       json[r'force'] = this.force;
     } else {
-      //  json[r'force'] = null;
+    //  json[r'force'] = null;
     }
-    json[r'ids'] = this.ids;
+      json[r'ids'] = this.ids;
     return json;
   }
 
@@ -61,16 +62,15 @@ class AssetBulkDeleteDto {
 
       return AssetBulkDeleteDto(
         force: mapValueOfType<bool>(json, r'force'),
-        ids: json[r'ids'] is Iterable ? (json[r'ids'] as Iterable).cast<String>().toList(growable: false) : const [],
+        ids: json[r'ids'] is Iterable
+            ? (json[r'ids'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
       );
     }
     return null;
   }
 
-  static List<AssetBulkDeleteDto> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static List<AssetBulkDeleteDto> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AssetBulkDeleteDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -98,19 +98,13 @@ class AssetBulkDeleteDto {
   }
 
   // maps a json object with a list of AssetBulkDeleteDto-objects as value to a dart map
-  static Map<String, List<AssetBulkDeleteDto>> mapListFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
+  static Map<String, List<AssetBulkDeleteDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<AssetBulkDeleteDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AssetBulkDeleteDto.listFromJson(
-          entry.value,
-          growable: growable,
-        );
+        map[entry.key] = AssetBulkDeleteDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -121,3 +115,4 @@ class AssetBulkDeleteDto {
     'ids',
   };
 }
+

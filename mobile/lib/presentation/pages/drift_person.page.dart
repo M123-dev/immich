@@ -5,14 +5,13 @@ import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
 import 'package:immich_mobile/presentation/widgets/people/person_option_sheet.widget.dart';
 import 'package:immich_mobile/presentation/widgets/timeline/timeline.widget.dart';
+import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/providers/infrastructure/timeline.provider.dart';
 import 'package:immich_mobile/providers/routes.provider.dart';
 import 'package:immich_mobile/providers/user.provider.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/person_sliver_app_bar.dart';
-
-import '../../providers/infrastructure/people.provider.dart';
-import '../../routing/router.dart';
+import 'package:logging/logging.dart';
 
 @RoutePage()
 class DriftPersonPage extends ConsumerStatefulWidget {
@@ -27,6 +26,8 @@ class DriftPersonPage extends ConsumerStatefulWidget {
 class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   late DriftPerson _person;
 
+  final Logger mergeLogger = Logger("PersonMerge");
+
   @override
   initState() {
     super.initState();
@@ -34,19 +35,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   }
 
   Future<void> handleEditName(BuildContext context) async {
-    final newPerson = await showNameEditModal(context, _person);
-
-    /*if (newPerson == null) {
-      return;
-    }*/
-
-    /*if (newPerson.id != _person.id) {
-      if (mounted) {
-        context.replaceRoute(DriftPersonRoute(key: ValueKey(newPerson.toString()), person: newPerson));
-      }
-
-      return;
-    }*/
+    await showNameEditModal(context, _person);
   }
 
   Future<void> handleEditBirthday(BuildContext context) async {
@@ -80,6 +69,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
     final mergeTracker = ref.watch(personMergeTrackerProvider);
     final currentRouteName = ref.watch(currentRouteNameProvider);
     print('m123: Current route name: $currentRouteName');
+
     return personAsync.when(
       data: (person) {
         // Check if the person was merged and redirect if necessary
@@ -88,14 +78,11 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
           final targetPersonId = mergeTracker.getTargetPersonId(_person.id);
 
           if (shouldRedirect && targetPersonId != null) {
-            // Only redirect if we're currently on the person detail page, not in an image viewer
-            bool isOnPersonDetailPage =
-                currentRouteName == DriftPersonRoute.name; // null route can happen during navigation
-
-            isOnPersonDetailPage = ModalRoute.of(context)?.isCurrent ?? false;
+            bool isOnPersonDetailPage = ModalRoute.of(context)?.isCurrent ?? false;
 
             print('m123: We are on route: $currentRouteName, isOnPersonDetailPage: $isOnPersonDetailPage');
 
+            // Only redirect if we're currently on the person detail page, not in a nested view, e.g. image viewer
             if (isOnPersonDetailPage) {
               // Person was merged, redirect to the target person
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -112,16 +99,16 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
                           print('m123: Found target person, redirecting');
                           print('m123: Removing merge record for ${_person.id}');
                           mergeTracker.markMergeRecordHandled(_person.id);
-                          context.replaceRoute(
-                            DriftPersonRoute(key: ValueKey(targetPerson.toString()), person: targetPerson),
-                          );
-                        } else if (!mounted) {
+                          _person = targetPerson;
+                          setState(() {});
+                        } else {
                           // Target person not found, go back
                           context.maybePop();
                         }
                       })
                       .catchError((error) {
                         // If we can't load the target person, go back
+                        mergeLogger.severe("Error during read of targetPerson", error);
                         if (mounted) {
                           context.maybePop();
                         }
@@ -151,14 +138,14 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
                 throw Exception('User must be logged in to view person timeline');
               }
 
-              final timelineService = ref.watch(timelineFactoryProvider).person(user.id, person.id);
+              final timelineService = ref.watch(timelineFactoryProvider).person(user.id, _person.id);
               ref.onDispose(timelineService.dispose);
               return timelineService;
             }),
           ],
           child: Timeline(
             appBar: PersonSliverAppBar(
-              person: person,
+              person: _person,
               onNameTap: () => handleEditName(context),
               onBirthdayTap: () => handleEditBirthday(context),
               onShowOptions: () => showOptionSheet(context),
@@ -166,8 +153,9 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
           ),
         );
       },
+      // TODO(m123): Show passed person data while loading new data
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Text('Error: $e'),
+      error: (e, s) => Text('Error: $e'),
     );
   }
 }

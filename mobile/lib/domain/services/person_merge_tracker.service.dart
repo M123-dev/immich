@@ -1,39 +1,28 @@
-import 'dart:async';
-
-/// Service to track person merges and provide forwarding information
-/// when navigating to person pages after a merge operation
+/// Why do we need this?
+/// Say we open the profile page (drift_person.page.dart) for Person A, and then nested above
+/// a image viewer for an image that belongs to Person A.
+///
+/// When the users now merges user A into user B, we cant just listen to
+/// the changes in the profile page, we have to keep track where the user A (now B)
+/// can be found in the DB.
+///
+/// So when popping back to the profile page (and the user is missing) we check
+/// which other person B we have to display instead.
 class PersonMergeTrackerService {
-  static final PersonMergeTrackerService _instance = PersonMergeTrackerService._internal();
-  factory PersonMergeTrackerService() => _instance;
-  PersonMergeTrackerService._internal();
-
   // Map of merged person ID -> target person ID
   final Map<String, String> _mergeForwardingMap = {};
 
+  // We can't just remove the merge record, because in the drift person page
+  // we grab the profile data from a provider, so in the 'loading' state
+  // we need to know if we are waiting for the data, or if the user has been
+  // merged thus we need to redirect.
+  // So when we have redirected once, we mark the record as handled so that we
+  // don't try to redirect infinite times.
   final Set<String> _handledMergeRecords = {};
-
-  // Stream controller to notify listeners of merge events
-  final StreamController<PersonMergeEvent> _mergeEventController = StreamController<PersonMergeEvent>.broadcast();
 
   /// Record a person merge operation
   void recordMerge({required String mergedPersonId, required String targetPersonId}) {
     _mergeForwardingMap[mergedPersonId] = targetPersonId;
-    _mergeEventController.add(PersonMergeEvent(mergedPersonId: mergedPersonId, targetPersonId: targetPersonId));
-  }
-
-  /// Record multiple person merges (when merging multiple people into one)
-  void recordMultipleMerges({required List<String> mergedPersonIds, required String targetPersonId}) {
-    for (final mergedId in mergedPersonIds) {
-      _mergeForwardingMap[mergedId] = targetPersonId;
-    }
-
-    _mergeEventController.add(
-      PersonMergeEvent(
-        mergedPersonId: mergedPersonIds.first, // Use first as representative
-        targetPersonId: targetPersonId,
-        additionalMergedIds: mergedPersonIds.skip(1).toList(),
-      ),
-    );
   }
 
   /// Get the target person ID for a merged person
@@ -56,46 +45,8 @@ class PersonMergeTrackerService {
     return isPersonMerged(personId) && !isMergeRecordHandled(personId);
   }
 
-  /// Stream of merge events
-  Stream<PersonMergeEvent> get mergeEvents => _mergeEventController.stream;
-
-  /// Clear a specific merge record (useful for cleanup)
-  void clearMergeRecord(String personId) {
-    _mergeForwardingMap.remove(personId);
-  }
-
-  /// Clear merge records older than specified duration (useful for cleanup)
-  void clearOldMergeRecords({Duration maxAge = const Duration(hours: 24)}) {
-    // For now, just clear all records since we don't track timestamps
-    // In a real implementation, you might want to add timestamps
-    _mergeForwardingMap.clear();
-  }
-
   /// Mark a merge record as handled (for tracking purposes)
   void markMergeRecordHandled(String personId) {
     _handledMergeRecords.add(personId);
   }
-
-  /// Clear all merge records (useful for fresh starts or testing)
-  void clearAllMergeRecords() {
-    _mergeForwardingMap.clear();
-    _handledMergeRecords.clear();
-  }
-
-  /// Dispose resources
-  void dispose() {
-    _mergeEventController.close();
-  }
-}
-
-/// Event representing a person merge operation
-class PersonMergeEvent {
-  final String mergedPersonId;
-  final String targetPersonId;
-  final List<String>? additionalMergedIds;
-
-  PersonMergeEvent({required this.mergedPersonId, required this.targetPersonId, this.additionalMergedIds});
-
-  /// Get all merged person IDs including the main one and additional ones
-  List<String> get allMergedIds => [mergedPersonId, ...(additionalMergedIds ?? [])];
 }

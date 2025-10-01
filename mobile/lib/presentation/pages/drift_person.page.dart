@@ -146,7 +146,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
                 throw Exception('User must be logged in to view person timeline');
               }
 
-              final timelineService = ref.watch(timelineFactoryProvider).person(user.id, _person.id);
+              final timelineService = ref.read(timelineFactoryProvider).person(user.id, _person.id);
               ref.onDispose(timelineService.dispose);
               return timelineService;
             }),
@@ -161,7 +161,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
           ),
         );
       },
-      // TODO(m123): Show passed person data while loading new data (optimistic ui update, but we need to handle scroll state etc)
+      // TODO(m123): Show initialPerson data while loading new data (optimistic ui update, but we need to handle scroll state etc)
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, s) => Text('Error: $e'),
     );

@@ -61,13 +61,15 @@ class _SheetPeopleDetailsState extends ConsumerState<SheetPeopleDetails> {
                           final previousRouteData = ref.read(previousRouteDataProvider);
                           final previousRouteArgs = previousRouteData?.arguments;
 
+                          // TODO: Check what happens if the person id from the previous route is not the correct one anymore e.g. after a merge
                           // Prevent circular navigation
-                          if (previousRouteArgs is DriftPersonRouteArgs && previousRouteArgs.person.id == person.id) {
+                          if (previousRouteArgs is DriftPersonRouteArgs &&
+                              previousRouteArgs.initialPerson.id == person.id) {
                             context.back();
                             return;
                           }
                           context.pop();
-                          context.pushRoute(DriftPersonRoute(person: person));
+                          context.pushRoute(DriftPersonRoute(initialPerson: person));
                         },
                         onNameTap: () async {
                           DriftPerson? newPerson = await showNameEditModal(context, person);

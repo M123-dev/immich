@@ -12,12 +12,8 @@ class PersonMergeTrackerService {
   // Map of merged person ID -> target person ID
   final Map<String, String> _mergeForwardingMap = {};
 
-  // We can't just remove the merge record, because in the drift person page
-  // we grab the profile data from a provider, so in the 'loading' state
-  // we need to know if we are waiting for the data, or if the user has been
-  // merged thus we need to redirect.
-  // So when we have redirected once, we mark the record as handled so that we
-  // don't try to redirect infinite times.
+  // Set of person IDs for which the merge record has been handled (redirected)
+  // To prevent multiple redirects for the same merge
   final Set<String> _handledMergeRecords = {};
 
   /// Record a person merge operation

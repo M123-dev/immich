@@ -33,8 +33,6 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
           .read(personMergeTrackerProvider)
           .recordMerge(mergedPersonId: widget.person.id, targetPersonId: widget.mergeTarget.id);
 
-      print('m123: Merged');
-
       if (mounted) {
         Navigator.of(context).pop(widget.mergeTarget);
         ImmichToast.show(

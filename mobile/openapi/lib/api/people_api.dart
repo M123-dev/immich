@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class PeopleApi {
   PeopleApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -23,7 +22,9 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [PersonCreateDto] personCreateDto (required):
-  Future<Response> createPersonWithHttpInfo(PersonCreateDto personCreateDto,) async {
+  Future<Response> createPersonWithHttpInfo(
+    PersonCreateDto personCreateDto,
+  ) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/people';
 
@@ -35,7 +36,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -53,8 +53,12 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [PersonCreateDto] personCreateDto (required):
-  Future<PersonResponseDto?> createPerson(PersonCreateDto personCreateDto,) async {
-    final response = await createPersonWithHttpInfo(personCreateDto,);
+  Future<PersonResponseDto?> createPerson(
+    PersonCreateDto personCreateDto,
+  ) async {
+    final response = await createPersonWithHttpInfo(
+      personCreateDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -62,8 +66,10 @@ class PeopleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PersonResponseDto',) as PersonResponseDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'PersonResponseDto',
+      ) as PersonResponseDto;
     }
     return null;
   }
@@ -75,7 +81,9 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [BulkIdsDto] bulkIdsDto (required):
-  Future<Response> deletePeopleWithHttpInfo(BulkIdsDto bulkIdsDto,) async {
+  Future<Response> deletePeopleWithHttpInfo(
+    BulkIdsDto bulkIdsDto,
+  ) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/people';
 
@@ -88,7 +96,6 @@ class PeopleApi {
 
     const contentTypes = <String>['application/json'];
 
-
     return apiClient.invokeAPI(
       apiPath,
       'DELETE',
@@ -105,8 +112,12 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [BulkIdsDto] bulkIdsDto (required):
-  Future<void> deletePeople(BulkIdsDto bulkIdsDto,) async {
-    final response = await deletePeopleWithHttpInfo(bulkIdsDto,);
+  Future<void> deletePeople(
+    BulkIdsDto bulkIdsDto,
+  ) async {
+    final response = await deletePeopleWithHttpInfo(
+      bulkIdsDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -119,10 +130,11 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> deletePersonWithHttpInfo(String id,) async {
+  Future<Response> deletePersonWithHttpInfo(
+    String id,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/people/{id}'
-      .replaceAll('{id}', id);
+    final apiPath = r'/people/{id}'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -132,7 +144,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -150,8 +161,12 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<void> deletePerson(String id,) async {
-    final response = await deletePersonWithHttpInfo(id,);
+  Future<void> deletePerson(
+    String id,
+  ) async {
+    final response = await deletePersonWithHttpInfo(
+      id,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -174,7 +189,13 @@ class PeopleApi {
   ///   Number of items per page
   ///
   /// * [bool] withHidden:
-  Future<Response> getAllPeopleWithHttpInfo({ String? closestAssetId, String? closestPersonId, num? page, num? size, bool? withHidden, }) async {
+  Future<Response> getAllPeopleWithHttpInfo({
+    String? closestAssetId,
+    String? closestPersonId,
+    num? page,
+    num? size,
+    bool? withHidden,
+  }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/people';
 
@@ -203,7 +224,6 @@ class PeopleApi {
 
     const contentTypes = <String>[];
 
-
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -230,8 +250,20 @@ class PeopleApi {
   ///   Number of items per page
   ///
   /// * [bool] withHidden:
-  Future<PeopleResponseDto?> getAllPeople({ String? closestAssetId, String? closestPersonId, num? page, num? size, bool? withHidden, }) async {
-    final response = await getAllPeopleWithHttpInfo( closestAssetId: closestAssetId, closestPersonId: closestPersonId, page: page, size: size, withHidden: withHidden, );
+  Future<PeopleResponseDto?> getAllPeople({
+    String? closestAssetId,
+    String? closestPersonId,
+    num? page,
+    num? size,
+    bool? withHidden,
+  }) async {
+    final response = await getAllPeopleWithHttpInfo(
+      closestAssetId: closestAssetId,
+      closestPersonId: closestPersonId,
+      page: page,
+      size: size,
+      withHidden: withHidden,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -239,8 +271,10 @@ class PeopleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PeopleResponseDto',) as PeopleResponseDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'PeopleResponseDto',
+      ) as PeopleResponseDto;
     }
     return null;
   }
@@ -252,10 +286,11 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> getPersonWithHttpInfo(String id,) async {
+  Future<Response> getPersonWithHttpInfo(
+    String id,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/people/{id}'
-      .replaceAll('{id}', id);
+    final apiPath = r'/people/{id}'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -265,7 +300,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -283,8 +317,12 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<PersonResponseDto?> getPerson(String id,) async {
-    final response = await getPersonWithHttpInfo(id,);
+  Future<PersonResponseDto?> getPerson(
+    String id,
+  ) async {
+    final response = await getPersonWithHttpInfo(
+      id,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -292,8 +330,10 @@ class PeopleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PersonResponseDto',) as PersonResponseDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'PersonResponseDto',
+      ) as PersonResponseDto;
     }
     return null;
   }
@@ -305,10 +345,11 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> getPersonStatisticsWithHttpInfo(String id,) async {
+  Future<Response> getPersonStatisticsWithHttpInfo(
+    String id,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/people/{id}/statistics'
-      .replaceAll('{id}', id);
+    final apiPath = r'/people/{id}/statistics'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -318,7 +359,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -336,8 +376,12 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<PersonStatisticsResponseDto?> getPersonStatistics(String id,) async {
-    final response = await getPersonStatisticsWithHttpInfo(id,);
+  Future<PersonStatisticsResponseDto?> getPersonStatistics(
+    String id,
+  ) async {
+    final response = await getPersonStatisticsWithHttpInfo(
+      id,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -345,8 +389,10 @@ class PeopleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PersonStatisticsResponseDto',) as PersonStatisticsResponseDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'PersonStatisticsResponseDto',
+      ) as PersonStatisticsResponseDto;
     }
     return null;
   }
@@ -358,10 +404,11 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> getPersonThumbnailWithHttpInfo(String id,) async {
+  Future<Response> getPersonThumbnailWithHttpInfo(
+    String id,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/people/{id}/thumbnail'
-      .replaceAll('{id}', id);
+    final apiPath = r'/people/{id}/thumbnail'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -371,7 +418,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -389,8 +435,12 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<MultipartFile?> getPersonThumbnail(String id,) async {
-    final response = await getPersonThumbnailWithHttpInfo(id,);
+  Future<MultipartFile?> getPersonThumbnail(
+    String id,
+  ) async {
+    final response = await getPersonThumbnailWithHttpInfo(
+      id,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -398,8 +448,10 @@ class PeopleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'MultipartFile',) as MultipartFile;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'MultipartFile',
+      ) as MultipartFile;
     }
     return null;
   }
@@ -413,10 +465,12 @@ class PeopleApi {
   /// * [String] id (required):
   ///
   /// * [MergePersonDto] mergePersonDto (required):
-  Future<Response> mergePersonWithHttpInfo(String id, MergePersonDto mergePersonDto,) async {
+  Future<Response> mergePersonWithHttpInfo(
+    String id,
+    MergePersonDto mergePersonDto,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/people/{id}/merge'
-      .replaceAll('{id}', id);
+    final apiPath = r'/people/{id}/merge'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = mergePersonDto;
@@ -426,7 +480,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -446,8 +499,14 @@ class PeopleApi {
   /// * [String] id (required):
   ///
   /// * [MergePersonDto] mergePersonDto (required):
-  Future<List<BulkIdResponseDto>?> mergePerson(String id, MergePersonDto mergePersonDto,) async {
-    final response = await mergePersonWithHttpInfo(id, mergePersonDto,);
+  Future<List<BulkIdResponseDto>?> mergePerson(
+    String id,
+    MergePersonDto mergePersonDto,
+  ) async {
+    final response = await mergePersonWithHttpInfo(
+      id,
+      mergePersonDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -457,9 +516,8 @@ class PeopleApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<BulkIdResponseDto>') as List)
-        .cast<BulkIdResponseDto>()
-        .toList(growable: false);
-
+          .cast<BulkIdResponseDto>()
+          .toList(growable: false);
     }
     return null;
   }
@@ -473,10 +531,12 @@ class PeopleApi {
   /// * [String] id (required):
   ///
   /// * [AssetFaceUpdateDto] assetFaceUpdateDto (required):
-  Future<Response> reassignFacesWithHttpInfo(String id, AssetFaceUpdateDto assetFaceUpdateDto,) async {
+  Future<Response> reassignFacesWithHttpInfo(
+    String id,
+    AssetFaceUpdateDto assetFaceUpdateDto,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/people/{id}/reassign'
-      .replaceAll('{id}', id);
+    final apiPath = r'/people/{id}/reassign'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = assetFaceUpdateDto;
@@ -486,7 +546,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -506,8 +565,14 @@ class PeopleApi {
   /// * [String] id (required):
   ///
   /// * [AssetFaceUpdateDto] assetFaceUpdateDto (required):
-  Future<List<PersonResponseDto>?> reassignFaces(String id, AssetFaceUpdateDto assetFaceUpdateDto,) async {
-    final response = await reassignFacesWithHttpInfo(id, assetFaceUpdateDto,);
+  Future<List<PersonResponseDto>?> reassignFaces(
+    String id,
+    AssetFaceUpdateDto assetFaceUpdateDto,
+  ) async {
+    final response = await reassignFacesWithHttpInfo(
+      id,
+      assetFaceUpdateDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -517,9 +582,8 @@ class PeopleApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<PersonResponseDto>') as List)
-        .cast<PersonResponseDto>()
-        .toList(growable: false);
-
+          .cast<PersonResponseDto>()
+          .toList(growable: false);
     }
     return null;
   }
@@ -531,7 +595,9 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [PeopleUpdateDto] peopleUpdateDto (required):
-  Future<Response> updatePeopleWithHttpInfo(PeopleUpdateDto peopleUpdateDto,) async {
+  Future<Response> updatePeopleWithHttpInfo(
+    PeopleUpdateDto peopleUpdateDto,
+  ) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/people';
 
@@ -544,7 +610,6 @@ class PeopleApi {
 
     const contentTypes = <String>['application/json'];
 
-
     return apiClient.invokeAPI(
       apiPath,
       'PUT',
@@ -561,8 +626,12 @@ class PeopleApi {
   /// Parameters:
   ///
   /// * [PeopleUpdateDto] peopleUpdateDto (required):
-  Future<List<BulkIdResponseDto>?> updatePeople(PeopleUpdateDto peopleUpdateDto,) async {
-    final response = await updatePeopleWithHttpInfo(peopleUpdateDto,);
+  Future<List<BulkIdResponseDto>?> updatePeople(
+    PeopleUpdateDto peopleUpdateDto,
+  ) async {
+    final response = await updatePeopleWithHttpInfo(
+      peopleUpdateDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -572,9 +641,8 @@ class PeopleApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<BulkIdResponseDto>') as List)
-        .cast<BulkIdResponseDto>()
-        .toList(growable: false);
-
+          .cast<BulkIdResponseDto>()
+          .toList(growable: false);
     }
     return null;
   }
@@ -588,10 +656,12 @@ class PeopleApi {
   /// * [String] id (required):
   ///
   /// * [PersonUpdateDto] personUpdateDto (required):
-  Future<Response> updatePersonWithHttpInfo(String id, PersonUpdateDto personUpdateDto,) async {
+  Future<Response> updatePersonWithHttpInfo(
+    String id,
+    PersonUpdateDto personUpdateDto,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/people/{id}'
-      .replaceAll('{id}', id);
+    final apiPath = r'/people/{id}'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = personUpdateDto;
@@ -601,7 +671,6 @@ class PeopleApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -621,8 +690,14 @@ class PeopleApi {
   /// * [String] id (required):
   ///
   /// * [PersonUpdateDto] personUpdateDto (required):
-  Future<PersonResponseDto?> updatePerson(String id, PersonUpdateDto personUpdateDto,) async {
-    final response = await updatePersonWithHttpInfo(id, personUpdateDto,);
+  Future<PersonResponseDto?> updatePerson(
+    String id,
+    PersonUpdateDto personUpdateDto,
+  ) async {
+    final response = await updatePersonWithHttpInfo(
+      id,
+      personUpdateDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -630,8 +705,10 @@ class PeopleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PersonResponseDto',) as PersonResponseDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'PersonResponseDto',
+      ) as PersonResponseDto;
     }
     return null;
   }

@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class UserMetadataKey {
   /// Instantiate a new enum with the provided [value].
   const UserMetadataKey._(this.value);
@@ -36,7 +35,10 @@ class UserMetadataKey {
 
   static UserMetadataKey? fromJson(dynamic value) => UserMetadataKeyTypeTransformer().decode(value);
 
-  static List<UserMetadataKey> listFromJson(dynamic json, {bool growable = false,}) {
+  static List<UserMetadataKey> listFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final result = <UserMetadataKey>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -70,9 +72,12 @@ class UserMetadataKeyTypeTransformer {
   UserMetadataKey? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'preferences': return UserMetadataKey.preferences;
-        case r'license': return UserMetadataKey.license;
-        case r'onboarding': return UserMetadataKey.onboarding;
+        case r'preferences':
+          return UserMetadataKey.preferences;
+        case r'license':
+          return UserMetadataKey.license;
+        case r'onboarding':
+          return UserMetadataKey.onboarding;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -85,4 +90,3 @@ class UserMetadataKeyTypeTransformer {
   /// Singleton [UserMetadataKeyTypeTransformer] instance.
   static UserMetadataKeyTypeTransformer? _instance;
 }
-

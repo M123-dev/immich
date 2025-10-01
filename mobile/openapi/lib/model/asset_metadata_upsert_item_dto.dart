@@ -22,23 +22,21 @@ class AssetMetadataUpsertItemDto {
   Object value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AssetMetadataUpsertItemDto &&
-    other.key == key &&
-    other.value == value;
+  bool operator ==(Object other) =>
+      identical(this, other) || other is AssetMetadataUpsertItemDto && other.key == key && other.value == value;
 
   @override
   int get hashCode =>
-    // ignore: unnecessary_parenthesis
-    (key.hashCode) +
-    (value.hashCode);
+      // ignore: unnecessary_parenthesis
+      (key.hashCode) + (value.hashCode);
 
   @override
   String toString() => 'AssetMetadataUpsertItemDto[key=$key, value=$value]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'key'] = this.key;
-      json[r'value'] = this.value;
+    json[r'key'] = this.key;
+    json[r'value'] = this.value;
     return json;
   }
 
@@ -58,7 +56,10 @@ class AssetMetadataUpsertItemDto {
     return null;
   }
 
-  static List<AssetMetadataUpsertItemDto> listFromJson(dynamic json, {bool growable = false,}) {
+  static List<AssetMetadataUpsertItemDto> listFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final result = <AssetMetadataUpsertItemDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -86,13 +87,19 @@ class AssetMetadataUpsertItemDto {
   }
 
   // maps a json object with a list of AssetMetadataUpsertItemDto-objects as value to a dart map
-  static Map<String, List<AssetMetadataUpsertItemDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
+  static Map<String, List<AssetMetadataUpsertItemDto>> mapListFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final map = <String, List<AssetMetadataUpsertItemDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AssetMetadataUpsertItemDto.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = AssetMetadataUpsertItemDto.listFromJson(
+          entry.value,
+          growable: growable,
+        );
       }
     }
     return map;
@@ -104,4 +111,3 @@ class AssetMetadataUpsertItemDto {
     'value',
   };
 }
-

@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class NotificationsApi {
   NotificationsApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -23,10 +22,11 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> deleteNotificationWithHttpInfo(String id,) async {
+  Future<Response> deleteNotificationWithHttpInfo(
+    String id,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/notifications/{id}'
-      .replaceAll('{id}', id);
+    final apiPath = r'/notifications/{id}'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -36,7 +36,6 @@ class NotificationsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -54,8 +53,12 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<void> deleteNotification(String id,) async {
-    final response = await deleteNotificationWithHttpInfo(id,);
+  Future<void> deleteNotification(
+    String id,
+  ) async {
+    final response = await deleteNotificationWithHttpInfo(
+      id,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -68,7 +71,9 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [NotificationDeleteAllDto] notificationDeleteAllDto (required):
-  Future<Response> deleteNotificationsWithHttpInfo(NotificationDeleteAllDto notificationDeleteAllDto,) async {
+  Future<Response> deleteNotificationsWithHttpInfo(
+    NotificationDeleteAllDto notificationDeleteAllDto,
+  ) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/notifications';
 
@@ -81,7 +86,6 @@ class NotificationsApi {
 
     const contentTypes = <String>['application/json'];
 
-
     return apiClient.invokeAPI(
       apiPath,
       'DELETE',
@@ -98,8 +102,12 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [NotificationDeleteAllDto] notificationDeleteAllDto (required):
-  Future<void> deleteNotifications(NotificationDeleteAllDto notificationDeleteAllDto,) async {
-    final response = await deleteNotificationsWithHttpInfo(notificationDeleteAllDto,);
+  Future<void> deleteNotifications(
+    NotificationDeleteAllDto notificationDeleteAllDto,
+  ) async {
+    final response = await deleteNotificationsWithHttpInfo(
+      notificationDeleteAllDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -112,10 +120,11 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> getNotificationWithHttpInfo(String id,) async {
+  Future<Response> getNotificationWithHttpInfo(
+    String id,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/notifications/{id}'
-      .replaceAll('{id}', id);
+    final apiPath = r'/notifications/{id}'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -125,7 +134,6 @@ class NotificationsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -143,8 +151,12 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<NotificationDto?> getNotification(String id,) async {
-    final response = await getNotificationWithHttpInfo(id,);
+  Future<NotificationDto?> getNotification(
+    String id,
+  ) async {
+    final response = await getNotificationWithHttpInfo(
+      id,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -152,8 +164,10 @@ class NotificationsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'NotificationDto',) as NotificationDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'NotificationDto',
+      ) as NotificationDto;
     }
     return null;
   }
@@ -171,7 +185,12 @@ class NotificationsApi {
   /// * [NotificationType] type:
   ///
   /// * [bool] unread:
-  Future<Response> getNotificationsWithHttpInfo({ String? id, NotificationLevel? level, NotificationType? type, bool? unread, }) async {
+  Future<Response> getNotificationsWithHttpInfo({
+    String? id,
+    NotificationLevel? level,
+    NotificationType? type,
+    bool? unread,
+  }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/notifications';
 
@@ -197,7 +216,6 @@ class NotificationsApi {
 
     const contentTypes = <String>[];
 
-
     return apiClient.invokeAPI(
       apiPath,
       'GET',
@@ -220,8 +238,18 @@ class NotificationsApi {
   /// * [NotificationType] type:
   ///
   /// * [bool] unread:
-  Future<List<NotificationDto>?> getNotifications({ String? id, NotificationLevel? level, NotificationType? type, bool? unread, }) async {
-    final response = await getNotificationsWithHttpInfo( id: id, level: level, type: type, unread: unread, );
+  Future<List<NotificationDto>?> getNotifications({
+    String? id,
+    NotificationLevel? level,
+    NotificationType? type,
+    bool? unread,
+  }) async {
+    final response = await getNotificationsWithHttpInfo(
+      id: id,
+      level: level,
+      type: type,
+      unread: unread,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -231,9 +259,8 @@ class NotificationsApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<NotificationDto>') as List)
-        .cast<NotificationDto>()
-        .toList(growable: false);
-
+          .cast<NotificationDto>()
+          .toList(growable: false);
     }
     return null;
   }
@@ -247,10 +274,12 @@ class NotificationsApi {
   /// * [String] id (required):
   ///
   /// * [NotificationUpdateDto] notificationUpdateDto (required):
-  Future<Response> updateNotificationWithHttpInfo(String id, NotificationUpdateDto notificationUpdateDto,) async {
+  Future<Response> updateNotificationWithHttpInfo(
+    String id,
+    NotificationUpdateDto notificationUpdateDto,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/notifications/{id}'
-      .replaceAll('{id}', id);
+    final apiPath = r'/notifications/{id}'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody = notificationUpdateDto;
@@ -260,7 +289,6 @@ class NotificationsApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -280,8 +308,14 @@ class NotificationsApi {
   /// * [String] id (required):
   ///
   /// * [NotificationUpdateDto] notificationUpdateDto (required):
-  Future<NotificationDto?> updateNotification(String id, NotificationUpdateDto notificationUpdateDto,) async {
-    final response = await updateNotificationWithHttpInfo(id, notificationUpdateDto,);
+  Future<NotificationDto?> updateNotification(
+    String id,
+    NotificationUpdateDto notificationUpdateDto,
+  ) async {
+    final response = await updateNotificationWithHttpInfo(
+      id,
+      notificationUpdateDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -289,8 +323,10 @@ class NotificationsApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'NotificationDto',) as NotificationDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'NotificationDto',
+      ) as NotificationDto;
     }
     return null;
   }
@@ -302,7 +338,9 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [NotificationUpdateAllDto] notificationUpdateAllDto (required):
-  Future<Response> updateNotificationsWithHttpInfo(NotificationUpdateAllDto notificationUpdateAllDto,) async {
+  Future<Response> updateNotificationsWithHttpInfo(
+    NotificationUpdateAllDto notificationUpdateAllDto,
+  ) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/notifications';
 
@@ -315,7 +353,6 @@ class NotificationsApi {
 
     const contentTypes = <String>['application/json'];
 
-
     return apiClient.invokeAPI(
       apiPath,
       'PUT',
@@ -332,8 +369,12 @@ class NotificationsApi {
   /// Parameters:
   ///
   /// * [NotificationUpdateAllDto] notificationUpdateAllDto (required):
-  Future<void> updateNotifications(NotificationUpdateAllDto notificationUpdateAllDto,) async {
-    final response = await updateNotificationsWithHttpInfo(notificationUpdateAllDto,);
+  Future<void> updateNotifications(
+    NotificationUpdateAllDto notificationUpdateAllDto,
+  ) async {
+    final response = await updateNotificationsWithHttpInfo(
+      notificationUpdateAllDto,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

@@ -25,26 +25,23 @@ class AssetMetadataResponseDto {
   Object value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AssetMetadataResponseDto &&
-    other.key == key &&
-    other.updatedAt == updatedAt &&
-    other.value == value;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AssetMetadataResponseDto && other.key == key && other.updatedAt == updatedAt && other.value == value;
 
   @override
   int get hashCode =>
-    // ignore: unnecessary_parenthesis
-    (key.hashCode) +
-    (updatedAt.hashCode) +
-    (value.hashCode);
+      // ignore: unnecessary_parenthesis
+      (key.hashCode) + (updatedAt.hashCode) + (value.hashCode);
 
   @override
   String toString() => 'AssetMetadataResponseDto[key=$key, updatedAt=$updatedAt, value=$value]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'key'] = this.key;
-      json[r'updatedAt'] = this.updatedAt.toUtc().toIso8601String();
-      json[r'value'] = this.value;
+    json[r'key'] = this.key;
+    json[r'updatedAt'] = this.updatedAt.toUtc().toIso8601String();
+    json[r'value'] = this.value;
     return json;
   }
 
@@ -65,7 +62,10 @@ class AssetMetadataResponseDto {
     return null;
   }
 
-  static List<AssetMetadataResponseDto> listFromJson(dynamic json, {bool growable = false,}) {
+  static List<AssetMetadataResponseDto> listFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final result = <AssetMetadataResponseDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -93,13 +93,19 @@ class AssetMetadataResponseDto {
   }
 
   // maps a json object with a list of AssetMetadataResponseDto-objects as value to a dart map
-  static Map<String, List<AssetMetadataResponseDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
+  static Map<String, List<AssetMetadataResponseDto>> mapListFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final map = <String, List<AssetMetadataResponseDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AssetMetadataResponseDto.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = AssetMetadataResponseDto.listFromJson(
+          entry.value,
+          growable: growable,
+        );
       }
     }
     return map;
@@ -112,4 +118,3 @@ class AssetMetadataResponseDto {
     'value',
   };
 }
-

@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class DeprecatedApi {
   DeprecatedApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
@@ -23,10 +22,11 @@ class DeprecatedApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<Response> createPartnerDeprecatedWithHttpInfo(String id,) async {
+  Future<Response> createPartnerDeprecatedWithHttpInfo(
+    String id,
+  ) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/partners/{id}'
-      .replaceAll('{id}', id);
+    final apiPath = r'/partners/{id}'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -36,7 +36,6 @@ class DeprecatedApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -54,8 +53,12 @@ class DeprecatedApi {
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<PartnerResponseDto?> createPartnerDeprecated(String id,) async {
-    final response = await createPartnerDeprecatedWithHttpInfo(id,);
+  Future<PartnerResponseDto?> createPartnerDeprecated(
+    String id,
+  ) async {
+    final response = await createPartnerDeprecatedWithHttpInfo(
+      id,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -63,8 +66,10 @@ class DeprecatedApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PartnerResponseDto',) as PartnerResponseDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'PartnerResponseDto',
+      ) as PartnerResponseDto;
     }
     return null;
   }
@@ -76,7 +81,9 @@ class DeprecatedApi {
   /// Parameters:
   ///
   /// * [num] count:
-  Future<Response> getRandomWithHttpInfo({ num? count, }) async {
+  Future<Response> getRandomWithHttpInfo({
+    num? count,
+  }) async {
     // ignore: prefer_const_declarations
     final apiPath = r'/assets/random';
 
@@ -92,7 +99,6 @@ class DeprecatedApi {
     }
 
     const contentTypes = <String>[];
-
 
     return apiClient.invokeAPI(
       apiPath,
@@ -110,8 +116,12 @@ class DeprecatedApi {
   /// Parameters:
   ///
   /// * [num] count:
-  Future<List<AssetResponseDto>?> getRandom({ num? count, }) async {
-    final response = await getRandomWithHttpInfo( count: count, );
+  Future<List<AssetResponseDto>?> getRandom({
+    num? count,
+  }) async {
+    final response = await getRandomWithHttpInfo(
+      count: count,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -121,9 +131,8 @@ class DeprecatedApi {
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<AssetResponseDto>') as List)
-        .cast<AssetResponseDto>()
-        .toList(growable: false);
-
+          .cast<AssetResponseDto>()
+          .toList(growable: false);
     }
     return null;
   }
@@ -155,10 +164,20 @@ class DeprecatedApi {
   /// * [String] duration:
   ///
   /// * [String] filename:
-  Future<Response> replaceAssetWithHttpInfo(String id, MultipartFile assetData, String deviceAssetId, String deviceId, DateTime fileCreatedAt, DateTime fileModifiedAt, { String? key, String? slug, String? duration, String? filename, }) async {
+  Future<Response> replaceAssetWithHttpInfo(
+    String id,
+    MultipartFile assetData,
+    String deviceAssetId,
+    String deviceId,
+    DateTime fileCreatedAt,
+    DateTime fileModifiedAt, {
+    String? key,
+    String? slug,
+    String? duration,
+    String? filename,
+  }) async {
     // ignore: prefer_const_declarations
-    final apiPath = r'/assets/{id}/original'
-      .replaceAll('{id}', id);
+    final apiPath = r'/assets/{id}/original'.replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -247,8 +266,30 @@ class DeprecatedApi {
   /// * [String] duration:
   ///
   /// * [String] filename:
-  Future<AssetMediaResponseDto?> replaceAsset(String id, MultipartFile assetData, String deviceAssetId, String deviceId, DateTime fileCreatedAt, DateTime fileModifiedAt, { String? key, String? slug, String? duration, String? filename, }) async {
-    final response = await replaceAssetWithHttpInfo(id, assetData, deviceAssetId, deviceId, fileCreatedAt, fileModifiedAt,  key: key, slug: slug, duration: duration, filename: filename, );
+  Future<AssetMediaResponseDto?> replaceAsset(
+    String id,
+    MultipartFile assetData,
+    String deviceAssetId,
+    String deviceId,
+    DateTime fileCreatedAt,
+    DateTime fileModifiedAt, {
+    String? key,
+    String? slug,
+    String? duration,
+    String? filename,
+  }) async {
+    final response = await replaceAssetWithHttpInfo(
+      id,
+      assetData,
+      deviceAssetId,
+      deviceId,
+      fileCreatedAt,
+      fileModifiedAt,
+      key: key,
+      slug: slug,
+      duration: duration,
+      filename: filename,
+    );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -256,8 +297,10 @@ class DeprecatedApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AssetMediaResponseDto',) as AssetMediaResponseDto;
-    
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'AssetMediaResponseDto',
+      ) as AssetMediaResponseDto;
     }
     return null;
   }

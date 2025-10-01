@@ -22,23 +22,24 @@ class AlbumsAddAssetsDto {
   List<String> assetIds;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AlbumsAddAssetsDto &&
-    _deepEquality.equals(other.albumIds, albumIds) &&
-    _deepEquality.equals(other.assetIds, assetIds);
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AlbumsAddAssetsDto &&
+          _deepEquality.equals(other.albumIds, albumIds) &&
+          _deepEquality.equals(other.assetIds, assetIds);
 
   @override
   int get hashCode =>
-    // ignore: unnecessary_parenthesis
-    (albumIds.hashCode) +
-    (assetIds.hashCode);
+      // ignore: unnecessary_parenthesis
+      (albumIds.hashCode) + (assetIds.hashCode);
 
   @override
   String toString() => 'AlbumsAddAssetsDto[albumIds=$albumIds, assetIds=$assetIds]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'albumIds'] = this.albumIds;
-      json[r'assetIds'] = this.assetIds;
+    json[r'albumIds'] = this.albumIds;
+    json[r'assetIds'] = this.assetIds;
     return json;
   }
 
@@ -62,7 +63,10 @@ class AlbumsAddAssetsDto {
     return null;
   }
 
-  static List<AlbumsAddAssetsDto> listFromJson(dynamic json, {bool growable = false,}) {
+  static List<AlbumsAddAssetsDto> listFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final result = <AlbumsAddAssetsDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -90,13 +94,19 @@ class AlbumsAddAssetsDto {
   }
 
   // maps a json object with a list of AlbumsAddAssetsDto-objects as value to a dart map
-  static Map<String, List<AlbumsAddAssetsDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
+  static Map<String, List<AlbumsAddAssetsDto>> mapListFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final map = <String, List<AlbumsAddAssetsDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AlbumsAddAssetsDto.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = AlbumsAddAssetsDto.listFromJson(
+          entry.value,
+          growable: growable,
+        );
       }
     }
     return map;
@@ -108,4 +118,3 @@ class AlbumsAddAssetsDto {
     'assetIds',
   };
 }
-

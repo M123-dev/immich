@@ -5,19 +5,20 @@ import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
 import 'package:immich_mobile/presentation/widgets/people/person_option_sheet.widget.dart';
 import 'package:immich_mobile/presentation/widgets/timeline/timeline.widget.dart';
+import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/providers/infrastructure/timeline.provider.dart';
+import 'package:immich_mobile/providers/routes.provider.dart';
 import 'package:immich_mobile/providers/user.provider.dart';
+import 'package:immich_mobile/routing/router.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/person_sliver_app_bar.dart';
-
-import '../../providers/infrastructure/people.provider.dart';
-import '../../routing/router.dart';
+import 'package:logging/logging.dart';
 
 @RoutePage()
 class DriftPersonPage extends ConsumerStatefulWidget {
-  final DriftPerson person;
+  final DriftPerson initialPerson;
 
-  const DriftPersonPage({super.key, required this.person});
+  const DriftPersonPage(this.initialPerson, {super.key});
 
   @override
   ConsumerState<DriftPersonPage> createState() => _DriftPersonPageState();
@@ -26,26 +27,16 @@ class DriftPersonPage extends ConsumerStatefulWidget {
 class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   late DriftPerson _person;
 
+  final Logger mergeLogger = Logger("PersonMerge");
+
   @override
   initState() {
     super.initState();
-    _person = widget.person;
+    _person = widget.initialPerson;
   }
 
   Future<void> handleEditName(BuildContext context) async {
-    final newPerson = await showNameEditModal(context, _person);
-
-    if (newPerson == null) {
-      return;
-    }
-
-    if (newPerson.id != _person.id) {
-      if (mounted) {
-        context.replaceRoute(DriftPersonRoute(key: ValueKey(newPerson.toString()), person: newPerson));
-      }
-
-      return;
-    }
+    await showNameEditModal(context, _person);
   }
 
   Future<void> handleEditBirthday(BuildContext context) async {
@@ -76,11 +67,70 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   @override
   Widget build(BuildContext context) {
     final personAsync = ref.watch(driftGetPersonByIdProvider(_person.id));
+    final mergeTracker = ref.read(personMergeTrackerProvider);
+    ref.watch(currentRouteNameProvider.select((name) => name ?? DriftPersonRoute.name));
 
     return personAsync.when(
-      data: (person) {
-        if (person == null) return const SizedBox.shrink();
-        _person = person;
+      data: (personByProvider) {
+        if (personByProvider == null) {
+          // Check if the person was merged and redirect if necessary
+          final shouldRedirect = mergeTracker.shouldRedirectForPerson(_person.id);
+          final targetPersonId = mergeTracker.getTargetPersonId(_person.id);
+
+          if (shouldRedirect && targetPersonId != null) {
+            bool isOnPersonDetailPage = ModalRoute.of(context)?.isCurrent ?? false;
+
+            // Only redirect if we're currently on the person detail page, not in a nested view, e.g. image viewer
+            if (isOnPersonDetailPage) {
+              // Person was merged, redirect to the target person
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  // Use the service directly to get the target person
+                  ref
+                      .read(driftPeopleServiceProvider)
+                      .watchPersonById(targetPersonId)
+                      .first
+                      .then((targetPerson) {
+                        if (targetPerson != null && mounted) {
+                          // Mark the merge record as handled
+                          mergeTracker.markMergeRecordHandled(_person.id);
+                          _person = targetPerson;
+                          setState(() {});
+                        } else {
+                          // Target person not found, go back
+                          context.maybePop();
+                        }
+                      })
+                      .catchError((error) {
+                        // If we can't load the target person, go back
+                        mergeLogger.severe("Error during read of targetPerson", error);
+                        if (mounted) {
+                          context.maybePop();
+                        }
+                      });
+                }
+              });
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              // We're in an image viewer or other nested view, don't redirect yet
+              // Just show loading spinner to indicate something is happening
+              return const Center(child: CircularProgressIndicator());
+            }
+          }
+
+          // Person not found and no merge record
+          mergeLogger.info(
+            'Person ${_person.name} (${_person.id}) not found and no merge records exist, it was probably deleted',
+          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              context.maybePop();
+            }
+          });
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        _person = personByProvider;
         return ProviderScope(
           overrides: [
             timelineServiceProvider.overrideWith((ref) {
@@ -89,14 +139,14 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
                 throw Exception('User must be logged in to view person timeline');
               }
 
-              final timelineService = ref.watch(timelineFactoryProvider).person(user.id, person.id);
+              final timelineService = ref.read(timelineFactoryProvider).person(user.id, _person.id);
               ref.onDispose(timelineService.dispose);
               return timelineService;
             }),
           ],
           child: Timeline(
             appBar: PersonSliverAppBar(
-              person: person,
+              person: _person,
               onNameTap: () => handleEditName(context),
               onBirthdayTap: () => handleEditBirthday(context),
               onShowOptions: () => showOptionSheet(context),
@@ -104,8 +154,9 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
           ),
         );
       },
+      // TODO(m123): Show initialPerson data while loading new data (optimistic ui update, but we need to handle scroll state etc)
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Text('Error: $e'),
+      error: (e, s) => Text('Error: $e'),
     );
   }
 }

@@ -61,17 +61,35 @@ class _SheetPeopleDetailsState extends ConsumerState<SheetPeopleDetails> {
                           final previousRouteData = ref.read(previousRouteDataProvider);
                           final previousRouteArgs = previousRouteData?.arguments;
 
+                          // TODO: Check what happens if the person id from the previous route is not the correct one anymore e.g. after a merge
                           // Prevent circular navigation
-                          if (previousRouteArgs is DriftPersonRouteArgs && previousRouteArgs.person.id == person.id) {
+                          if (previousRouteArgs is DriftPersonRouteArgs &&
+                              previousRouteArgs.initialPerson.id == person.id) {
                             context.back();
                             return;
                           }
                           context.pop();
-                          context.pushRoute(DriftPersonRoute(person: person));
+                          context.pushRoute(DriftPersonRoute(initialPerson: person));
                         },
                         onNameTap: () async {
                           DriftPerson? newPerson = await showNameEditModal(context, person);
+
                           ref.invalidate(driftPeopleAssetProvider(asset.id));
+
+                          // If the name edit resulted in a new person (e.g. from merging)
+                          // And if we are currently nested below the drift person page if said
+                          // old person id, we need to pop, otherwise the timeline provider
+                          // complains because the indexes are off
+                          // TODO: Preferably we would replace the timeline provider, and let it listen to the new person id (Relevant function is the ```TimelineService person(String userId, String personId)``` in timeline.service.dart)
+                          final previousRouteData = ref.read(previousRouteDataProvider);
+                          final previousRouteArgs = previousRouteData?.arguments;
+                          final previousPersonId = previousRouteArgs is DriftPersonRouteArgs
+                              ? previousRouteArgs.initialPerson.id
+                              : null;
+
+                          if (newPerson != null && newPerson.id != person.id && previousPersonId == person.id) {
+                            context.pop();
+                          }
                         },
                       ),
                   ],

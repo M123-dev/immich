@@ -9,15 +9,16 @@ import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/providers/infrastructure/timeline.provider.dart';
 import 'package:immich_mobile/providers/routes.provider.dart';
 import 'package:immich_mobile/providers/user.provider.dart';
+import 'package:immich_mobile/routing/router.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/person_sliver_app_bar.dart';
 import 'package:logging/logging.dart';
 
 @RoutePage()
 class DriftPersonPage extends ConsumerStatefulWidget {
-  final DriftPerson person;
+  final DriftPerson initialPerson;
 
-  const DriftPersonPage({super.key, required this.person});
+  const DriftPersonPage(this.initialPerson, {super.key});
 
   @override
   ConsumerState<DriftPersonPage> createState() => _DriftPersonPageState();
@@ -31,7 +32,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   @override
   initState() {
     super.initState();
-    _person = widget.person;
+    _person = widget.initialPerson;
   }
 
   Future<void> handleEditName(BuildContext context) async {
@@ -66,14 +67,13 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   @override
   Widget build(BuildContext context) {
     final personAsync = ref.watch(driftGetPersonByIdProvider(_person.id));
-    final mergeTracker = ref.watch(personMergeTrackerProvider);
-    final currentRouteName = ref.watch(currentRouteNameProvider);
-    print('m123: Current route name: $currentRouteName');
+    final currentRouteName = ref.watch(currentRouteNameProvider.select((name) => name ?? DriftPersonRoute.name));
+    final mergeTracker = ref.read(personMergeTrackerProvider);
 
     return personAsync.when(
-      data: (person) {
-        // Check if the person was merged and redirect if necessary
-        if (person == null) {
+      data: (personByProvider) {
+        if (personByProvider == null) {
+          // Check if the person was merged and redirect if necessary
           final shouldRedirect = mergeTracker.shouldRedirectForPerson(_person.id);
           final targetPersonId = mergeTracker.getTargetPersonId(_person.id);
 
@@ -96,8 +96,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
                       .then((targetPerson) {
                         if (targetPerson != null && mounted) {
                           // Mark the merge record as handled
-                          print('m123: Found target person, redirecting');
-                          print('m123: Removing merge record for ${_person.id}');
+                          print('m123: Found target person, rebuilding');
                           mergeTracker.markMergeRecordHandled(_person.id);
                           _person = targetPerson;
                           setState(() {});
@@ -124,12 +123,21 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
               return const Center(child: CircularProgressIndicator());
             }
           }
-          // Person not found and no merge record, show empty state
+
+          // Person not found and no merge record
           print('m123: Person not found and no merge record, showing empty state');
-          return const SizedBox.shrink();
+          mergeLogger.info(
+            'Person ${_person.name} (${_person.id}) not found and no merge records exist, it was probably deleted',
+          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              context.maybePop();
+            }
+          });
+          return const Center(child: CircularProgressIndicator());
         }
 
-        _person = person;
+        _person = personByProvider;
         return ProviderScope(
           overrides: [
             timelineServiceProvider.overrideWith((ref) {
@@ -153,7 +161,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
           ),
         );
       },
-      // TODO(m123): Show passed person data while loading new data
+      // TODO(m123): Show passed person data while loading new data (optimistic ui update, but we need to handle scroll state etc)
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, s) => Text('Error: $e'),
     );

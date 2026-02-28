@@ -3,8 +3,7 @@ import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/extensions/translate_extensions.dart';
 import 'package:immich_mobile/presentation/widgets/people/person_edit_birthday_modal.widget.dart';
 import 'package:immich_mobile/presentation/widgets/people/person_edit_name_modal.widget.dart';
-
-import '../presentation/widgets/people/person_merge_modal.widget.dart';
+import 'package:immich_mobile/presentation/widgets/people/person_merge_modal.widget.dart';
 
 String formatAge(DateTime birthDate, DateTime referenceDate) {
   int ageInYears = _calculateAge(birthDate, referenceDate);

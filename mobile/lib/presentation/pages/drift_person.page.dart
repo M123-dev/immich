@@ -43,6 +43,26 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
     await showBirthdayEditModal(context, _person);
   }
 
+  Future<void> _handleMergedPersonRedirect(String targetPersonId) async {
+    try {
+      final targetPerson = await ref.read(driftPeopleServiceProvider).watchPersonById(targetPersonId).first;
+
+      if (!mounted) return;
+
+      if (targetPerson != null) {
+        context.pop();
+        await context.pushRoute(DriftPersonRoute(initialPerson: targetPerson));
+      } else {
+        await context.maybePop();
+      }
+    } catch (error) {
+      mergeLogger.severe("Error during read of targetPerson", error);
+      if (mounted) {
+        await context.maybePop();
+      }
+    }
+  }
+
   void showOptionSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -85,29 +105,7 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
             // Person was merged, redirect to the target person
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
-                ref
-                    .read(driftPeopleServiceProvider)
-                    .watchPersonById(targetPersonId)
-                    .first
-                    .then((targetPerson) {
-                      if (targetPerson != null && mounted) {
-                        // Open the target person's page
-                        if (mounted) {
-                          context.pop();
-                          context.pushRoute(DriftPersonRoute(initialPerson: targetPerson));
-                        }
-                      } else {
-                        // Target person not found, go back
-                        context.maybePop();
-                      }
-                    })
-                    .catchError((error) {
-                      // If we can't load the target person, go back
-                      mergeLogger.severe("Error during read of targetPerson", error);
-                      if (mounted) {
-                        context.maybePop();
-                      }
-                    });
+                _handleMergedPersonRedirect(targetPersonId);
               }
             });
             return const Center(child: CircularProgressIndicator());

@@ -31,6 +31,10 @@ class DriftPeopleService {
     return _repository.updateName(personId, name);
   }
 
+  Future<List<String>> getPersonAssetIds(String personId) {
+    return _repository.getPersonAssetIds(personId);
+  }
+
   Future<void> mergePeople({required String targetPersonId, required List<String> mergePersonIds}) async {
     await _personApiRepository.merge(targetPersonId, mergePersonIds);
     await _repository.mergePeople(targetPersonId, mergePersonIds);

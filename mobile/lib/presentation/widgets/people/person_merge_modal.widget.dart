@@ -24,14 +24,27 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
   Future<void> _mergePeople(BuildContext context) async {
     setState(() => _isMerging = true);
     try {
-      await ref
-          .read(driftPeopleServiceProvider)
-          .mergePeople(targetPersonId: widget.mergeTarget.id, mergePersonIds: [widget.person.id]);
+      final peopleService = ref.read(driftPeopleServiceProvider);
+
+      // Get asset IDs of both persons before merge to invalidate their providers
+      final mergedPersonAssetIds = await peopleService.getPersonAssetIds(widget.person.id);
+      final targetPersonAssetIds = await peopleService.getPersonAssetIds(widget.mergeTarget.id);
+
+      await peopleService.mergePeople(targetPersonId: widget.mergeTarget.id, mergePersonIds: [widget.person.id]);
 
       // Record the merge in the tracker service
       ref
           .read(personMergeTrackerProvider)
           .recordMerge(mergedPersonId: widget.person.id, targetPersonId: widget.mergeTarget.id);
+
+      // Invalidate asset providers for all assets that belonged to either person
+      // This ensures the asset viewer shows updated people data
+      for (final assetId in mergedPersonAssetIds) {
+        ref.invalidate(driftPeopleAssetProvider(assetId));
+      }
+      for (final assetId in targetPersonAssetIds) {
+        ref.invalidate(driftPeopleAssetProvider(assetId));
+      }
 
       if (mounted) {
         Navigator.of(context).pop(widget.mergeTarget);

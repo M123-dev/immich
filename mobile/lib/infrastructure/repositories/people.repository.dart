@@ -87,6 +87,24 @@ class DriftPeopleRepository extends DriftDatabaseRepository {
     });
   }
 
+  Future<List<String>> getPersonAssetIds(String personId) async {
+    final query =
+        _db.select(_db.assetFaceEntity).join([
+            innerJoin(_db.remoteAssetEntity, _db.remoteAssetEntity.id.equalsExp(_db.assetFaceEntity.assetId)),
+          ])
+          ..where(
+            _db.assetFaceEntity.personId.equals(personId) &
+                _db.assetFaceEntity.isVisible.equals(true) &
+                _db.assetFaceEntity.deletedAt.isNull(),
+          )
+          ..distinct;
+
+    return query.map((row) {
+      final asset = row.readTable(_db.remoteAssetEntity);
+      return asset.id;
+    }).get();
+  }
+
   Future<int> updateBirthday(String personId, DateTime birthday) {
     final query = _db.update(_db.personEntity)..where((row) => row.id.equals(personId));
 

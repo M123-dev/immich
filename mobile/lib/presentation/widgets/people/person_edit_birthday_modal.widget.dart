@@ -6,9 +6,9 @@ import 'package:immich_mobile/domain/models/person.model.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
 import 'package:immich_mobile/extensions/translate_extensions.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
+import 'package:immich_mobile/utils/debug_print.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
-import 'package:immich_mobile/utils/debug_print.dart';
 
 class DriftPersonBirthdayEditForm extends ConsumerStatefulWidget {
   final DriftPerson person;
@@ -16,16 +16,16 @@ class DriftPersonBirthdayEditForm extends ConsumerStatefulWidget {
   const DriftPersonBirthdayEditForm({super.key, required this.person});
 
   @override
-  ConsumerState<DriftPersonBirthdayEditForm> createState() => _DriftPersonNameEditFormState();
+  ConsumerState<DriftPersonBirthdayEditForm> createState() => _DriftPersonBirthdayEditFormState();
 }
 
-class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonBirthdayEditForm> {
+class _DriftPersonBirthdayEditFormState extends ConsumerState<DriftPersonBirthdayEditForm> {
   late DateTime _selectedDate;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.person.birthDate ?? DateTime(DateTime.now().year - 30, 1, 1);
+    _selectedDate = widget.person.birthDate ?? DateTime.now();
   }
 
   void saveBirthday() async {
@@ -90,7 +90,6 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonBirthdayEdi
             selectedDate: _selectedDate,
             locale: context.locale,
             minimumDate: DateTime(1800, 1, 1),
-            maximumDate: DateTime.now(),
             onDateTimeChanged: (DateTime value) {
               setState(() {
                 _selectedDate = value;

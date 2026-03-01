@@ -34,8 +34,8 @@ int _calculateAgeInMonths(DateTime birthDate, DateTime referenceDate) {
       (referenceDate.day < birthDate.day ? 1 : 0);
 }
 
-Future<DriftPerson?> showNameEditModal(BuildContext context, DriftPerson person) {
-  return showDialog<DriftPerson?>(
+Future<void> showNameEditModal(BuildContext context, DriftPerson person) async {
+  await showDialog<void>(
     context: context,
     useRootNavigator: false,
     builder: (BuildContext context) {
@@ -44,8 +44,8 @@ Future<DriftPerson?> showNameEditModal(BuildContext context, DriftPerson person)
   );
 }
 
-Future<DateTime?> showBirthdayEditModal(BuildContext context, DriftPerson person) {
-  return showDialog<DateTime?>(
+Future<void> showBirthdayEditModal(BuildContext context, DriftPerson person) async {
+  await showDialog<void>(
     context: context,
     useRootNavigator: false,
     builder: (BuildContext context) {
@@ -54,8 +54,12 @@ Future<DateTime?> showBirthdayEditModal(BuildContext context, DriftPerson person
   );
 }
 
-Future<DriftPerson?> showMergeModal(BuildContext context, DriftPerson person, DriftPerson mergeTarget) {
-  return showDialog<DriftPerson?>(
+/// Return true or false, depending on whether the merge was successful or not.
+/// This allows the caller to decide whether to pop the person page or not
+/// May return false even when the merge was successful, because in certain cenarios (e.g. the person person page with the merged person is in the stack)
+/// The poping will be handled by a popuntil.
+Future<bool?> showMergeModal(BuildContext context, DriftPerson person, DriftPerson mergeTarget) async {
+  return showDialog<bool?>(
     context: context,
     useRootNavigator: false,
     builder: (BuildContext context) {

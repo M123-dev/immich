@@ -20,7 +20,6 @@ class ThumbnailTile extends ConsumerStatefulWidget {
     this.fit = BoxFit.cover,
     this.showStorageIndicator = false,
     this.lockSelection = false,
-    this.heroOffset,
     super.key,
   });
 
@@ -29,7 +28,6 @@ class ThumbnailTile extends ConsumerStatefulWidget {
   final BoxFit fit;
   final bool showStorageIndicator;
   final bool lockSelection;
-  final int? heroOffset;
 
   @override
   ConsumerState<ThumbnailTile> createState() => _ThumbnailTileState();
@@ -47,7 +45,7 @@ class _ThumbnailTileState extends ConsumerState<ThumbnailTile> {
   @override
   Widget build(BuildContext context) {
     final asset = widget.asset;
-    final heroIndex = widget.heroOffset ?? TabsRouterScope.of(context)?.controller.activeIndex ?? 0;
+    final heroIndex = TabsRouterScope.of(context)?.controller.activeIndex ?? 0;
     final isCurrentAsset = ref.watch(assetViewerProvider.select((current) => current.currentAsset == asset));
 
     final assetContainerColor = context.isDarkTheme
@@ -106,7 +104,7 @@ class _ThumbnailTileState extends ConsumerState<ThumbnailTile> {
                     // It doesn't seem like the best solution, and only works to reset the hero, not prime the hero of the new active asset for animation,
                     // but other solutions have failed thus far.
                     key: ValueKey(isCurrentAsset),
-                    tag: '${asset?.heroTag}_$heroIndex',
+                    tag: 'ThumbnailTileWidget_${asset?.heroTag}_$heroIndex',
                     child: Thumbnail.fromAsset(asset: asset, size: widget.size),
                     // Placeholderbuilder used to hide indicators on first hero animation, since flightShuttleBuilder isn't called until both source and destination hero exist in widget tree.
                     placeholderBuilder: (context, heroSize, child) {

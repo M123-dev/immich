@@ -27,90 +27,78 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
   Future<void> _mergePeople(BuildContext context) async {
     setState(() => _isMerging = true);
     try {
+      print('M123: We are trying to merge person ${widget.person.id} into ${widget.mergeTarget.id}');
       final peopleService = ref.read(driftPeopleServiceProvider);
-
-      // Get asset IDs of both persons before merge to invalidate their providers
       final mergedPersonAssetIds = await peopleService.getPersonAssetIds(widget.person.id);
       final targetPersonAssetIds = await peopleService.getPersonAssetIds(widget.mergeTarget.id);
 
       await peopleService.mergePeople(targetPersonId: widget.mergeTarget.id, mergePersonIds: [widget.person.id]);
-      print('M123: We are trying to merge person ${widget.person.id} into ${widget.mergeTarget.id}');
-      if (mounted) {
-        // Close the merge dialog first
-        Navigator.of(context).pop(widget.mergeTarget);
 
-        // Update the route stack by navigating: find the DriftPersonRoute with the merged person
-        // pop back to it, and then navigate to the target person
-        final router = context.router;
+      if (!mounted) {
+        return;
+      }
 
-        // Check if there's a DriftPersonRoute in the stack with the merged person ID
-        bool foundPersonRoute = false;
-        for (final page in router.stack) {
-          if (page.name == DriftPersonRoute.name) {
-            final routeArgs = page.routeData.route.args;
-            if (routeArgs is DriftPersonRouteArgs) {
-              if (routeArgs.initialPerson.id == widget.person.id) {
-                foundPersonRoute = true;
-                break;
-              }
+      final router = context.router;
+
+      // If there is a [DriftPersonRoute] route in the stack for the merged person
+      // we pop back to it and replace it with the merge target, so that if the user is currently viewing the merged person's details
+      // they will see the merge target's details after the merge instead of an error page because the merged person no longer exists
+      bool foundPersonRoute = false;
+      for (final page in router.stack) {
+        if (page.name == DriftPersonRoute.name) {
+          final routeArgs = page.routeData.route.args;
+          if (routeArgs is DriftPersonRouteArgs) {
+            if (routeArgs.initialPerson.id == widget.person.id) {
+              foundPersonRoute = true;
+              break;
             }
           }
         }
-
-        print('M123: Found person route with merged person ID: $foundPersonRoute');
-
-        if (foundPersonRoute) {
-          print('M123: Router stack before popUntil: ${router.stack.length} routes');
-          // Pop back to the old person route
-          router.popUntil((route) {
-            print('M123: Checking route ${route.settings.name} for popUntil, looking for ${DriftPersonRoute.name}');
-
-            if (route.settings.name == DriftPersonRoute.name) {
-              print('M123: Found a DriftPersonRoute, arguments: ${route.settings.arguments}');
-              if (route.settings.arguments is DriftPersonRouteArgs) {
-                print(
-                  'M123: Route arguments is of type DriftPersonRouteArgs, initial person ID: ${(route.settings.arguments as DriftPersonRouteArgs).initialPerson.id}',
-                );
-                final routePersonId = (route.settings.arguments as DriftPersonRouteArgs).initialPerson.id;
-                if (routePersonId == widget.person.id) {
-                  print('M123: This route matches the merged person ID, we will pop back to it');
-                  return true;
-                }
-              }
-            }
-            print('M123: This route is not a DriftPersonRoute, we will keep looking');
-            return false;
-          });
-
-          print('M123: Router stack after popUntil: ${router.stack.length} routes');
-          print('M123: Current route on stack: ${router.stack.last.name}');
-          print('M123: Popped back to person route, now replacing with merge target ${widget.mergeTarget.id}');
-          // Use popAndPush to close the old person route and all routes above it (like AssetViewer)
-          // and open the new person route with the merged target
-          await router.popAndPush(DriftPersonRoute(initialPerson: widget.mergeTarget));
-          print('M123: Navigation complete');
-        }
-
-        print(
-          'M123: Navigation logic complete, now invalidating providers for asset IDs: merged=${mergedPersonAssetIds.length}, target=${targetPersonAssetIds.length}',
-        );
-
-        for (final assetId in mergedPersonAssetIds) {
-          ref.invalidate(driftPeopleAssetProvider(assetId));
-        }
-        for (final assetId in targetPersonAssetIds) {
-          ref.invalidate(driftPeopleAssetProvider(assetId));
-        }
-        ref.invalidate(driftGetAllPeopleProvider);
-        print('M123: Provider invalidation complete');
-
-        ImmichToast.show(
-          context: context,
-          msg: "merge_people_successfully".tr(),
-          gravity: ToastGravity.BOTTOM,
-          toastType: ToastType.success,
-        );
       }
+      print('M123: Found person route with merged person ID: $foundPersonRoute');
+
+      if (foundPersonRoute) {
+        router.popUntil((route) {
+          if (route.settings.name == DriftPersonRoute.name) {
+            print('M123: Found a DriftPersonRoute, arguments: ${route.settings.arguments}');
+            final routePersonId = (route.settings.arguments as DriftPersonRouteArgs).initialPerson.id;
+            if (routePersonId == widget.person.id) {
+              print('M123: This route matches the merged person ID, we will pop back to it');
+              return true;
+            }
+          }
+          return false;
+        });
+
+        print('M123: Popped back to person route, now replacing with merge target ${widget.mergeTarget.id}');
+        await router.replace(DriftPersonRoute(initialPerson: widget.mergeTarget));
+        print('M123: Navigation complete');
+      }
+
+      print('M123: Navigation logic complete, now invalidating providers for assets');
+
+      for (final assetId in mergedPersonAssetIds) {
+        ref.invalidate(driftPeopleAssetProvider(assetId));
+      }
+      for (final assetId in targetPersonAssetIds) {
+        ref.invalidate(driftPeopleAssetProvider(assetId));
+      }
+      ref.invalidate(driftGetAllPeopleProvider);
+      print('M123: Provider invalidation complete');
+
+      if (!foundPersonRoute) {
+        // We have not manually popped before
+        // And the merge was complete
+        // So the name change alertDialog can be closed
+        Navigator.of(context).pop(true);
+      }
+
+      ImmichToast.show(
+        context: context,
+        msg: "merge_people_successfully".tr(),
+        gravity: ToastGravity.BOTTOM,
+        toastType: ToastType.success,
+      );
     } catch (e) {
       if (mounted) {
         setState(() => _isMerging = false);
@@ -171,7 +159,7 @@ class _DriftPersonMergeFormState extends ConsumerState<DriftPersonMergeForm> {
                     foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
                     elevation: 0,
                   ),
-                  onPressed: _isMerging ? null : () => Navigator.of(context).pop(),
+                  onPressed: _isMerging ? null : () => Navigator.of(context).pop(false),
                   child: const Text("no", style: TextStyle(fontWeight: FontWeight.bold)).tr(),
                 ),
               ),

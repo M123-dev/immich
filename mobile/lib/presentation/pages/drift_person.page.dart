@@ -75,11 +75,11 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
           if (isRouteActive) {
             print('!!! M123: Route is still active, popping back');
             // Person was deleted or not found, pop back
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            /* WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
                 context.maybePop();
               }
-            });
+            });*/
           } else {
             print('!!! M123: Route is not active, not popping');
           }

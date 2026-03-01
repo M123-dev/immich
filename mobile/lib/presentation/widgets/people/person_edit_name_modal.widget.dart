@@ -39,10 +39,10 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
   }
 
   void onMerge({required BuildContext context, required DriftPerson person, required DriftPerson mergeTarget}) async {
-    DriftPerson? response = await showMergeModal(context, person, mergeTarget);
-    if (response != null) {
+    bool? response = await showMergeModal(context, person, mergeTarget);
+    if (response != null && response) {
       if (mounted) {
-        context.pop<DriftPerson?>(response);
+        context.pop();
       }
     }
     return;
@@ -54,7 +54,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
       if (result != 0) {
         ref.invalidate(driftGetAllPeopleProvider);
         if (mounted) {
-          context.pop<DriftPerson>(person);
+          context.pop();
         }
       }
     } catch (error) {
@@ -179,7 +179,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
       ),
       actions: [
         TextButton(
-          onPressed: () => context.pop(null),
+          onPressed: () => context.pop(),
           child: Text(
             "cancel",
             style: TextStyle(color: Colors.red[300], fontWeight: FontWeight.bold),

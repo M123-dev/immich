@@ -76,18 +76,18 @@ class _PeopleDetailsState extends ConsumerState<PeopleDetails> {
                               ? previousRouteArgs.initialPerson.id
                               : null;
 
-                          DriftPerson? newPerson = await showNameEditModal(context, person);
+                          await showNameEditModal(context, person);
 
                           // If the name edit resulted in a new person (e.g. from merging)
                           // And if we are currently nested below the drift person page if said
                           // old person id, we need to pop, otherwise the timeline provider complains
                           // and the asset viewer goes black
                           // TODO: Preferably we would replace the timeline provider, and let it listen to the new person id (Relevant function is the ```TimelineService person(String userId, String personId)``` in timeline.service.dart)
-                          if (newPerson != null && newPerson.id != person.id && previousPersonId == person.id) {
-                            await context.maybePop();
-                          }
+                          //if (newPerson != null && newPerson.id != person.id && previousPersonId == person.id) {
+                          //  await context.maybePop();
+                          //}
 
-                          ref.invalidate(driftPeopleAssetProvider(asset.id));
+                          //ref.invalidate(driftPeopleAssetProvider(asset.id));
                         },
                       ),
                   ],

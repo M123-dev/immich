@@ -7,12 +7,9 @@ import 'package:immich_mobile/presentation/widgets/people/person_option_sheet.wi
 import 'package:immich_mobile/presentation/widgets/timeline/timeline.widget.dart';
 import 'package:immich_mobile/providers/infrastructure/people.provider.dart';
 import 'package:immich_mobile/providers/infrastructure/timeline.provider.dart';
-import 'package:immich_mobile/providers/routes.provider.dart';
 import 'package:immich_mobile/providers/user.provider.dart';
-import 'package:immich_mobile/routing/router.dart';
 import 'package:immich_mobile/utils/people.utils.dart';
 import 'package:immich_mobile/widgets/common/person_sliver_app_bar.dart';
-import 'package:logging/logging.dart';
 
 @RoutePage()
 class DriftPersonPage extends ConsumerStatefulWidget {
@@ -27,8 +24,6 @@ class DriftPersonPage extends ConsumerStatefulWidget {
 class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
   late DriftPerson _person;
 
-  final Logger mergeLogger = Logger("PersonMerge");
-
   @override
   initState() {
     super.initState();
@@ -41,26 +36,6 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
 
   Future<void> handleEditBirthday(BuildContext context) async {
     await showBirthdayEditModal(context, _person);
-  }
-
-  Future<void> _handleMergedPersonRedirect(String targetPersonId) async {
-    try {
-      final targetPerson = await ref.read(driftPeopleServiceProvider).watchPersonById(targetPersonId).first;
-
-      if (!mounted) return;
-
-      if (targetPerson != null) {
-        context.pop();
-        await context.pushRoute(DriftPersonRoute(initialPerson: targetPerson));
-      } else {
-        await context.maybePop();
-      }
-    } catch (error) {
-      mergeLogger.severe("Error during read of targetPerson", error);
-      if (mounted) {
-        await context.maybePop();
-      }
-    }
   }
 
   void showOptionSheet(BuildContext context) {
@@ -86,41 +61,29 @@ class _DriftPersonPageState extends ConsumerState<DriftPersonPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Check if the route is still in the stack before watching the provider
+    // This prevents the page from triggering pop operations if it's already been removed
+    final isRouteActive = ModalRoute.of(context)?.isCurrent ?? false;
+
     final personAsync = ref.watch(driftPersonProvider(_person.id));
-    final mergeTracker = ref.read(personMergeTrackerProvider);
-    ref.watch(currentRouteNameProvider.select((name) => name ?? DriftPersonRoute.name));
 
     return personAsync.when(
       data: (personByIdProvider) {
         if (personByIdProvider == null) {
-          // Check if the person was merged and redirect if necessary
-          final targetPersonId = mergeTracker.getTargetPersonId(_person.id);
-          if (targetPersonId != null) {
-            bool isOnPersonDetailPage = ModalRoute.of(context)?.isCurrent ?? false;
-
-            // Only redirect if we're currently on the person detail page, not in a nested view, e.g. image viewer
-            if (!isOnPersonDetailPage) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            // Person was merged, redirect to the target person
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (mounted) {
-                _handleMergedPersonRedirect(targetPersonId);
-              }
-            });
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            mergeLogger.info(
-              'Person ${_person.name} (${_person.id}) not found and no merge records exist, it was probably deleted',
-            );
-
+          print('!!! M123: Person with ID ${_person.id} not found, route active: $isRouteActive');
+          // Only pop if the route is still active to prevent double-popping
+          if (isRouteActive) {
+            print('!!! M123: Route is still active, popping back');
+            // Person was deleted or not found, pop back
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
                 context.maybePop();
               }
             });
-            return const Center(child: CircularProgressIndicator());
+          } else {
+            print('!!! M123: Route is not active, not popping');
           }
+          return const Center(child: CircularProgressIndicator());
         }
         _person = personByIdProvider;
         return ProviderScope(

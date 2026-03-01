@@ -112,7 +112,9 @@ class _ThumbnailTileState extends ConsumerState<ThumbnailTile> {
                     placeholderBuilder: (context, heroSize, child) {
                       if (!_hideIndicators) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          setState(() => _hideIndicators = true);
+                          if (mounted) {
+                            setState(() => _hideIndicators = true);
+                          }
                         });
                       }
                       return const SizedBox();
@@ -121,7 +123,11 @@ class _ThumbnailTileState extends ConsumerState<ThumbnailTile> {
                       void animationStatusListener(AnimationStatus status) {
                         final heroInFlight = status == AnimationStatus.forward || status == AnimationStatus.reverse;
                         if (_hideIndicators != heroInFlight) {
-                          setState(() => _hideIndicators = heroInFlight);
+                          // Check mounted before calling setState to prevent "setState called after dispose" error
+                          // when the widget is removed from the tree while the animation is still running
+                          if (mounted) {
+                            setState(() => _hideIndicators = heroInFlight);
+                          }
                         }
                         if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
                           animation.removeStatusListener(animationStatusListener);

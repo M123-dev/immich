@@ -81,6 +81,7 @@ class _DriftPersonNameEditFormState extends ConsumerState<DriftPersonNameEditFor
     List<DriftPerson> containsMatches = [];
 
     for (final p in people) {
+      // Don't show the current person in the suggestions
       if (p.id == widget.person.id) continue;
 
       final nameParts = p.name.toLowerCase().split(' ').where((e) => e.isNotEmpty).toList();

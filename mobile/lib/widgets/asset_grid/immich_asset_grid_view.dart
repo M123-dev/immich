@@ -31,7 +31,7 @@ import 'package:immich_mobile/widgets/asset_grid/group_divider_title.dart';
 import 'package:immich_mobile/widgets/asset_grid/thumbnail_image.dart';
 import 'package:immich_mobile/widgets/asset_grid/thumbnail_placeholder.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_listitle.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 typedef ImmichAssetGridSelectionListener = void Function(bool, Set<Asset>);
 
